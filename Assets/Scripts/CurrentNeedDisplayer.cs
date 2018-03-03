@@ -29,7 +29,6 @@ namespace Assets.Scripts
 		// Update is called once per frame
 		void Update ()
 		{
-			CurrentNeedText.text = _actorBehaviour.ActorData.NeedData.CurrentNeed.ToString();
 		}
 	}
 }

@@ -82,8 +82,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			Func<ActorData, IEnumerable<IActionEffect>> inlineAction = actorDataParameter =>
 			{
 				// todo: get rid of this „if” clause — we don't need to treat player specially.
-				if(!actorData.ControlledByPlayer)
-					_needHandler.ModifyNeed(actorDataParameter.NeedData, NeedType.Rest, 0.1f);
 				return Enumerable.Empty<IActionEffect>();
 			};
 			return new LambdaAction(actorData, 1f, _actionEffectFactory, inlineAction);
@@ -93,8 +91,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			Func<ActorData, IEnumerable<IActionEffect>> inlineAction = actorDataParameter =>
 			{
-				_needHandler.ModifyNeed(actorDataParameter.NeedData, NeedType.Care, 0.4f);
-				_needHandler.ModifyNeed(actorDataParameter.AiData.HerdMemberData.Child.ActorData.NeedData, NeedType.Safety, - 0.3f);
 				return new[]{new LambdaEffect(() =>
 				{
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "HRUMPH!");

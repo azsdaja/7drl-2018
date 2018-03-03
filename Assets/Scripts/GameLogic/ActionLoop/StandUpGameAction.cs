@@ -14,8 +14,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			ActorData.KnockedOut = false;
-
 			yield return new StandUpEffect(ActorData);
 		}
 	}

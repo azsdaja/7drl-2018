@@ -39,51 +39,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				return null;
 			}
 
-			if (actorData.KnockedOut)
-			{
-				return _actionFactory.CreateStandUpAction(actorData);
-			}
-
-			NeedType currentNeed = _activeNeedResolver.ResolveActiveNeed(actorData.NeedData);
-			if (currentNeed != actorData.NeedData.CurrentNeed)
-			{
-				actorData.NavigationData = new NavigationData();
-			}
-
-			actorData.NeedData.CurrentNeed = currentNeed;
-			if (!actorData.NeedData.NeedsToCounts.ContainsKey(currentNeed))
-			{
-				actorData.NeedData.NeedsToCounts[currentNeed] = 1;
-			}
-			else
-			{
-				++actorData.NeedData.NeedsToCounts[currentNeed];
-			}
-
-			switch (currentNeed)
-			{
-				case NeedType.Hunger:
-				{
-					return ResolveActionForHunger(actorData);
-				}
-				case NeedType.Safety:
-				{
-					return ResolveActionForSafety(actorData);
-				}
-				case NeedType.Care:
-				{
-					return ResolveActionForCare(actorData);
-				}
-				case NeedType.Aggresion:
-				{
-					return ResolveActionForAggresion(actorData);
-				}
-				case NeedType.Rest:
-				default:
-				{
-					return ResolveActionForRest(actorData);
-				}
-			}
+			return ResolveActionForHunger(actorData);
 		}
 
 		private IGameAction ResolveActionForRest(ActorData actorData)

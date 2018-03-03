@@ -70,11 +70,6 @@ namespace Assets.Scripts.GameLogic
 		{
 			var description = new StringBuilder();
 			description.AppendLine(name);
-			description.AppendLine("Satiation: " + ActorData.Satiation);
-			foreach (KeyValuePair<NeedType, int> needToCount in ActorData.NeedData.NeedsToCounts)
-			{
-				description.AppendLine(needToCount.Key + ": " + needToCount.Value);
-			}
 			return description.ToString();
 		}
 

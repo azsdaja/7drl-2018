@@ -20,11 +20,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			ActorData.Satiation += 40;
-
-			if (!ActorData.ControlledByPlayer)
-				_needHandler.ModifyNeed(ActorData.NeedData, NeedType.Hunger, 0.1f);
-
 			return new[]{new LambdaEffect(() =>
 			{
 				_textEffectPresenter.ShowTextEffect(ActorData.LogicalPosition, "Munch!");

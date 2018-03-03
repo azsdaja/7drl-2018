@@ -26,19 +26,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			if (!AttackedActor.ControlledByPlayer && AttackedActor.ActorType != ActorType.HerdAnimalImmature)
-			{
-				AttackedActor.NeedData.ModifySatisfaction(NeedType.Aggresion, -0.4f);
-			}
 
 			int maxDamage = ActorData.MaxDamage;
 			int damage = _rng.Next(1, maxDamage + 1);
 			bool knockout = damage == maxDamage || damage >= (.9f * maxDamage);
 
-			if (!ActorData.ControlledByPlayer)
-			{
-				ActorData.NeedData.ModifySatisfaction(NeedType.Aggresion, knockout ? 0.2f : 0.08f);
-			}
 
 			if (AttackedActor.Health <= 0)
 			{
@@ -47,7 +39,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			if (knockout)
 			{
 				AttackedActor.Energy = -5f;
-				AttackedActor.KnockedOut = true;
 				IActionEffect knockoutEffect = ActionEffectFactory.CreateKnockoutEffect(AttackedActor);
 				yield return knockoutEffect;
 			}

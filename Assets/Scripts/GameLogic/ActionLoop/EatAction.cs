@@ -24,11 +24,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			ActorData.Satiation += 50;
-
-			if(!ActorData.ControlledByPlayer)
-				_needHandler.ModifyNeed(ActorData.NeedData, NeedType.Hunger, 0.1f);
-
 			_entityRemover.RemoveItem(_foodItemToEat);
 
 			return new[]{new LambdaEffect(() =>

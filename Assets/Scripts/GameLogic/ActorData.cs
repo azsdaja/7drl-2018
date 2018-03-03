@@ -14,7 +14,6 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private ActorType _actorType;
 		[SerializeField, HideInInspector] private int _visionRayLength;
 		[SerializeField, HideInInspector] private bool _controlledByPlayer;
-		[SerializeField, HideInInspector] private State _state;
 		[SerializeField, HideInInspector] private bool _isSmelling;
 		[SerializeField, HideInInspector] private float _energy;
 		[SerializeField, HideInInspector] private float _energyGain;
@@ -23,14 +22,9 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private List<ItemData> _items;
 		[SerializeField, HideInInspector] private NavigationData _navigationData;
 		[SerializeField, HideInInspector] private AiData _aiData;
-		[SerializeField, HideInInspector] private NeedData _needData;
-		[SerializeField, HideInInspector] private int _satiation;
-		[SerializeField, HideInInspector] private int _maxSatiation;
 		[SerializeField, HideInInspector] private int _health;
 		[SerializeField, HideInInspector] private int _maxHealth;
-		[SerializeField, HideInInspector] private bool _knockedOut;
 		[SerializeField, HideInInspector] private int _maxDamage;
-		[SerializeField, HideInInspector] private int _roundsCount;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -106,27 +100,6 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
-		public State State
-		{
-			get { return _state; }
-			set { _state = value; }
-		}
-
-		[ShowInInspector]
-		public int Satiation
-		{
-			get { return _satiation; }
-			set { _satiation = value; }
-		}
-
-		[ShowInInspector]
-		public int MaxSatiation
-		{
-			get { return _maxSatiation; }
-			set { _maxSatiation = value; }
-		}
-
-		[ShowInInspector]
 		public int Health
 		{
 			get { return _health; }
@@ -141,13 +114,6 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
-		public NeedData NeedData
-		{
-			get { return _needData; }
-			set { _needData = value; }
-		}
-
-		[ShowInInspector]
 		public AiData AiData
 		{
 			get { return _aiData; }
@@ -155,24 +121,10 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
-		public bool KnockedOut
-		{
-			get { return _knockedOut; }
-			set { _knockedOut = value; }
-		}
-
-		[ShowInInspector]
 		public int MaxDamage
 		{
 			get { return _maxDamage; }
 			set { _maxDamage = value; }
-		}
-
-		[ShowInInspector]
-		public int RoundsCount
-		{
-			get { return _roundsCount; }
-			set { _roundsCount = value; }
 		}
 	}
 }

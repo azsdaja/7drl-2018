@@ -25,7 +25,6 @@ namespace Assets.Scripts
 		// Update is called once per frame
 		void Update ()
 		{
-			_counter.text = _gameContext.PlayerActor.ActorData.RoundsCount.ToString();
 		}
 	}
 }

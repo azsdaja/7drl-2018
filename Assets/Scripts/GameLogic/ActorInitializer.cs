@@ -25,15 +25,11 @@ namespace Assets.Scripts.GameLogic
 			if (actorData.ControlledByPlayer)
 			{
 				actorData.MaxHealth = 50;
-				actorData.MaxSatiation = 200;
-				actorData.Satiation = (int) (actorData.MaxSatiation * 0.8);
 				actorData.Health = actorData.MaxHealth;
 				Func<float> healthNormalizedGetter = () => ((float) actorData.Health) / actorData.MaxHealth;
-				Func<float> satiationNormalizedGetter = () => ((float) actorData.Satiation) / actorData.MaxSatiation;
 				_uiConfig.HealthBar.Initialize(healthNormalizedGetter);
 				return;
 			}
-			actorData.Satiation = 99999;
 			Sprite actorSprite = actorData.Entity.SpriteRenderer.sprite;
 			Func<Vector2Int> positionGetter = () =>
 			{
@@ -57,7 +53,6 @@ namespace Assets.Scripts.GameLogic
 						{NeedFactor.EnemyProximity, 0f},
 						{NeedFactor.FriendProximity, 0f}
 					};
-					actorData.NeedData = new NeedData(satisfactions, factors);
 					actorData.MaxHealth = 30;
 					actorData.Health = actorData.MaxHealth;
 					break;
@@ -80,7 +75,6 @@ namespace Assets.Scripts.GameLogic
 						{NeedFactor.FriendProximity, 0f},
 						{NeedFactor.DeerlingProximity, 0f}
 					};
-					actorData.NeedData = new NeedData(satisfactions, factors);
 					actorData.MaxHealth = 80;
 					actorData.Health = actorData.MaxHealth;
 					break;

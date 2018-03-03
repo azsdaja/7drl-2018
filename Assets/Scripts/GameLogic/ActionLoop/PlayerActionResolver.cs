@@ -30,12 +30,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			IGameAction gameActionToReturn;
 
-			if (actorData.KnockedOut)
-			{
-				_inputHolder.PlayerInput = PlayerInput.None;
-				return _actionFactory.CreateStandUpAction(actorData);
-			}
-
 			if (_inputHolder.PlayerInput == PlayerInput.PickUp)
 			{
 				IList<ItemData> items = _entityDetector.DetectItems(actorData.LogicalPosition).ToList();

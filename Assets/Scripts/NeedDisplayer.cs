@@ -32,11 +32,6 @@ namespace Assets.Scripts
 		// Update is called once per frame
 		void Update ()
 		{
-			float satisfaction = _actorBehaviour.ActorData.NeedData.GetSatisfaction(NeedType);
-			BarValue.fillAmount = satisfaction;
-
-			Color barColor = ColorUtilities.Lerp3(Color.red, Color.yellow, _freshGreen, satisfaction);
-			BarValue.color = barColor;
 		}
 	}
 }

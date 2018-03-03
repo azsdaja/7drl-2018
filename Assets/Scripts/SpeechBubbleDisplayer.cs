@@ -17,20 +17,6 @@ namespace Assets.Scripts
 	
 		// Update is called once per frame
 		void Update () {
-			if (_actorBehaviour.ActorData.NeedData.CurrentNeed == NeedType.Aggresion)
-			{
-				if (_bubbleRenderer == null)
-				{
-					var bubble = Resources.Load<SpriteRenderer>("Prefabs/SpeechBubble");
-					_bubbleRenderer = Instantiate(bubble, transform);
-					_bubbleRenderer.transform.localPosition = Vector3.zero;
-				}
-				_bubbleRenderer.enabled = _actorBehaviour.IsVisible;
-			}
-			else if (_bubbleRenderer != null)
-			{
-				_bubbleRenderer.enabled = false;
-			}
 		}
 	}
 }
