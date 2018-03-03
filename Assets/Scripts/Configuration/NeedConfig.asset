@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29435ca0275f2044b2256ab3d9b1edf, type: 3}
+  m_Name: NeedConfig
+  m_EditorClassIdentifier: 
+  ProximityToDanger:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.40000153
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.26304847
+      value: 0.123735756
+      inSlope: -0.34074998
+      outSlope: -0.34074998
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  ProximityToSafety:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.18750155
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.27205116
+      value: 0.092485756
+      inSlope: -0.34074998
+      outSlope: -0.34074998
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  ProximityToChildCare:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.099998474
+      inSlope: -0.19424422
+      outSlope: -0.19424422
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.3564282
+      value: 0.011027969
+      inSlope: -0.08324161
+      outSlope: -0.08324161
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1.0012817
+      value: -0.08124769
+      inSlope: -0.14495721
+      outSlope: -0.14495721
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  ProtectorProximityToSafety:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.39886153
+      value: 0.07399961
+      inSlope: -0.4214015
+      outSlope: -0.4214015
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.98750305
+      value: -0.06278229
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0

@@ -1,0 +1,9 @@
+﻿namespace Assets.Scripts.GameLogic.ActionLoop.Actions
+{
+	public enum ItemType
+	{
+		Default = 0,
+		Key,
+		DeadBody
+	}
+}

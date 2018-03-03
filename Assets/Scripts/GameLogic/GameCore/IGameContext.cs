@@ -1,0 +1,22 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace Assets.Scripts.GameLogic.GameCore
+{
+	public interface IGameContext
+	{
+		Grid GameGrid { get; }
+		UnityEngine.Tilemaps.Tilemap TilemapDefiningOuterBounds { get; }
+		UnityEngine.Tilemaps.Tilemap WallsTilemap { get; }
+		UnityEngine.Tilemaps.Tilemap FloorsTilemap { get; }
+		UnityEngine.Tilemaps.Tilemap DirtTilemap { get; }
+		UnityEngine.Tilemaps.Tilemap EnvironmentTilemap { get; }
+		ActorBehaviour PlayerActor { get; }
+
+		HashSet<ActorBehaviour> Actors { get; set; }
+		HashSet<Vector2Int> VisiblePositions { get; set; }
+		IList<Vector2Int> HousePositions { get; }
+		IList<Vector2Int> LeavesPositions { get; }
+		void AddHousePosition(int x, int y);
+	}
+}
