@@ -50,6 +50,7 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		public Transform Transform { get { return transform; } }
+		public WeaponAnimator WeaponAnimator;
 
 		void OnMouseEnter()
 		{
@@ -74,5 +75,10 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		public class Factory : Zenject.Factory<ActorBehaviour> { }
+
+		void Update()
+		{
+			GetComponent<SpriteRenderer>().sortingOrder = -ActorData.LogicalPosition.y;
+		}
 	}
 }

@@ -89,16 +89,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			Vector2Int actionVector = GetActionVector(_inputHolder.PlayerInput);
 			Vector2Int targetPosition = actionVector + actorData.LogicalPosition;
+			Vector2Int targetPositionFarther = actionVector * 2 + actorData.LogicalPosition;
 			ActorData actorAtTargetPosition = _entityDetector.DetectActors(targetPosition).FirstOrDefault();
-			if(actorAtTargetPosition != null) // hit!
+			ActorData actorAtTargetPositionFarther = _entityDetector.DetectActors(targetPositionFarther).FirstOrDefault();
+			ActorData actorAtFirstHitTargetPositions = actorAtTargetPosition ?? actorAtTargetPositionFarther;
+			if(actorAtFirstHitTargetPositions != null) // hit!
 			{
-				if (actorAtTargetPosition.Team == actorData.Team)
+				if (actorAtFirstHitTargetPositions.Team == actorData.Team)
 				{
-					gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, actorAtTargetPosition);
+					gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, actorAtFirstHitTargetPositions);
 				}
 				else
 				{
-					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, actorAtTargetPosition);
+					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, actorAtFirstHitTargetPositions);
 				}
 			}
 			else

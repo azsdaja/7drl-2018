@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.RNG;
+using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 {
@@ -27,24 +29,33 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		public override IEnumerable<IActionEffect> Execute()
 		{
 
-			int maxDamage = ActorData.MaxDamage;
-			int damage = _rng.Next(1, maxDamage + 1);
-			bool knockout = damage == maxDamage || damage >= (.9f * maxDamage);
-
-
-			if (AttackedActor.Health <= 0)
+			if (_attackedActor.Swords == 0)
 			{
-				_deathHandler.HandleDeath(_attackedActor);
+				_attackedActor.Health -= 5;
 			}
-			if (knockout)
+
+			bool hit = _rng.Check(0.5f);
+
+			if (_attackedActor.Swords == 0 && hit)
 			{
-				AttackedActor.Energy = -5f;
-				IActionEffect knockoutEffect = ActionEffectFactory.CreateKnockoutEffect(AttackedActor);
-				yield return knockoutEffect;
+				yield return new LambdaEffect(() =>
+				{
+					Animator blood = Resources.Load<Animator>("Prefabs/Blood");
+					Animator bloodObject = GameObject.Instantiate(blood, AttackedActor.Entity.transform.position, Quaternion.identity);
+					bloodObject.Play("Blood");
+					GameObject.Destroy(bloodObject.gameObject, .4f);
+				});
 			}
-			AttackedActor.Health -= damage;
-			IActionEffect bumpEffect = ActionEffectFactory.CreateBumpEffect(ActorData, AttackedActor.LogicalPosition);
-			yield return bumpEffect;
+
+			if (_attackedActor.Swords > 0 && hit)
+			{
+				--_attackedActor.Swords;
+			}
+			
+			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor);
+			yield return strikeEffect;
+
+			AttackedActor.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);
 		}
 	}
 }

@@ -39,7 +39,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				return null;
 			}
 
-			return ResolveActionForHunger(actorData);
+			return ResolveActionForAggresion(actorData);
 		}
 
 		private IGameAction ResolveActionForRest(ActorData actorData)
@@ -116,7 +116,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (visibleEnemy != null)
 			{
 				Vector2Int toEnemy = visibleEnemy.LogicalPosition - actorData.LogicalPosition;
-				if (Vector2IntUtilities.IsOneStep(toEnemy))
+				if (Vector2IntUtilities.IsOneStep(toEnemy) || Vector2IntUtilities.IsTwoSteps(toEnemy))
 				{
 					return _actionFactory.CreateAttackAction(actorData, visibleEnemy);
 				}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.AI;
@@ -30,6 +31,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			{
 				actorData.Energy += actorData.EnergyGain;
 				return true;
+			}
+
+			if (DateTime.UtcNow < actorData.BlockedUntil)
+			{
+				return false;
 			}
 
 			IGameAction gameAction;

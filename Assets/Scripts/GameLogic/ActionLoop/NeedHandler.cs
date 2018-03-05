@@ -22,8 +22,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public void Heartbeat(ActorData actorData)
 		{
+			++actorData.RoundsCount;
+
 			if (actorData.Health < actorData.MaxHealth)
 				++actorData.Health;
+
+			if (actorData.Swords < actorData.MaxSwords && actorData.RoundsCount % actorData.Weapon.RecoveryTime == 0)
+			{
+				++actorData.Swords;
+			}
 		}
 
 		public void ModifyNeed(NeedData needData, NeedType needType, float delta)

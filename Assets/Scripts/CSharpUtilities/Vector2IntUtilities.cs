@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // todo: test
@@ -47,6 +48,11 @@ namespace Assets.Scripts.CSharpUtilities
 		public static bool IsOneStep(Vector2Int vector)
 		{
 			return Neighbours8(Vector2Int.zero).Contains(vector);
+		}
+
+		public static bool IsTwoSteps(Vector2Int vector)
+		{
+			return vector.x >= -2 && vector.x <= 2 && vector.y >= -2 && vector.y <= 2;
 		}
 	
 		public static List<Vector2Int> Neighbours4(Vector2Int vector)

@@ -11,7 +11,9 @@ namespace Assets.Scripts.GameLogic
 	public class ActorData : EntityData
 	{
 
+		[SerializeField, HideInInspector] private Weapon _weapon;
 		[SerializeField, HideInInspector] private ActorType _actorType;
+		[SerializeField, HideInInspector] private int _swords;
 		[SerializeField, HideInInspector] private int _visionRayLength;
 		[SerializeField, HideInInspector] private bool _controlledByPlayer;
 		[SerializeField, HideInInspector] private bool _isSmelling;
@@ -25,6 +27,8 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private int _health;
 		[SerializeField, HideInInspector] private int _maxHealth;
 		[SerializeField, HideInInspector] private int _maxDamage;
+		[SerializeField, HideInInspector] private int _maxSwords;
+		[SerializeField, HideInInspector] private int _roundsCount;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -125,6 +129,35 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _maxDamage; }
 			set { _maxDamage = value; }
+		}
+
+		[ShowInInspector]
+		public int Swords
+		{
+			get { return _swords; }
+			set { _swords = value; }
+		}
+
+		[ShowInInspector]
+		public int MaxSwords
+		{
+			get { return _maxSwords; }
+			set { _maxSwords = value; }
+		}
+
+		public DateTime BlockedUntil { get; set; }
+
+		[ShowInInspector]
+		public Weapon Weapon
+		{
+			get { return _weapon; }
+			set { _weapon = value; }
+		}
+
+		public int RoundsCount
+		{
+			get { return _roundsCount; }
+			set { _roundsCount = value; }
 		}
 	}
 }

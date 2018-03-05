@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameLogic.Animation;
+﻿using System;
+using Assets.Scripts.GameLogic.Animation;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 	public class MoveEffect : IActionEffect
 	{
 		private readonly IGridInfoProvider _gridInfoProvider;
+		private readonly ActorAligner _actorAligner;
 		public Vector2Int PreviousPosition { get; private set; }
 		public ActorData ActorData { get; private set; }
 
@@ -15,12 +17,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 			ActorData = actorData;
 			PreviousPosition = previousPosition;
 			_gridInfoProvider = gridInfoProvider;
+			_actorAligner = new ActorAligner();
 		}
 
 		public virtual void Process()
 		{
 			IGameEntity entity = ActorData.Entity;
 			IEntityAnimator entityAnimator = entity.EntityAnimator;
+			_actorAligner.AlignActorToDirection(ActorData.Entity, ActorData.LogicalPosition.x, PreviousPosition.x);
 			if (entity.IsVisible)
 				entityAnimator.MoveTo(PreviousPosition, ActorData.LogicalPosition);
 			else
