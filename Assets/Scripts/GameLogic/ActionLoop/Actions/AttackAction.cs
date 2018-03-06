@@ -28,14 +28,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			bool hit = _rng.Check(0.75f);
+			bool accurate = _rng.Check(0.75f);
 
-			if (_attackedActor.Swords == 0 && hit)
+			bool hit = _attackedActor.Swords <= 0 && accurate;
+			if (hit)
 			{
-				if (_attackedActor.Swords == 0)
-				{
-					_attackedActor.Health -= ActorData.Weapon.MaxDamage;
-				}
+				_attackedActor.Health -= ActorData.Weapon.MaxDamage;
 				if (_attackedActor.Health <= 0)
 				{
 					_deathHandler.HandleDeath(_attackedActor);
@@ -50,12 +48,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				});
 			}
 
-			if (_attackedActor.Swords > 0 && hit)
+			if (_attackedActor.Swords > 0 && accurate)
 			{
 				--_attackedActor.Swords;
 			}
 			
-			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor);
+			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit);
 			yield return strikeEffect;
 
 			AttackedActor.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);

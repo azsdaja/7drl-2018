@@ -11,6 +11,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		IActionEffect CreateLambdaEffect(Action action);
 		IActionEffect CreateBumpEffect(ActorData actorData, Vector2Int newPosition);
 		IActionEffect CreateKnockoutEffect(ActorData actorData);
-		IActionEffect CreateStrikeEffect(ActorData actorData, ActorData attackedActor);
+		IActionEffect CreateStrikeEffect(ActorData actorData, ActorData attackedActor, bool parried);
 	}
 }

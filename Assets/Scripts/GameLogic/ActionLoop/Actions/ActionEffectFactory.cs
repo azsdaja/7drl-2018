@@ -37,9 +37,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			return new KnockOutEffect(actorData);
 		}
 
-		public IActionEffect CreateStrikeEffect(ActorData actorData, ActorData attackedActor)
+		public IActionEffect CreateStrikeEffect(ActorData actorData, ActorData attackedActor, bool parried)
 		{
-			return new StrikeEffect(actorData, attackedActor);
+			return new StrikeEffect(actorData, attackedActor, parried);
 		}
 	}
 }

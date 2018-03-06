@@ -35,9 +35,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 				.Where(e => ActorData.Team != e.Team)
 				.Where(e => Vector2IntUtilities.IsTwoSteps(e.LogicalPosition, ActorData.LogicalPosition));
 
-			if (enemiesNearby.Count() == 1)
+			List<Vector2Int> directionsToEnemiesNearby = enemiesNearby.Select(e => e.LogicalPosition - ActorData.LogicalPosition).ToList();
+			bool thereAreSomeEnemiesOnOneSide = directionsToEnemiesNearby.Any()
+				&& 
+				(directionsToEnemiesNearby.All(direction => direction.x < 0)
+				|| directionsToEnemiesNearby.All(direction => direction.x > 0));
+			if (thereAreSomeEnemiesOnOneSide)
 			{
-				_actorAligner.AlignActorToDirection(ActorData.Entity, enemiesNearby.Single().LogicalPosition.x - ActorData.LogicalPosition.x);
+				_actorAligner.AlignActorToDirection(ActorData.Entity, directionsToEnemiesNearby.First().x);
 			}
 			else
 			{
