@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
@@ -89,19 +91,32 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			Vector2Int actionVector = GetActionVector(_inputHolder.PlayerInput);
 			Vector2Int targetPosition = actionVector + actorData.LogicalPosition;
-			Vector2Int targetPositionFarther = actionVector * 2 + actorData.LogicalPosition;
-			ActorData actorAtTargetPosition = _entityDetector.DetectActors(targetPosition).FirstOrDefault();
-			ActorData actorAtTargetPositionFarther = _entityDetector.DetectActors(targetPositionFarther).FirstOrDefault();
-			ActorData actorAtFirstHitTargetPositions = actorAtTargetPosition ?? actorAtTargetPositionFarther;
-			if(actorAtFirstHitTargetPositions != null) // hit!
+			IList<Vector2Int> targetPositionsCone = Vector2IntUtilities.GetCone(actionVector)
+				.Select(zeroBasedPosition => actorData.LogicalPosition + zeroBasedPosition)
+				.ToList();
+			IList<ActorData> enemiesCloseToCone = _entityDetector.DetectActors(targetPosition, 2)
+				.Where(e => e.Team != actorData.Team).ToList();
+
+			ActorData targetEnemy;
+			ActorData enemyAtTargetPosition = enemiesCloseToCone.FirstOrDefault(a => a.LogicalPosition == targetPosition);
+			if (enemyAtTargetPosition != null)
 			{
-				if (actorAtFirstHitTargetPositions.Team == actorData.Team)
+				targetEnemy = enemyAtTargetPosition;
+			}
+			else
+			{
+				targetEnemy = enemiesCloseToCone.FirstOrDefault(a => targetPositionsCone.Contains(a.LogicalPosition));
+			}
+			
+			if(targetEnemy != null) // hit!
+			{
+				if (targetEnemy.Team == actorData.Team)
 				{
-					gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, actorAtFirstHitTargetPositions);
+					gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, targetEnemy);
 				}
 				else
 				{
-					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, actorAtFirstHitTargetPositions);
+					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, targetEnemy);
 				}
 			}
 			else

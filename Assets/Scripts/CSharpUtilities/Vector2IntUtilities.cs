@@ -91,5 +91,29 @@ namespace Assets.Scripts.CSharpUtilities
 				vector + Vector2Int.down + Vector2Int.right,
 			};
 		}
+
+		public static IEnumerable<Vector2Int> GetCone(Vector2Int direction)
+		{
+			yield return direction;
+			yield return direction * 2;
+			if (direction.x != 0 && direction.y != 0)
+			{
+				yield return new Vector2Int(direction.x * 2, direction.y);
+				yield return new Vector2Int(direction.x, direction.y * 2);
+			}
+			else
+			{
+				if (direction.x != 0)
+				{
+					yield return new Vector2Int(direction.x * 2, -1);
+					yield return new Vector2Int(direction.x * 2, +1);
+				}
+				else // means direction.y != 0
+				{
+					yield return new Vector2Int(-1, direction.y * 2);
+					yield return new Vector2Int(+1, direction.y * 2);
+				}
+			}
+		}
 	}
 }
