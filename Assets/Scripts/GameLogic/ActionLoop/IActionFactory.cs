@@ -6,7 +6,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 	public interface IActionFactory
 	{
 		IGameAction CreateDisplaceAction(ActorData actorData, ActorData actorAtTargetPosition);
-		IGameAction CreateAttackAction(ActorData actorData, ActorData attackedActor);
+		IGameAction CreateAttackAction(ActorData actorData, ActorData attackedActor, bool isAggressiveAttack = false);
 		IGameAction CreateMoveAction(ActorData actorData, Vector2Int actionVector);
 		IGameAction CreateDropAction(ActorData actorData, ItemData firstItem);
 		IGameAction CreatePickUpAction(ActorData actorData, ItemData itemToPickUp);

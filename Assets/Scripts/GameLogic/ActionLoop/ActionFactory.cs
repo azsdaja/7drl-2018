@@ -40,9 +40,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			return new DisplaceAction(actorData, actorAtTargetPosition, 1f, _actionEffectFactory);
 		}
 
-		public IGameAction CreateAttackAction(ActorData actorData, ActorData attackedActor)
+		public IGameAction CreateAttackAction(ActorData actorData, ActorData attackedActor, bool isAggressiveAttack = false)
 		{
-			return new AttackAction(actorData, attackedActor, 1f, _actionEffectFactory, _randomNumberGenerator, _deathHandler);
+			return new AttackAction(actorData, attackedActor, 1f, _actionEffectFactory, _randomNumberGenerator, _deathHandler, isAggressiveAttack);
 		}
 
 		public IGameAction CreateMoveAction(ActorData actorData, Vector2Int actionVector)

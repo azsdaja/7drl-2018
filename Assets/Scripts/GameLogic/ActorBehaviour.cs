@@ -74,11 +74,11 @@ namespace Assets.Scripts.GameLogic
 			return description.ToString();
 		}
 
-		public class Factory : Zenject.Factory<ActorBehaviour> { }
-
 		void Update()
 		{
-			GetComponent<SpriteRenderer>().sortingOrder = -ActorData.LogicalPosition.y;
+			SpriteRenderer.sortingOrder = -ActorData.LogicalPosition.y;
 		}
+
+		public class Factory : Zenject.Factory<ActorBehaviour> { }
 	}
 }

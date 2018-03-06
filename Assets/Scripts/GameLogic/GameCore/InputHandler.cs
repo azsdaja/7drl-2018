@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -8,15 +7,17 @@ namespace Assets.Scripts.GameLogic.GameCore
 	{
 		private IInputHolder _inputHolder;
 		private IArrowsVisibilityManager _arrowsVisibilityManager;
+		private IWeaponColorizer _weaponColorizer;
 		private const float InitialTimeLeftToRepeat = .35f;
 		private const float RepeatInterval = .06f;
 		private float _timeLeftToRepeat = InitialTimeLeftToRepeat;
 
 		[Inject]
-		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager)
+		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer)
 		{
 			_inputHolder = inputHolder;
 			_arrowsVisibilityManager = arrowsVisibilityManager;
+			_weaponColorizer = weaponColorizer;
 		}
 
 		public void SetInputModifier(int modifierIntValue)
@@ -33,12 +34,25 @@ namespace Assets.Scripts.GameLogic.GameCore
 				return;
 			}
 
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				PlayerInputModifier cancelledInputModifier = _inputHolder.PlayerInputModifier;
+				if(cancelledInputModifier == PlayerInputModifier.Move)
+					_arrowsVisibilityManager.Hide();
+				else if(cancelledInputModifier == PlayerInputModifier.Aggresive)
+					_weaponColorizer.Decolorize();
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
+			}
 			if (Input.GetKeyDown(KeyCode.M))
 			{
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.Move;
 				_arrowsVisibilityManager.Show();
 			}
-
+			if (Input.GetKeyDown(KeyCode.A))
+			{
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
+				_weaponColorizer.Colorize(Color.red);
+			}
 			if (Input.GetKeyDown(KeyCode.G))
 			{
 				_inputHolder.PlayerInput = PlayerInput.PickUp;

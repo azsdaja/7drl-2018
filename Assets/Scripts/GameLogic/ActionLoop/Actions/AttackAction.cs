@@ -11,14 +11,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly ActorData _attackedActor;
 		private readonly IRandomNumberGenerator _rng;
 		private readonly IDeathHandler _deathHandler;
+		private readonly bool _isAggressiveAttack;
 
 		public AttackAction(ActorData actorData, ActorData attackedActor, float energyCost, IActionEffectFactory actionEffectFactory, 
-			IRandomNumberGenerator rng, IDeathHandler deathHandler) 
+			IRandomNumberGenerator rng, IDeathHandler deathHandler, bool isAggressiveAttack) 
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_attackedActor = attackedActor;
 			_rng = rng;
 			_deathHandler = deathHandler;
+			_isAggressiveAttack = isAggressiveAttack;
 		}
 
 		internal ActorData AttackedActor
@@ -30,7 +32,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		{
 			bool accurate = _rng.Check(0.75f);
 
-			bool hit = _attackedActor.Swords <= 0 && accurate;
+			if (_isAggressiveAttack)
+			{
+				ActorData.Swords -= 2;
+			}
+
+			bool hit = _isAggressiveAttack || _attackedActor.Swords <= 0 && accurate;
 			if (hit)
 			{
 				_attackedActor.Health -= ActorData.Weapon.MaxDamage;

@@ -3,6 +3,7 @@
 	public enum PlayerInputModifier
 	{
 		None = 0,
-		Move = 1
+		Move = 1,
+		Aggresive = 2,
 	}
 }

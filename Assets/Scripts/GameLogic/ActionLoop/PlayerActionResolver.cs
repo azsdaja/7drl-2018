@@ -15,14 +15,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IInputHolder _inputHolder;
 		private readonly IActionFactory _actionFactory;
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
+		private readonly IWeaponColorizer _weaponColorizer;
 
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
-			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager)
+			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
 			_actionFactory = actionFactory;
 			_arrowsVisibilityManager = arrowsVisibilityManager;
+			_weaponColorizer = weaponColorizer;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -108,6 +110,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
 				return gameActionToReturn;
 			}
+			bool isAggressiveAttack = false;
+			if (_inputHolder.PlayerInputModifier == PlayerInputModifier.Aggresive)
+			{
+				isAggressiveAttack = true;
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
+				_inputHolder.PlayerInput = PlayerInput.None;
+				_weaponColorizer.Decolorize();
+			}
 
 			IList<Vector2Int> targetPositionsCone = Vector2IntUtilities.GetCone(actionVector)
 				.Select(zeroBasedPosition => actorData.LogicalPosition + zeroBasedPosition)
@@ -134,7 +144,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 				else
 				{
-					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, targetEnemy);
+					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, targetEnemy, isAggressiveAttack);
 				}
 			}
 			else
