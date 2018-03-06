@@ -8,5 +8,8 @@ namespace Assets.Scripts.GameLogic
 		public int RecoveryTime;
 		public int MaxDamage;
 		public int Swords;
+
+		public int CloseCombatModifier;
+		public bool AllowsFarCombat;
 	}
 }

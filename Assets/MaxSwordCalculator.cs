@@ -10,7 +10,9 @@ public class MaxSwordCalculator
 		if (actorData.Health < actorData.MaxHealth * .5f)
 			sum -= 1;
 		if (actorData.IsInCloseCombat)
-			sum -= 1;
+		{
+			sum += actorData.Weapon.CloseCombatModifier;
+		}
 		return sum;
 	}
 }
