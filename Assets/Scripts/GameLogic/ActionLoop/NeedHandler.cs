@@ -31,8 +31,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (actorData.Health < actorData.MaxHealth)
 				++actorData.Health;
 
-			IEnumerable<ActorData> actors = _entityDetector.DetectActors(actorData.LogicalPosition, 2);
-			if (actors.Any(a => Vector2IntUtilities.IsOneStep(a.LogicalPosition, actorData.LogicalPosition)))
+			IEnumerable<ActorData> enemiesNearby = _entityDetector.DetectActors(actorData.LogicalPosition, 2)
+				.Where(a => a.Team != actorData.Team);
+			if (enemiesNearby.Any(a => Vector2IntUtilities.IsOneStep(a.LogicalPosition, actorData.LogicalPosition)))
 			{
 				actorData.IsInCloseCombat = true;
 			}

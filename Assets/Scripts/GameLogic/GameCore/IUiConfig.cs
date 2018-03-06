@@ -8,5 +8,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		Canvas TooltipPooled { get; }
 		ProgressBar HealthBar { get; }
 		Button RestartButton { get; }
+		GameObject Arrows { get;}
 	}
 }

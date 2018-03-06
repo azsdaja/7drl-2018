@@ -13,14 +13,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 	{
 		private readonly IEntityDetector _entityDetector;
 		private readonly IInputHolder _inputHolder;
-
 		private readonly IActionFactory _actionFactory;
+		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
 
-		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, IActionFactory actionFactory)
+		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
+			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
 			_actionFactory = actionFactory;
+			_arrowsVisibilityManager = arrowsVisibilityManager;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -91,6 +93,22 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			Vector2Int actionVector = GetActionVector(_inputHolder.PlayerInput);
 			Vector2Int targetPosition = actionVector + actorData.LogicalPosition;
+
+			if (_inputHolder.PlayerInputModifier == PlayerInputModifier.Move)
+			{
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
+				_inputHolder.PlayerInput = PlayerInput.None;
+				_arrowsVisibilityManager.Hide();
+
+				IEnumerable<ActorData> actorsAtTarget = _entityDetector.DetectActors(targetPosition);
+				if (actorsAtTarget.Any())
+				{
+					return null;
+				}
+				gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+				return gameActionToReturn;
+			}
+
 			IList<Vector2Int> targetPositionsCone = Vector2IntUtilities.GetCone(actionVector)
 				.Select(zeroBasedPosition => actorData.LogicalPosition + zeroBasedPosition)
 				.ToList();
@@ -121,7 +139,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			else
 			{
-				float moveActionEnergyCost = 1.0f;
 				gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
 			}
 			_inputHolder.PlayerInput = PlayerInput.None;

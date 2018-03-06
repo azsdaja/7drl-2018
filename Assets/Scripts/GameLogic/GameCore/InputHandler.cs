@@ -1,27 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts.GameLogic.GameCore
 {
-	public class InputHandler : ITickable
+	public class InputHandler : MonoBehaviour
 	{
-		private readonly IInputHolder _inputHolder;
+		private IInputHolder _inputHolder;
+		private IArrowsVisibilityManager _arrowsVisibilityManager;
 		private const float InitialTimeLeftToRepeat = .35f;
 		private const float RepeatInterval = .06f;
 		private float _timeLeftToRepeat = InitialTimeLeftToRepeat;
 
 		[Inject]
-		public InputHandler(IInputHolder inputHolder)
+		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager)
 		{
 			_inputHolder = inputHolder;
+			_arrowsVisibilityManager = arrowsVisibilityManager;
 		}
-	
-		public void Tick()
+
+		public void SetInputModifier(int modifierIntValue)
+		{
+			_inputHolder.PlayerInputModifier = (PlayerInputModifier)modifierIntValue;
+			_arrowsVisibilityManager.Show();
+		}
+
+		public void Update()
 		{
 			if (!Input.anyKey && !Input.anyKeyDown)
 			{
 				_timeLeftToRepeat = InitialTimeLeftToRepeat;
 				return;
+			}
+
+			if (Input.GetKeyDown(KeyCode.M))
+			{
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.Move;
+				_arrowsVisibilityManager.Show();
 			}
 
 			if (Input.GetKeyDown(KeyCode.G))

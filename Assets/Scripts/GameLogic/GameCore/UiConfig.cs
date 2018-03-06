@@ -8,9 +8,11 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ProgressBar HealthBar;
 		public Canvas TooltipPooled;
 		public Button RestartButton;
+		public GameObject Arrows;
 	
 		Canvas IUiConfig.TooltipPooled{ get { return TooltipPooled; }}
 		ProgressBar IUiConfig.HealthBar { get { return HealthBar; }}
 		Button IUiConfig.RestartButton { get { return RestartButton; }}
+		GameObject IUiConfig.Arrows { get { return Arrows; } }
 	}
 }
