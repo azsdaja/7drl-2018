@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.AI;
 using Assets.Scripts.GameLogic.Configuration;
 using Sirenix.OdinInspector;
@@ -171,5 +172,7 @@ namespace Assets.Scripts.GameLogic
 
 		[ShowInInspector]
 		public int MaxSwords { get; set; }
+
+		public IGameAction StoredAction { get; set; }
 	}
 }

@@ -28,7 +28,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			bool hit = _rng.Check(0.667f);
+			bool hit = _rng.Check(0.75f);
 
 			if (_attackedActor.Swords == 0 && hit)
 			{
@@ -59,6 +59,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			yield return strikeEffect;
 
 			AttackedActor.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);
+			ActorData.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);
 		}
 	}
 }

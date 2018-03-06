@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
@@ -37,6 +38,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (actorData.Entity.EntityAnimator.IsAnimating)
 			{
 				return null;
+			}
+
+			if (actorData.StoredAction != null)
+			{
+				IGameAction actionToReturn = actorData.StoredAction;
+				actorData.StoredAction = null;
+				return actionToReturn;
 			}
 
 			return ResolveActionForAggresion(actorData);
@@ -124,7 +132,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
 				if (Vector2IntUtilities.IsOneStep(toEnemy) || Vector2IntUtilities.IsTwoSteps(toEnemy))
 				{
-					return _actionFactory.CreateAttackAction(actorData, closestEnemy);
+					IGameAction attackAction = _actionFactory.CreateAttackAction(actorData, closestEnemy);
+					if (DateTime.UtcNow < closestEnemy.BlockedUntil)
+					{
+						actorData.StoredAction = attackAction;
+						actorData.BlockedUntil = closestEnemy.BlockedUntil;
+						return null;
+					}
+					return attackAction;
 				}
 				int moveX = toEnemy.x.CompareTo(0);
 				int moveY = toEnemy.y.CompareTo(0);
