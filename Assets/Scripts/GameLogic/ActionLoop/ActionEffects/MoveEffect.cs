@@ -33,16 +33,23 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 
 			IEnumerable<ActorData> enemiesNearby = _entityDetector.DetectActors(ActorData.LogicalPosition, 3)
 				.Where(e => ActorData.Team != e.Team)
-				.Where(e => Vector2IntUtilities.IsTwoSteps(e.LogicalPosition, ActorData.LogicalPosition));
+				.Where(e => Vector2IntUtilities.IsOneTwoOrThreeSteps(e.LogicalPosition, ActorData.LogicalPosition));
 
-			List<Vector2Int> directionsToEnemiesNearby = enemiesNearby.Select(e => e.LogicalPosition - ActorData.LogicalPosition).ToList();
-			bool thereAreSomeEnemiesOnOneSide = directionsToEnemiesNearby.Any()
+			// this code orientates the actor to face the closest danger, even if it means stepping backwards
+			List<Vector2Int> directionsToOneStepEnemiesNearby = enemiesNearby.Select(e => e.LogicalPosition - ActorData.LogicalPosition)
+				.Where(direction => Vector2IntUtilities.IsOneStep(direction))
+				.ToList();
+			List<Vector2Int> directionsToAllEnemiesNearby = enemiesNearby.Select(e => e.LogicalPosition - ActorData.LogicalPosition).ToList();
+			List<Vector2Int> directionsToRelevantEnemiesNearby 
+				= directionsToOneStepEnemiesNearby.Any() ? directionsToOneStepEnemiesNearby : directionsToAllEnemiesNearby;
+
+			bool thereAreSomeEnemiesOnOneSide = directionsToRelevantEnemiesNearby.Any()
 				&& 
-				(directionsToEnemiesNearby.All(direction => direction.x < 0)
-				|| directionsToEnemiesNearby.All(direction => direction.x > 0));
+				(directionsToRelevantEnemiesNearby.All(direction => direction.x < 0)
+				|| directionsToRelevantEnemiesNearby.All(direction => direction.x > 0));
 			if (thereAreSomeEnemiesOnOneSide)
 			{
-				_actorAligner.AlignActorToDirection(ActorData.Entity, directionsToEnemiesNearby.First().x);
+				_actorAligner.AlignActorToDirection(ActorData.Entity, directionsToRelevantEnemiesNearby.First().x);
 			}
 			else
 			{

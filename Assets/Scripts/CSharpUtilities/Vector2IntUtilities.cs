@@ -55,15 +55,21 @@ namespace Assets.Scripts.CSharpUtilities
 			return Neighbours8(Vector2Int.zero).Contains(from-to);
 		}
 
-		public static bool IsTwoSteps(Vector2Int vector)
+		public static bool IsOneOrTwoSteps(Vector2Int vector)
 		{
 			return vector.x >= -2 && vector.x <= 2 && vector.y >= -2 && vector.y <= 2;
 		}
 
-		public static bool IsTwoSteps(Vector2Int from, Vector2Int to)
+		public static bool IsOneOrTwoSteps(Vector2Int from, Vector2Int to)
 		{
 			Vector2Int vector = from - to;
 			return vector.x >= -2 && vector.x <= 2 && vector.y >= -2 && vector.y <= 2;
+		}
+
+		public static bool IsOneTwoOrThreeSteps(Vector2Int from, Vector2Int to)
+		{
+			Vector2Int vector = from - to;
+			return vector.x >= -3 && vector.x <= 3 && vector.y >= -3 && vector.y <= 3;
 		}
 	
 		public static List<Vector2Int> Neighbours4(Vector2Int vector)

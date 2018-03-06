@@ -6,6 +6,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 	public class InputHandler : MonoBehaviour
 	{
 		private IInputHolder _inputHolder;
+		private IGameContext _gameContext;
 		private IArrowsVisibilityManager _arrowsVisibilityManager;
 		private IWeaponColorizer _weaponColorizer;
 		private const float InitialTimeLeftToRepeat = .35f;
@@ -13,11 +14,13 @@ namespace Assets.Scripts.GameLogic.GameCore
 		private float _timeLeftToRepeat = InitialTimeLeftToRepeat;
 
 		[Inject]
-		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer)
+		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager, 
+			IWeaponColorizer weaponColorizer, IGameContext gameContext)
 		{
 			_inputHolder = inputHolder;
 			_arrowsVisibilityManager = arrowsVisibilityManager;
 			_weaponColorizer = weaponColorizer;
+			_gameContext = gameContext;
 		}
 
 		public void SetInputModifier(int modifierIntValue)
@@ -50,8 +53,11 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
-				_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
-				_weaponColorizer.Colorize(Color.red);
+				if (_gameContext.PlayerActor.ActorData.Swords >= 2)
+				{
+					_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
+					_weaponColorizer.Colorize(Color.red);
+				}
 			}
 			if (Input.GetKeyDown(KeyCode.G))
 			{

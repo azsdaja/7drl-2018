@@ -30,7 +30,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			bool accurate = _rng.Check(0.75f);
+			float chanceToDealAccurateBlow = ActorData.Accuracy;
+			bool accurate = _rng.Check(chanceToDealAccurateBlow);
 
 			if (_isAggressiveAttack)
 			{

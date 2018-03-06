@@ -30,6 +30,7 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private int _health;
 		[SerializeField, HideInInspector] private int _maxHealth;
 		[SerializeField, HideInInspector] private int _roundsCount;
+		[SerializeField, HideInInspector] private float _accuracy;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -174,5 +175,12 @@ namespace Assets.Scripts.GameLogic
 		public int MaxSwords { get; set; }
 
 		public IGameAction StoredAction { get; set; }
+
+		[ShowInInspector]
+		public float Accuracy
+		{
+			get { return _accuracy; }
+			set { _accuracy = value; }
+		}
 	}
 }

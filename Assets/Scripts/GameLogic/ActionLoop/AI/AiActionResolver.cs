@@ -130,7 +130,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (closestEnemy != null)
 			{
 				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
-				if (Vector2IntUtilities.IsOneStep(toEnemy) || actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsTwoSteps(toEnemy))
+				if (Vector2IntUtilities.IsOneStep(toEnemy) || actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy))
 				{
 					IGameAction attackAction = _actionFactory.CreateAttackAction(actorData, closestEnemy);
 					if (DateTime.UtcNow < closestEnemy.BlockedUntil)
