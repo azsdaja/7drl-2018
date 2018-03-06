@@ -110,17 +110,68 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
-			ActorData visibleEnemy = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength)
-				.FirstOrDefault(a => a.Team != actorData.Team);
+			List<ActorData> enemiesClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength)
+				.Where(a => a.Team != actorData.Team)
+				.ToList();
+			enemiesClose.Sort((first, second) => 
+				Vector2IntUtilities.WalkDistance(first.LogicalPosition, actorData.LogicalPosition) 
+				.CompareTo(Vector2IntUtilities.WalkDistance(second.LogicalPosition, actorData.LogicalPosition)) 
+			);
+			ActorData closestEnemy = enemiesClose.FirstOrDefault();
 
-			if (visibleEnemy != null)
+			if (closestEnemy != null)
 			{
-				Vector2Int toEnemy = visibleEnemy.LogicalPosition - actorData.LogicalPosition;
+				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
 				if (Vector2IntUtilities.IsOneStep(toEnemy) || Vector2IntUtilities.IsTwoSteps(toEnemy))
 				{
-					return _actionFactory.CreateAttackAction(actorData, visibleEnemy);
+					return _actionFactory.CreateAttackAction(actorData, closestEnemy);
 				}
-				var moveVector = Vector2IntUtilities.Normalized(toEnemy);
+				int moveX = toEnemy.x.CompareTo(0);
+				int moveY = toEnemy.y.CompareTo(0);
+				Vector2Int moveVector = new Vector2Int(moveX, moveY);
+
+				var actorsBlockingMove = _entityDetector.DetectActors(actorData.LogicalPosition + moveVector);
+				if (actorsBlockingMove.Any())
+				{
+					Vector2Int? finalMoveVector = null;
+					Vector2Int alternativeMoveVector1;
+					Vector2Int alternativeMoveVector2;
+
+					// trying to find best alternative vectors to move
+					if (moveVector.x == 0)
+					{
+						alternativeMoveVector1 = new Vector2Int(+1, moveVector.y);
+						alternativeMoveVector2 = new Vector2Int(-1, moveVector.y);
+					}
+					else if (moveVector.y == 0)
+					{
+						alternativeMoveVector1 = new Vector2Int(moveVector.x, -1);
+						alternativeMoveVector2 = new Vector2Int(moveVector.x, +1);
+					}
+					else
+					{
+						alternativeMoveVector1 = new Vector2Int(moveVector.x, 0);
+						alternativeMoveVector2 = new Vector2Int(0, moveVector.y);
+					}
+					
+
+					var actorsBlockingAlternativeMove1 = _entityDetector.DetectActors(actorData.LogicalPosition + alternativeMoveVector1);
+					if (!actorsBlockingAlternativeMove1.Any())
+					{
+						finalMoveVector = alternativeMoveVector1;
+					}
+					else
+					{
+						var actorsBlockingAlternativeMove2 = _entityDetector.DetectActors(actorData.LogicalPosition + alternativeMoveVector2);
+						if (!actorsBlockingAlternativeMove2.Any())
+							finalMoveVector = alternativeMoveVector2;
+					}
+					if (finalMoveVector.HasValue)
+					{
+						return _actionFactory.CreateMoveAction(actorData, finalMoveVector.Value);
+					}
+					return _actionFactory.CreatePassAction(actorData);
+				}
 				return _actionFactory.CreateMoveAction(actorData, moveVector);
 			}
 			else

@@ -38,7 +38,8 @@ namespace Assets.Scripts.GridRelated
 
 		public IEnumerable<ActorData> DetectActors(Vector2Int targetPosition)
 		{
-			return DetectActors(targetPosition, CellSizeEpsilon);
+			// couldn't use DetectActors(targetPosition, CellSizeEpsilon) because some actor that just moved may already not be in place.
+			return DetectActors(targetPosition, 2).Where(a => a.LogicalPosition == targetPosition);
 		}
 
 		public IEnumerable<ItemData> DetectItems(Vector2Int targetPosition, float cellsRangeInArea)
