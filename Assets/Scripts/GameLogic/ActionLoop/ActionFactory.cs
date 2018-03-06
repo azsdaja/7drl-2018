@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
 using Assets.Scripts.UI;
@@ -18,10 +19,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly INeedHandler _needHandler;
 		private readonly IRandomNumberGenerator _randomNumberGenerator;
 		private readonly IDeathHandler _deathHandler;
+		private readonly IEntityDetector _entityDetector;
 		private readonly IEntityRemover _entityRemover;
 
 		public ActionFactory(IGridInfoProvider gridInfoProvider, IActionEffectFactory actionEffectFactory, 
-			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator, IDeathHandler deathHandler, IEntityRemover entityRemover)
+			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator, IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector)
 		{
 			_gridInfoProvider = gridInfoProvider;
 			_actionEffectFactory = actionEffectFactory;
@@ -30,6 +32,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_randomNumberGenerator = randomNumberGenerator;
 			_deathHandler = deathHandler;
 			_entityRemover = entityRemover;
+			_entityDetector = entityDetector;
 		}
 
 		public IGameAction CreateDisplaceAction(ActorData actorData, ActorData actorAtTargetPosition)
@@ -44,7 +47,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreateMoveAction(ActorData actorData, Vector2Int actionVector)
 		{
-			return new MoveAction(actorData, 1f, _actionEffectFactory, actionVector, _gridInfoProvider);
+			return new MoveAction(actorData, 1f, _actionEffectFactory, actionVector, _gridInfoProvider, _entityDetector);
 		}
 
 		public IGameAction CreateDropAction(ActorData actorData, ItemData firstItem)

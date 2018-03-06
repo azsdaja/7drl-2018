@@ -28,16 +28,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-
-			if (_attackedActor.Swords == 0)
-			{
-				_attackedActor.Health -= 5;
-			}
-
-			bool hit = _rng.Check(0.5f);
+			bool hit = _rng.Check(0.667f);
 
 			if (_attackedActor.Swords == 0 && hit)
 			{
+				if (_attackedActor.Swords == 0)
+				{
+					_attackedActor.Health -= ActorData.Weapon.MaxDamage;
+				}
+				if (_attackedActor.Health <= 0)
+				{
+					_deathHandler.HandleDeath(_attackedActor);
+				}
+
 				yield return new LambdaEffect(() =>
 				{
 					Animator blood = Resources.Load<Animator>("Prefabs/Blood");

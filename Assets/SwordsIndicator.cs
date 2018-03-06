@@ -8,8 +8,11 @@ public class SwordsIndicator : MonoBehaviour
 	public AnimationCurve _swordAppearCurve;
 	private ActorBehaviour _actorBehaviour;
 	private int _swordsShown;
+	private int _maxSwordsShown;
 	private IEnumerator _shrinkCoroutine;
 	private IEnumerator _appearCoroutine;
+	private MaxSwordCalculator _maxSwordsCalculator;
+	private SpriteRenderer _frameSpriteRenderer;
 
 	public List<SpriteRenderer> SwordsSprites;
 
@@ -17,39 +20,55 @@ public class SwordsIndicator : MonoBehaviour
 	void Start ()
 	{
 		_actorBehaviour = transform.parent.GetComponent<ActorBehaviour>();
-		_swordsShown = _actorBehaviour.ActorData.Swords;
-		Sprite indicatorSprite = Resources.Load<Sprite>("Sprites/SwordsIndicator" + _actorBehaviour.ActorData.MaxSwords);
-		GetComponent<SpriteRenderer>().sprite = indicatorSprite;
+		_maxSwordsCalculator = new MaxSwordCalculator();
+		_frameSpriteRenderer = GetComponent<SpriteRenderer>();
+
+
+		_maxSwordsShown = _maxSwordsCalculator.Calculate(_actorBehaviour.ActorData);
+		_swordsShown = _maxSwordsShown;
+		SetFrameSpriteToMaxSwords(_maxSwordsShown);
 	}
-	
+
 	// Update is called once per frame
+
 	void Update ()
 	{
+		int playerMaxSwords = _actorBehaviour.ActorData.MaxSwords;
+		if (_maxSwordsShown != playerMaxSwords)
+		{
+			SetFrameSpriteToMaxSwords(playerMaxSwords);
+			_maxSwordsShown = playerMaxSwords;
+		}
+
 		int playerSwords = _actorBehaviour.ActorData.Swords;
 		if (playerSwords != _swordsShown)
 		{
-			_swordsShown = playerSwords;
-			for (int i = 0; i < SwordsSprites.Count; i++)
+			UpdateActiveSwords(playerSwords);
+		}
+	}
+
+	private void UpdateActiveSwords(int playerSwords)
+	{
+		_swordsShown = playerSwords;
+		for (int i = 0; i < SwordsSprites.Count; i++)
+		{
+			if (i < playerSwords)
 			{
-				if (i < playerSwords)
+				if (!SwordsSprites[i].enabled)
 				{
-					if (!SwordsSprites[i].enabled)
-					{
-						SwordsSprites[i].enabled = true;
-						_appearCoroutine = AppearSword(i);
-						StartCoroutine(_appearCoroutine);
-					}
-				}
-				else
-				{
-					if (SwordsSprites[i].enabled)
-					{
-						_shrinkCoroutine = ShrinkSword(i);
-						StartCoroutine(_shrinkCoroutine);
-					}
+					SwordsSprites[i].enabled = true;
+					_appearCoroutine = AppearSword(i);
+					StartCoroutine(_appearCoroutine);
 				}
 			}
-			
+			else
+			{
+				if (SwordsSprites[i].enabled)
+				{
+					_shrinkCoroutine = ShrinkSword(i);
+					StartCoroutine(_shrinkCoroutine);
+				}
+			}
 		}
 	}
 
@@ -72,5 +91,11 @@ public class SwordsIndicator : MonoBehaviour
 		}
 		SwordsSprites[index].enabled = true;
 		SwordsSprites[index].transform.localScale = Vector3.one;
+	}
+
+	private void SetFrameSpriteToMaxSwords(int maxSwordsInitial)
+	{
+		Sprite indicatorSprite = Resources.Load<Sprite>("Sprites/SwordsIndicator" + maxSwordsInitial);
+		_frameSpriteRenderer.sprite = indicatorSprite;
 	}
 }

@@ -38,6 +38,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				return false;
 			}
 
+			if (!actorData.HasFreshHeartbeat)
+			{
+				_needHandler.Heartbeat(actorData);
+				actorData.HasFreshHeartbeat = true;
+			}
+
 			IGameAction gameAction;
 			if (actorData.ControlledByPlayer)
 			{
@@ -59,10 +65,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 
 			actorData.HasFreshFieldOfView = false;
+			actorData.HasFreshHeartbeat = false;
 			actorData.Energy += actorData.EnergyGain;
 			actorData.Energy -= gameAction.EnergyCost;
-			_needHandler.Heartbeat(actorData); // todo: if Heartbeat works well, include modifying satiation and energy for actor
-
+			
 			IEnumerable<IActionEffect> effects = gameAction.Execute();
 			foreach (IActionEffect effect in effects)
 			{

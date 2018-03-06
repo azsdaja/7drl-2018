@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -12,12 +14,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IEntityDetector _entityDetector;
 		private readonly IGameConfig _gameConfig;
 		private readonly IDeathHandler _deathHandler;
+		private readonly MaxSwordCalculator _maxSwordCalculator;
 
 		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IDeathHandler deathHandler)
 		{
 			_entityDetector = entityDetector;
 			_gameConfig = gameConfig;
 			_deathHandler = deathHandler;
+			_maxSwordCalculator = new MaxSwordCalculator();
 		}
 
 		public void Heartbeat(ActorData actorData)
@@ -27,7 +31,21 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (actorData.Health < actorData.MaxHealth)
 				++actorData.Health;
 
-			if (actorData.Swords < actorData.MaxSwords && actorData.RoundsCount % actorData.Weapon.RecoveryTime == 0)
+			IEnumerable<ActorData> actors = _entityDetector.DetectActors(actorData.LogicalPosition, 2);
+			if (actors.Any(a => Vector2IntUtilities.IsOneStep(a.LogicalPosition, actorData.LogicalPosition)))
+			{
+				actorData.IsInCloseCombat = true;
+			}
+			else
+			{
+				actorData.IsInCloseCombat = false;
+			}
+
+			int maxSwords = _maxSwordCalculator.Calculate(actorData);
+			actorData.MaxSwords = maxSwords;
+			if (actorData.Swords > maxSwords)
+				actorData.Swords = maxSwords;
+			if (actorData.Swords < maxSwords && actorData.RoundsCount % actorData.Weapon.RecoveryTime == 0)
 			{
 				++actorData.Swords;
 			}

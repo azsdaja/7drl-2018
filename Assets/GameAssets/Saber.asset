@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Name: Saber
   m_EditorClassIdentifier: 
   RecoveryTime: 2
-  MaxDamage: 5
+  MaxDamage: 10
+  Swords: 1

@@ -48,10 +48,10 @@ public class WeaponAnimator : MonoBehaviour
 	public void SwingTo(Vector2Int targetPosition)
 	{
 		_initialPosition = transform.position;
+		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 		_animator.enabled = false;
 		Vector3 directionToTarget = _mySwingTarget - _initialPosition;
 		_mySwingTargetRotation = Quaternion.LookRotation(directionToTarget);
-		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 	}
 	
 	public void DefendSwing(Transform enemyWeaponTransform, Vector2Int targetPosition)

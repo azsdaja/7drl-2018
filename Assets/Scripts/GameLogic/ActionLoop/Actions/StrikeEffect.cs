@@ -20,7 +20,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public void Process()
 		{
-			_actorAligner.AlignActorToDirection(_actorBehaviour.ActorData.Entity, _attackedActorLogicalPosition.x, 
+			_actorAligner.AlignActorToDirection(_actorBehaviour.ActorData.Entity, _attackedActorLogicalPosition.x -
 				_actorBehaviour.ActorData.LogicalPosition.x);
 			_actorBehaviour.WeaponAnimator.SwingTo(_attackedActorLogicalPosition);
 			_attackedActorBehaviour.WeaponAnimator.DefendSwing(_actorBehaviour.WeaponAnimator.transform, _attackedActorLogicalPosition);

@@ -369,6 +369,7 @@ MonoBehaviour:
     _entity: {fileID: 114566206639055990}
     _logicalPosition: {x: 0, y: 0}
     _weapon: {fileID: 11400000, guid: c931bd20154a1094fb055c2bcbb033b3, type: 2}
+    _swordsFromSkill: 1
     _actorType: 4
     _swords: 2
     _visionRayLength: 6
@@ -389,7 +390,6 @@ MonoBehaviour:
     _health: 0
     _maxHealth: 0
     _maxDamage: 10
-    _maxSwords: 3
     _roundsCount: 0
   WeaponAnimator: {fileID: 114573808657654552}
 --- !u!114 &114573808657654552

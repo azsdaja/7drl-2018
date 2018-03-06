@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.Animation;
+using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
 
@@ -8,15 +12,17 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 	public class MoveEffect : IActionEffect
 	{
 		private readonly IGridInfoProvider _gridInfoProvider;
+		private readonly IEntityDetector _entityDetector;
 		private readonly ActorAligner _actorAligner;
 		public Vector2Int PreviousPosition { get; private set; }
 		public ActorData ActorData { get; private set; }
 
-		public MoveEffect(ActorData actorData, Vector2Int previousPosition, IGridInfoProvider gridInfoProvider)
+		public MoveEffect(ActorData actorData, Vector2Int previousPosition, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector)
 		{
 			ActorData = actorData;
 			PreviousPosition = previousPosition;
 			_gridInfoProvider = gridInfoProvider;
+			_entityDetector = entityDetector;
 			_actorAligner = new ActorAligner();
 		}
 
@@ -24,7 +30,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 		{
 			IGameEntity entity = ActorData.Entity;
 			IEntityAnimator entityAnimator = entity.EntityAnimator;
-			_actorAligner.AlignActorToDirection(ActorData.Entity, ActorData.LogicalPosition.x, PreviousPosition.x);
+
+			IEnumerable<ActorData> enemiesNearby = _entityDetector.DetectActors(ActorData.LogicalPosition, 3)
+				.Where(e => ActorData.Team != e.Team)
+				.Where(e => Vector2IntUtilities.IsTwoSteps(e.LogicalPosition, ActorData.LogicalPosition));
+
+			if (enemiesNearby.Count() == 1)
+			{
+				_actorAligner.AlignActorToDirection(ActorData.Entity, enemiesNearby.Single().LogicalPosition.x - ActorData.LogicalPosition.x);
+			}
+			else
+			{
+				_actorAligner.AlignActorToDirection(ActorData.Entity, ActorData.LogicalPosition.x - PreviousPosition.x);
+			}
+
 			if (entity.IsVisible)
 				entityAnimator.MoveTo(PreviousPosition, ActorData.LogicalPosition);
 			else

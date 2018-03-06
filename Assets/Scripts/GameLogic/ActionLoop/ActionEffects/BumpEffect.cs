@@ -23,7 +23,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 			IGameEntity entity = ActorData.Entity;
 			IEntityAnimator entityAnimator = entity.EntityAnimator;
 			bool actorIsVisible = entity.IsVisible;
-			_actorAligner.AlignActorToDirection(ActorData.Entity, BumpedPosition.x, ActorData.LogicalPosition.x);
+			_actorAligner.AlignActorToDirection(ActorData.Entity, BumpedPosition.x - ActorData.LogicalPosition.x);
 			if (actorIsVisible)
 				entityAnimator.Bump(ActorData.LogicalPosition, BumpedPosition);
 		}

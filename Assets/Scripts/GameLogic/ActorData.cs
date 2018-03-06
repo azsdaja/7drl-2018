@@ -12,6 +12,7 @@ namespace Assets.Scripts.GameLogic
 	{
 
 		[SerializeField, HideInInspector] private Weapon _weapon;
+		[SerializeField, HideInInspector] private int _swordsFromSkill;
 		[SerializeField, HideInInspector] private ActorType _actorType;
 		[SerializeField, HideInInspector] private int _swords;
 		[SerializeField, HideInInspector] private int _visionRayLength;
@@ -20,14 +21,13 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private float _energy;
 		[SerializeField, HideInInspector] private float _energyGain;
 		[SerializeField, HideInInspector] private bool _hasFreshFieldOfView;
+		[SerializeField, HideInInspector] private bool _hasFreshHeartbeat;
 		[SerializeField, HideInInspector] private Team _team;
 		[SerializeField, HideInInspector] private List<ItemData> _items;
 		[SerializeField, HideInInspector] private NavigationData _navigationData;
 		[SerializeField, HideInInspector] private AiData _aiData;
 		[SerializeField, HideInInspector] private int _health;
 		[SerializeField, HideInInspector] private int _maxHealth;
-		[SerializeField, HideInInspector] private int _maxDamage;
-		[SerializeField, HideInInspector] private int _maxSwords;
 		[SerializeField, HideInInspector] private int _roundsCount;
 
 		[ShowInInspector]
@@ -59,6 +59,13 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
+		public int SwordsFromSkill
+		{
+			get { return _swordsFromSkill; }
+			set { _swordsFromSkill = value; }
+		}
+
+		[ShowInInspector]
 		public int VisionRayLength
 		{
 			get { return _visionRayLength; } 
@@ -72,6 +79,13 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _hasFreshFieldOfView; }
 			set { _hasFreshFieldOfView = value; }
+		}
+
+		[ShowInInspector]
+		public bool HasFreshHeartbeat
+		{
+			get { return _hasFreshHeartbeat; }
+			set { _hasFreshHeartbeat = value; }
 		}
 
 		[ShowInInspector]
@@ -111,6 +125,12 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
+		public float HealthProgress
+		{
+			get { return (float)_health / _maxHealth; }
+		}
+
+		[ShowInInspector]
 		public int MaxHealth
 		{
 			get { return _maxHealth; }
@@ -125,24 +145,10 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
-		public int MaxDamage
-		{
-			get { return _maxDamage; }
-			set { _maxDamage = value; }
-		}
-
-		[ShowInInspector]
 		public int Swords
 		{
 			get { return _swords; }
 			set { _swords = value; }
-		}
-
-		[ShowInInspector]
-		public int MaxSwords
-		{
-			get { return _maxSwords; }
-			set { _maxSwords = value; }
 		}
 
 		public DateTime BlockedUntil { get; set; }
@@ -159,5 +165,11 @@ namespace Assets.Scripts.GameLogic
 			get { return _roundsCount; }
 			set { _roundsCount = value; }
 		}
+
+		[ShowInInspector]
+		public bool IsInCloseCombat { get; set; }
+
+		[ShowInInspector]
+		public int MaxSwords { get; set; }
 	}
 }

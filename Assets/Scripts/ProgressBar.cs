@@ -7,10 +7,10 @@ namespace Assets.Scripts
 {
 	public class ProgressBar : MonoBehaviour
 	{
-		private bool _active = true;
 		private static Color _freshGreen;
 		private Func<float> _progressGetter;
 		private float _lastValue;
+		private Canvas _canvas;
 
 		public Image BarValue;
 
@@ -23,15 +23,20 @@ namespace Assets.Scripts
 		void Start ()
 		{
 			_freshGreen = new Color(.3f, 1f, .13f);
+			_canvas = GetComponent<Canvas>();
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
-			if (!_active) return;
-			if (_progressGetter == null) return;
-
 			float progress = _progressGetter();
+
+			if (progress >= 1)
+			{
+				_canvas.enabled = false;
+				return;
+			}
+			_canvas.enabled = true;
 			if (Math.Abs(progress - _lastValue) < 0.01f) return;
 
 			_lastValue = progress;

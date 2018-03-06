@@ -4,9 +4,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 {
 	public class ActorAligner
 	{
-		public void AlignActorToDirection(GameEntity entity, int nextPosition, int originalPosition)
+		public void AlignActorToDirection(GameEntity entity, int xDelta)
 		{
-			int xDelta = nextPosition - originalPosition;
 			if (xDelta == 0)
 			{
 			}

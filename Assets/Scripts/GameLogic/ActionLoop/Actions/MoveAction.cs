@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
+using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
 
@@ -9,13 +12,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 	public class MoveAction : DirectedAction
 	{
 		private readonly IGridInfoProvider _gridInfoProvider;
+		private readonly IEntityDetector _entityDetector;
 
 		public MoveAction(ActorData actorData, float energyCost, IActionEffectFactory actionEffectFactory, 
-			Vector2Int direction, IGridInfoProvider gridInfoProvider) 
+			Vector2Int direction, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector) 
 			: base(actorData, energyCost, actionEffectFactory, direction)
 		{
 			GuardDirection(direction);
 			_gridInfoProvider = gridInfoProvider;
+			_entityDetector = entityDetector;
 		}
 
 		public override IEnumerable<IActionEffect> Execute()
@@ -30,6 +35,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					ActorData.CaughtActor.LogicalPosition = newPosition;
 				}
+
 				yield return effect;
 			}
 			else
