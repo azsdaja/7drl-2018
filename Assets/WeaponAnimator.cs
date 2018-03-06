@@ -14,8 +14,11 @@ public class WeaponAnimator : MonoBehaviour
 	private Vector3 _mySwingTarget;
 	private Quaternion _mySwingTargetRotation;
 
-	public float AnimationDuration = 1f;
-	public AnimationCurve MovementCurve;
+	public float NormalAnimationDuration = .3f;
+	public float AggressiveAnimationDuration = .4f;
+	public AnimationCurve NormalMovementCurve;
+	public AnimationCurve AggressiveMovementCurve;
+	private bool _isAggressiveAttack;
 
 	[Inject]
 	public void Init(IGridInfoProvider gridInfoProvider)
@@ -33,21 +36,24 @@ public class WeaponAnimator : MonoBehaviour
 		if (_animator.enabled) return;
 
 		_timeSinceBeginning += Time.deltaTime;
-		float progress = _timeSinceBeginning / AnimationDuration;
+		float animationDuration = _isAggressiveAttack ? AggressiveAnimationDuration : NormalAnimationDuration;
+		float progress = _timeSinceBeginning / animationDuration;
 		
 		if (progress > 1f)
 		{
 			_timeSinceBeginning = 0f;
 			_animator.enabled = true;
 		}
-
-		transform.position = Vector3.Lerp(_initialPosition, _mySwingTarget, MovementCurve.Evaluate(progress));
-		transform.rotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, MovementCurve.Evaluate(progress));
+		AnimationCurve movementCurve = _isAggressiveAttack ? AggressiveMovementCurve : NormalMovementCurve;
+		
+		transform.position = Vector3.LerpUnclamped(_initialPosition, _mySwingTarget, movementCurve.Evaluate(progress));
+		transform.rotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, NormalMovementCurve.Evaluate(progress));
 	}
 	
-	public void SwingTo(Vector2Int targetPosition)
+	public void SwingTo(Vector2Int targetPosition, bool isAggressiveAttack)
 	{
 		_initialPosition = transform.position;
+		_isAggressiveAttack = isAggressiveAttack;
 		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 		_animator.enabled = false;
 		Vector3 directionToTarget = _mySwingTarget - _initialPosition;

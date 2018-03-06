@@ -60,7 +60,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				--_attackedActor.Swords;
 			}
 			
-			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit);
+			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit, _isAggressiveAttack);
 			yield return strikeEffect;
 
 			AttackedActor.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);

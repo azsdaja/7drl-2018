@@ -7,14 +7,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 	public class StrikeEffect : IActionEffect
 	{
 		private readonly bool _parried;
+		private readonly bool _isAggressiveAttack;
 		private readonly Vector2Int _attackedActorLogicalPosition;
-		private ActorBehaviour _actorBehaviour;
-		private ActorBehaviour _attackedActorBehaviour;
-		private ActorAligner _actorAligner = new ActorAligner();
+		private readonly ActorBehaviour _actorBehaviour;
+		private readonly ActorBehaviour _attackedActorBehaviour;
+		private readonly ActorAligner _actorAligner = new ActorAligner();
 
-		public StrikeEffect(ActorData actorData, ActorData attackedActor, bool parried)
+		public StrikeEffect(ActorData actorData, ActorData attackedActor, bool parried, bool isAggressiveAttack)
 		{
 			_parried = parried;
+			_isAggressiveAttack = isAggressiveAttack;
 			_attackedActorLogicalPosition = attackedActor.LogicalPosition;
 			_actorBehaviour = actorData.Entity as ActorBehaviour;
 			_attackedActorBehaviour = attackedActor.Entity as ActorBehaviour;
@@ -24,7 +26,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		{
 			_actorAligner.AlignActorToDirection(_actorBehaviour.ActorData.Entity, _attackedActorLogicalPosition.x -
 				_actorBehaviour.ActorData.LogicalPosition.x);
-			_actorBehaviour.WeaponAnimator.SwingTo(_attackedActorLogicalPosition);
+			_actorBehaviour.WeaponAnimator.SwingTo(_attackedActorLogicalPosition, _isAggressiveAttack);
 			if (_parried)
 			{
 				_attackedActorBehaviour.WeaponAnimator.DefendSwing(_actorBehaviour.WeaponAnimator.transform, _attackedActorLogicalPosition);
