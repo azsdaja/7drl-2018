@@ -54288,7 +54288,7 @@ Prefab:
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b70420bdee7db154a8e04bce6c6c4f86,
+      objectReference: {fileID: 21300000, guid: d7e2f217d5035ea41bba3c411364280d,
         type: 3}
     - target: {fileID: 1878698469600224, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f, type: 2}
       propertyPath: m_Name
@@ -54296,13 +54296,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1878698469600224, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224062901164502324, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
         type: 2}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114566206639055990, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
+        type: 2}
+      propertyPath: _actorData._weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3baecdc35af06614e8e1bd4aa533726a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f, type: 2}
   m_IsPrefabParent: 0
