@@ -11,9 +11,14 @@ namespace Assets.Scripts.GameLogic.GameCore
 			_uiConfig = uiConfig;
 		}
 
-		public void Show()
+		public void Show(Color color)
 		{
 			_uiConfig.Arrows.gameObject.SetActive(true);
+			var arrowRenderers = _uiConfig.Arrows.transform.GetComponentsInChildren<SpriteRenderer>();
+			foreach (var spriteRenderer in arrowRenderers)
+			{
+				spriteRenderer.color = color;
+			}
 		}
 
 		public void Hide()

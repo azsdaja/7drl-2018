@@ -106,5 +106,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			return new StandUpGameAction(actorData, 1f, _actionEffectFactory);
 		}
+
+		public IGameAction CreatePushAction(ActorData actorData, ActorData targetEnemy)
+		{
+			return new PushAction(actorData, targetEnemy, 1f, _actionEffectFactory, _randomNumberGenerator, _gridInfoProvider, _entityDetector);
+		}
 	}
 }

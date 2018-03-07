@@ -127,7 +127,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			ActorData targetEnemy;
 			ActorData enemyAtTargetPosition = enemiesCloseToCone.FirstOrDefault(a => a.LogicalPosition == targetPosition);
-			if (enemyAtTargetPosition != null)
+
+			bool isPushing = _inputHolder.PlayerInputModifier == PlayerInputModifier.Push;
+			_arrowsVisibilityManager.Hide();
+			_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
+			if (enemyAtTargetPosition != null || isPushing)
 			{
 				targetEnemy = enemyAtTargetPosition;
 			}
@@ -144,7 +148,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 				else
 				{
-					gameActionToReturn = _actionFactory.CreateAttackAction(actorData, targetEnemy, isAggressiveAttack);
+					gameActionToReturn = isPushing ? _actionFactory.CreatePushAction(actorData, targetEnemy)
+						: _actionFactory.CreateAttackAction(actorData, targetEnemy, isAggressiveAttack);
 				}
 			}
 			else

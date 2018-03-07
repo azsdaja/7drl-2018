@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using C5;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -12,6 +14,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		private const float InitialTimeLeftToRepeat = .35f;
 		private const float RepeatInterval = .06f;
 		private float _timeLeftToRepeat = InitialTimeLeftToRepeat;
+		private Dictionary<PlayerInputModifier, Color> _modifiersToColors;
 
 		[Inject]
 		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager, 
@@ -23,10 +26,25 @@ namespace Assets.Scripts.GameLogic.GameCore
 			_gameContext = gameContext;
 		}
 
+		void Start()
+		{
+			_modifiersToColors = new Dictionary<PlayerInputModifier, Color>
+			{
+				{PlayerInputModifier.Move, Color.green},
+				{PlayerInputModifier.Push, Color.yellow},
+			};
+		}
+
 		public void SetInputModifier(int modifierIntValue)
 		{
 			_inputHolder.PlayerInputModifier = (PlayerInputModifier)modifierIntValue;
-			_arrowsVisibilityManager.Show();
+
+			if (_inputHolder.PlayerInputModifier == PlayerInputModifier.Push ||
+			    _inputHolder.PlayerInputModifier == PlayerInputModifier.Move)
+			{
+				var color = _modifiersToColors[_inputHolder.PlayerInputModifier];
+				_arrowsVisibilityManager.Show(color);
+			}
 		}
 
 		public void Update()
@@ -40,7 +58,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				PlayerInputModifier cancelledInputModifier = _inputHolder.PlayerInputModifier;
-				if(cancelledInputModifier == PlayerInputModifier.Move)
+				if(cancelledInputModifier == PlayerInputModifier.Move || cancelledInputModifier == PlayerInputModifier.Push)
 					_arrowsVisibilityManager.Hide();
 				else if(cancelledInputModifier == PlayerInputModifier.Aggresive)
 					_weaponColorizer.Decolorize();
@@ -49,7 +67,13 @@ namespace Assets.Scripts.GameLogic.GameCore
 			if (Input.GetKeyDown(KeyCode.M))
 			{
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.Move;
-				_arrowsVisibilityManager.Show();
+				var naturalGreen = new Color(33, 160, 73);
+				_arrowsVisibilityManager.Show(naturalGreen);
+			}
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
+				_arrowsVisibilityManager.Show(Color.yellow);
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{

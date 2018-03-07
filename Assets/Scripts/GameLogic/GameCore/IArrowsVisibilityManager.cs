@@ -1,8 +1,10 @@
-﻿namespace Assets.Scripts.GameLogic.GameCore
+﻿using UnityEngine;
+
+namespace Assets.Scripts.GameLogic.GameCore
 {
 	public interface IArrowsVisibilityManager
 	{
-		void Show();
 		void Hide();
+		void Show(Color white);
 	}
 }

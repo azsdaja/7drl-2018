@@ -5,5 +5,6 @@
 		None = 0,
 		Move = 1,
 		Aggresive = 2,
+		Push = 3
 	}
 }

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c763d398e59c444a9568359f7713342, type: 3}
+  m_Name: WeaponAnimationData
+  m_EditorClassIdentifier: 
+  NormalAnimationDuration: 0.3
+  AggressiveAnimationDuration: 0.4
+  NormalMovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.022178253
+      outSlope: 0.022178253
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.26702487
+      value: 0.6871936
+      inSlope: -0.008160305
+      outSlope: -0.008160305
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.9976196
+      value: 0.01599884
+      inSlope: 0.047876984
+      outSlope: 0.047876984
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  AggressiveMovementCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.022178253
+      outSlope: 0.022178253
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.23370728
+      value: -0.2634481
+      inSlope: 2.2745132
+      outSlope: 2.2745132
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5003623
+      value: 0.6871936
+      inSlope: -0.008160305
+      outSlope: -0.008160305
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.9976196
+      value: 0.01599884
+      inSlope: 0.047876984
+      outSlope: 0.047876984
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

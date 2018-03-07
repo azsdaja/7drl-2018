@@ -17,5 +17,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		IGameAction CreatePassAction(ActorData actorData);
 		IGameAction CreateCallAction(ActorData actorData);
 		IGameAction CreateStandUpAction(ActorData actorData);
+		IGameAction CreatePushAction(ActorData actorData, ActorData targetEnemy);
 	}
 }
