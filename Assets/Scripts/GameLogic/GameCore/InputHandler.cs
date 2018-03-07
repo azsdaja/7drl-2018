@@ -72,7 +72,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			if (Input.GetKeyDown(KeyCode.K))
 			{
-				if (_gameContext.PlayerActor.ActorData.Swords >= 2)
+				if (_gameContext.PlayerActor.ActorData.Swords >= 1)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
 					_arrowsVisibilityManager.Show(Color.yellow);

@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
+using Debug = UnityEngine.Debug;
+using Tile = UnityEngine.Tilemaps.Tile;
 
 namespace Assets.Scripts.GridRelated.TilemapAffecting
 {
@@ -48,17 +53,58 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		// Use this for initialization
 		void Start()
 		{
-			GenerateTiles();
+			GenerateDungeon();
+			//GenerateWilderness();
 			InitializeVisibilityOfTiles();
 			_pathfinder.InitializeNavigationGrid();
 
 			//GenerateAnimals(6);
 		}
 
+		private void GenerateDungeon()
+		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			
+			_gameContext.TilemapDefiningOuterBounds.CompressBounds();
+			BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
+
+			Dungeon generator = new Dungeon(_rng, message => { });
+
+			int tilesCount = gridBounds.size.x * gridBounds.size.y;
+			int requestedFeatures = tilesCount / 100;
+
+			generator.CreateDungeon(gridBounds.min, gridBounds.size.x, gridBounds.size.y, requestedFeatures);
+
+			GenerateDirt(gridBounds);
+
+			foreach (Vector3Int position in gridBounds.allPositionsWithin)
+			{
+				Vector2Int position2D = position.ToVector2Int();
+				GenTile genTile = generator.GetCellType(position2D.x, position2D.y);
+				switch (genTile)
+				{
+					case GenTile.DirtFloor:
+					case GenTile.Corridor:
+					case GenTile.Door:
+					{
+						_gameContext.FloorsTilemap.SetTile(position, Grass);
+						break;
+					}
+					default:
+					{
+						_gameContext.WallsTilemap.SetTile(position, Rock);
+						break;
+					}
+				}
+			}
+			Debug.Log(stopwatch.ElapsedMilliseconds);
+		}
+
 
 		// Update is called once per frame
 
-		private void GenerateTiles()
+		private void GenerateWilderness()
 		{
 			_gameContext.TilemapDefiningOuterBounds.CompressBounds();
 			BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
@@ -72,14 +118,11 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 		private void GenerateDirt(BoundsInt gridBounds)
 		{
-			for (int x = gridBounds.xMin; x <= gridBounds.xMax; x++)
-			for (int y = gridBounds.yMin; y <= gridBounds.yMax; y++)
+			foreach (Vector3Int currentPosition in gridBounds.allPositionsWithin)
 			{
-				var currentPosition = new Vector3Int(x, y, 0);
 				UnityEngine.Tilemaps.Tilemap tilemapToAffect = _gameContext.DirtTilemap;
 				tilemapToAffect.SetTileFlags(currentPosition, TileFlags.None);
 				tilemapToAffect.SetTile(currentPosition, Dirt);
-				tilemapToAffect.SetColor(currentPosition, Color.white);
 			}
 		}
 

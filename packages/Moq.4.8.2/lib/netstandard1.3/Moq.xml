@@ -4589,20 +4589,6 @@
             Indicates whether this exception is a verification fault raised by Verify()
             </summary>
         </member>
-        <member name="M:Moq.MockException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Supports the serialization infrastructure.
-            </summary>
-            <param name="info">Serialization information.</param>
-            <param name="context">Streaming context.</param>
-        </member>
-        <member name="M:Moq.MockException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Supports the serialization infrastructure.
-            </summary>
-            <param name="info">Serialization information.</param>
-            <param name="context">Streaming context.</param>
-        </member>
         <member name="T:Moq.MockExtensions">
             <summary>
             Provides additional methods on mocks.
