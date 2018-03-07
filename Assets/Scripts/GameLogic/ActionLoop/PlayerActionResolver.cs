@@ -60,8 +60,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			if (_inputHolder.PlayerInput == PlayerInput.Catch)
 			{
-				ActorData caughtActor = _entityDetector.DetectActors(actorData.LogicalPosition, 1)
-					.FirstOrDefault(a => a.ActorType == ActorType.HerdAnimalImmature);
+				ActorData caughtActor = _entityDetector.DetectActors(actorData.LogicalPosition, 1).FirstOrDefault();
 				if (caughtActor == null)
 				{
 					return null;

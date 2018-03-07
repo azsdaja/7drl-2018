@@ -316,8 +316,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 			Vector2Int minPoint = points.Aggregate((previous,current) => previous.x+previous.y < current.x+current.y ? previous : current);
 			Vector2Int maxPoint = points.Aggregate((previous,current) => previous.x+previous.y > current.x+current.y ? previous : current);
 
-			BoundsInt bounds = new BoundsInt {min = new Vector3Int(minPoint.x, minPoint.y, 0), max = new Vector3Int(maxPoint.x+1, maxPoint.y+1, 1) };
-			Rooms.Add(bounds);
+			BoundsInt roomBoundsAfterOffset = 
+				new BoundsInt
+				{
+					min = new Vector3Int(minPoint.x, minPoint.y, 0) + _offset,
+					max = new Vector3Int(maxPoint.x+1, maxPoint.y+1, 1) + _offset
+				};
+			Rooms.Add(roomBoundsAfterOffset);
 
 			// yay, all done
 			return true;

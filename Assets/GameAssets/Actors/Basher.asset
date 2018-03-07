@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cbf1dd48134a243936d9c5795dbd39, type: 3}
+  m_Name: Basher
+  m_EditorClassIdentifier: 
+  ActorType: 3
+  Sprite: {fileID: 21300000, guid: 10a63dce4e43c60458743b9f483117e8, type: 3}
+  WeaponPool:
+  - {fileID: 11400000, guid: 3baecdc35af06614e8e1bd4aa533726a, type: 2}
+  SwordsFromSkill: 1
+  VisionRayLength: 6
+  EnergyGain: 0.1
+  Team: 3
+  MaxHealth: 35
+  Accuracy: 0.6

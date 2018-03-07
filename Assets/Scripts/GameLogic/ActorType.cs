@@ -3,9 +3,11 @@
 	public enum ActorType
 	{
 		Default = 0,
-		Monster,
-		HerdAnimalImmature,
-		HerdAnimalMother,
-		HerdAnimalFather
+		Player,
+		Rogue,
+		Basher,
+		Rat,
+		RatVeteran,
+		RatChief
 	}
 }

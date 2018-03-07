@@ -471,7 +471,9 @@ MonoBehaviour:
     _health: 0
     _maxHealth: 0
     _roundsCount: 0
-  WeaponAnimator: {fileID: 0}
+    _accuracy: 0.6
+    _hasLittleSpace: 0
+  WeaponAnimator: {fileID: 114634945239459294}
 --- !u!114 &114631866426545798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -494,62 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a316533429f29449ba062dc46968064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NormalAnimationDuration: 0.3
-  AggressiveAnimationDuration: 0.4
-  NormalMovementCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0.022178253
-      outSlope: 0.022178253
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.26702487
-      value: 0.6871936
-      inSlope: -0.008160305
-      outSlope: -0.008160305
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.9976196
-      value: 0.01599884
-      inSlope: 0.047876984
-      outSlope: 0.047876984
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  AggressiveMovementCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0.022178253
-      outSlope: 0.022178253
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.23370728
-      value: -0.2634481
-      inSlope: 2.2745132
-      outSlope: 2.2745132
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.5003623
-      value: 0.6871936
-      inSlope: -0.008160305
-      outSlope: -0.008160305
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.9976196
-      value: 0.01599884
-      inSlope: 0.047876984
-      outSlope: 0.047876984
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &114758008499148366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -755,7 +701,7 @@ SpriteRenderer:
   m_SortingLayerID: 404910065
   m_SortingLayer: 3
   m_SortingOrder: 1000
-  m_Sprite: {fileID: 21300000, guid: b70420bdee7db154a8e04bce6c6c4f86, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c41595ca16e97dd4b95b6857ee3e69c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

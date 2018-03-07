@@ -7,6 +7,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		NeedConfig NeedConfig { get; }
 		ModeConfig ModeConfig { get; }
 		SmellConfig SmellConfig { get; }
+		ActorConfig ActorConfig { get; }
 		int RngSeed { get; }
 	}
 }

@@ -14,3 +14,4 @@ MonoBehaviour:
   ShowNeedBars: 0
   ShowPaths: 0
   ShowCurrentNeed: 0
+  ShowActorTooltip: 0

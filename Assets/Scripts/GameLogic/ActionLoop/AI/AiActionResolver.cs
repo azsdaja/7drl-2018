@@ -89,11 +89,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (closestEnemy == null)
 			{
 				Vector2Int target;
-				if (actorData.ActorType == ActorType.HerdAnimalImmature && actorData.AiData.HerdMemberData.Protector != null)
-				{
-					target = actorData.AiData.HerdMemberData.Protector.ActorData.LogicalPosition;
-				}
-				else
 				{
 					IEnumerable<ActorData> friendlyActorsNearby = _entityDetector.DetectActors(actorData.LogicalPosition, 10)
 						.Where(a => a.Team == actorData.Team);

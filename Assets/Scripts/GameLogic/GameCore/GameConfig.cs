@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public NeedConfig NeedConfig;
 		public ModeConfig ModeConfig;
 		public SmellConfig SmellConfig;
+		public ActorConfig ActorConfig;
 
 		public int RngSeed
 		{
@@ -20,5 +21,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		NeedConfig IGameConfig.NeedConfig { get { return NeedConfig; }}
 		ModeConfig IGameConfig.ModeConfig { get { return ModeConfig; }}
 		SmellConfig IGameConfig.SmellConfig { get { return SmellConfig; } }
+		ActorConfig IGameConfig.ActorConfig { get { return ActorConfig; } }
 	}
 }

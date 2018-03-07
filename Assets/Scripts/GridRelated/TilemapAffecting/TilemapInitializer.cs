@@ -9,6 +9,7 @@ using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
+using ModestTree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
@@ -78,6 +79,19 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			//GenerateDirt(gridBounds);
 
+			PlaceTilesBasingOnDungeon(gridBounds, generator);
+
+			foreach (BoundsInt room in generator.Rooms)
+			{
+				var actorTypesAvailable = new[]{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
+				ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
+				Vector2Int position = room.allPositionsWithin.ToEnumerable().Skip(_rng.Next(5)).First().ToVector2Int();
+				_entitySpawner.SpawnActor(actorTypeChosen, position);
+			}
+		}
+
+		private void PlaceTilesBasingOnDungeon(BoundsInt gridBounds, Dungeon generator)
+		{
 			foreach (Vector3Int position in gridBounds.allPositionsWithin)
 			{
 				Vector2Int position2D = position.ToVector2Int();
@@ -103,7 +117,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					}
 				}
 			}
-			Debug.Log(stopwatch.ElapsedMilliseconds);
 		}
 
 
@@ -355,12 +368,12 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				var deerFatherPosition = GetBiasedWalkablePosition(familyPosition);
 				var deerMotherPosition = GetBiasedWalkablePosition(familyPosition);
 				var deerImmaturePosition = GetBiasedWalkablePosition(familyPosition);
-				ActorBehaviour spawnedFather = _entitySpawner.SpawnActor(ActorType.HerdAnimalFather, deerFatherPosition);
-				ActorBehaviour spawnedMother = _entitySpawner.SpawnActor(ActorType.HerdAnimalMother, deerMotherPosition);
-				ActorBehaviour spawnedImmature = _entitySpawner.SpawnActor(ActorType.HerdAnimalImmature, deerImmaturePosition);
-				spawnedFather.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
-				spawnedMother.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
-				spawnedImmature.ActorData.AiData.HerdMemberData.Protector = spawnedMother;
+				//ActorBehaviour spawnedFather = _entitySpawner.SpawnActor(ActorType.HerdAnimalFather, deerFatherPosition);
+				//ActorBehaviour spawnedMother = _entitySpawner.SpawnActor(ActorType.HerdAnimalMother, deerMotherPosition);
+				//ActorBehaviour spawnedImmature = _entitySpawner.SpawnActor(ActorType.HerdAnimalImmature, deerImmaturePosition);
+				//spawnedFather.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
+				//spawnedMother.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
+				//spawnedImmature.ActorData.AiData.HerdMemberData.Protector = spawnedMother;
 			}
 		}
 
