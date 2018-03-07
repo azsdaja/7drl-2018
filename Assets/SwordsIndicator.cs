@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
 using UnityEngine;
+using Zenject;
 
 public class SwordsIndicator : MonoBehaviour
 {
@@ -11,18 +12,22 @@ public class SwordsIndicator : MonoBehaviour
 	private int _maxSwordsShown;
 	private IEnumerator _shrinkCoroutine;
 	private IEnumerator _appearCoroutine;
-	private MaxSwordCalculator _maxSwordsCalculator;
+	private IMaxSwordCalculator _maxSwordsCalculator;
 	private SpriteRenderer _frameSpriteRenderer;
 
 	public List<SpriteRenderer> SwordsSprites;
+
+	[Inject]
+	public void Init(IMaxSwordCalculator maxSwordCalculator)
+	{
+		_maxSwordsCalculator = maxSwordCalculator;
+	}
 
 	// Use this for initialization
 	void Start ()
 	{
 		_actorBehaviour = transform.parent.GetComponent<ActorBehaviour>();
-		_maxSwordsCalculator = new MaxSwordCalculator();
 		_frameSpriteRenderer = GetComponent<SpriteRenderer>();
-
 
 		_maxSwordsShown = _maxSwordsCalculator.Calculate(_actorBehaviour.ActorData);
 		_swordsShown = _maxSwordsShown;

@@ -14,14 +14,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IEntityDetector _entityDetector;
 		private readonly IGameConfig _gameConfig;
 		private readonly IDeathHandler _deathHandler;
-		private readonly MaxSwordCalculator _maxSwordCalculator;
+		private readonly IMaxSwordCalculator _maxSwordCalculator;
 
-		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IDeathHandler deathHandler)
+		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IDeathHandler deathHandler, 
+			IMaxSwordCalculator maxSwordCalculator)
 		{
 			_entityDetector = entityDetector;
 			_gameConfig = gameConfig;
 			_deathHandler = deathHandler;
-			_maxSwordCalculator = new MaxSwordCalculator();
+			_maxSwordCalculator = maxSwordCalculator;
 		}
 
 		public void Heartbeat(ActorData actorData)
