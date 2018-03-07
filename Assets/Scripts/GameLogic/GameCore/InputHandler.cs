@@ -72,8 +72,11 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			if (Input.GetKeyDown(KeyCode.K))
 			{
-				_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
-				_arrowsVisibilityManager.Show(Color.yellow);
+				if (_gameContext.PlayerActor.ActorData.Swords >= 2)
+				{
+					_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
+					_arrowsVisibilityManager.Show(Color.yellow);
+				}
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
