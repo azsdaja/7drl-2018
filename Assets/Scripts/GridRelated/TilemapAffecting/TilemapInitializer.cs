@@ -76,7 +76,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			generator.CreateDungeon(gridBounds.min, gridBounds.size.x, gridBounds.size.y, requestedFeatures);
 
-			GenerateDirt(gridBounds);
+			//GenerateDirt(gridBounds);
 
 			foreach (Vector3Int position in gridBounds.allPositionsWithin)
 			{
@@ -88,12 +88,17 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					case GenTile.Corridor:
 					case GenTile.Door:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Grass);
+						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						break;
+					}
+					case GenTile.StoneWall:
+					case GenTile.DirtWall:
+					{
+						_gameContext.WallsTilemap.SetTile(position, Rock);
 						break;
 					}
 					default:
 					{
-						_gameContext.WallsTilemap.SetTile(position, Rock);
 						break;
 					}
 				}

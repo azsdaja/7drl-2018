@@ -6,6 +6,7 @@ using UnityEditor;
 namespace UnityEngine.Tilemaps
 {
 	[Serializable]
+	[CreateAssetMenu]
 	public class PipelineTile : TileBase
 	{
 		[SerializeField]
