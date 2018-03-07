@@ -32,27 +32,13 @@ namespace Assets.Scripts.GameLogic
 			{
 				sum += actorData.Weapon.CloseCombatModifier;
 			}
-			int emptyPositionsAround = GetEmptyPositionsAround(actorData);
-			if (emptyPositionsAround <= 5)
+			if (actorData.HasLittleSpace)
 			{
 				--sum;
-				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Ciasno!");
 			}
 			return sum;
 		}
 
-		private int GetEmptyPositionsAround(ActorData actorData)
-		{
-			int emptyPositions = 8;
-			var positionsAround = Vector2IntUtilities.Neighbours8(actorData.LogicalPosition);
-			foreach (Vector2Int position in positionsAround)
-			{
-				if (!_gridInfoProvider.IsWalkable(position) || _entityDetector.DetectActors(position).Any())
-				{
-					--emptyPositions;
-				}
-			}
-			return emptyPositions;
-		}
+
 	}
 }

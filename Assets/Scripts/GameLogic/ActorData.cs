@@ -31,6 +31,7 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private int _maxHealth;
 		[SerializeField, HideInInspector] private int _roundsCount;
 		[SerializeField, HideInInspector] private float _accuracy;
+		[SerializeField, HideInInspector] private bool _hasLittleSpace;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -181,6 +182,13 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _accuracy; }
 			set { _accuracy = value; }
+		}
+
+		[ShowInInspector]
+		public bool HasLittleSpace
+		{
+			get { return _hasLittleSpace; }
+			set { _hasLittleSpace = value; }
 		}
 	}
 }
