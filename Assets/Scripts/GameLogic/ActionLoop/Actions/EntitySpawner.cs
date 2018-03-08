@@ -41,6 +41,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		public ActorBehaviour SpawnActor(ActorType actorType, Vector2Int position)
 		{
 			ActorBehaviour instantiatedActor = _actorBehaviourFactory.Create();
+			instantiatedActor.name = actorType.ToString();
 			ActorData actorData = instantiatedActor.ActorData;
 			actorData.ActorType = actorType;
 
@@ -52,11 +53,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			actorData.EnergyGain = actorDefinition.EnergyGain;
 			actorData.Team = actorDefinition.Team;
 			actorData.MaxHealth = actorDefinition.MaxHealth;
+			actorData.Health = actorDefinition.MaxHealth;
 			actorData.Accuracy = actorDefinition.Accuracy;
 
 			actorData.LogicalPosition = position;
 			instantiatedActor.RefreshWorldPosition();
 			_gameContext.Actors.Add(instantiatedActor);
+			
 			instantiatedActor.gameObject.SetActive(true);
 			return instantiatedActor;
 		}

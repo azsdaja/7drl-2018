@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
@@ -27,6 +28,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public void Heartbeat(ActorData actorData)
 		{
+
 			++actorData.RoundsCount;
 
 			if (actorData.Health < actorData.MaxHealth)

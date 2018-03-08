@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
@@ -9,11 +8,9 @@ using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
-using ModestTree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
-using Debug = UnityEngine.Debug;
 using Tile = UnityEngine.Tilemaps.Tile;
 
 namespace Assets.Scripts.GridRelated.TilemapAffecting
@@ -31,16 +28,20 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		private IDictionary<Vector2Int, HashSet<Vector2Int>> _caveRootsToCaves;
 
 		private IGameContext _gameContext;
+		private IGameConfig _gameConfig;
+		private IUiConfig _uiConfig;
 		private IPathfinder _pathfinder;
 		private IRandomNumberGenerator _rng;
 		private IGridInfoProvider _gridInfoProvider;
 		private IEntitySpawner _entitySpawner;
 
 		[Inject]
-		public void Init(IGameContext gameContext, IPathfinder pathfinder, IRandomNumberGenerator randomNumberGenerator, 
-			IGridInfoProvider gridInfoProvider, IEntitySpawner entitySpawner)
+		public void Init(IGameContext gameContext, IGameConfig gameConfig, IUiConfig uiConfig, IPathfinder pathfinder, 
+			IRandomNumberGenerator randomNumberGenerator, IGridInfoProvider gridInfoProvider, IEntitySpawner entitySpawner)
 		{
 			_gameContext = gameContext;
+			_gameConfig = gameConfig;
+			_uiConfig = uiConfig;
 			_pathfinder = pathfinder;
 			_rng = randomNumberGenerator;
 			_gridInfoProvider = gridInfoProvider;
@@ -81,12 +82,22 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			PlaceTilesBasingOnDungeon(gridBounds, generator);
 
-			foreach (BoundsInt room in generator.Rooms)
+			BoundsInt roomToSpawnActorIn = generator.Rooms[0];
+			Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnActorIn);
+			ActorBehaviour playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
+			playerActorBehaviour.ActorData.ControlledByPlayer = true;
+			_gameContext.PlayerActor = playerActorBehaviour;
+			_gameConfig.FollowPlayerCamera.Follow = playerActorBehaviour.transform;
+			_uiConfig.Arrows.transform.parent = playerActorBehaviour.transform;
+			_uiConfig.Arrows.transform.localPosition = Vector3.zero;
+
+			foreach (BoundsInt room in generator.Rooms.Skip(1))
 			{
 				var actorTypesAvailable = new[]{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
 				ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
-				Vector2Int position = room.allPositionsWithin.ToEnumerable().Skip(_rng.Next(5)).First().ToVector2Int();
+				Vector2Int position = BoundsIntUtilities.Center(room);
 				_entitySpawner.SpawnActor(actorTypeChosen, position);
+				//break;
 			}
 		}
 

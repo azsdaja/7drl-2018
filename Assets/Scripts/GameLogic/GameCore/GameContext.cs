@@ -65,6 +65,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ActorBehaviour IGameContext.PlayerActor
 		{
 			get { return PlayerActor; }
+			set { PlayerActor = value; }
 		}
 
 		public IList<Vector2Int> HousePositions

@@ -11,7 +11,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		UnityEngine.Tilemaps.Tilemap FloorsTilemap { get; }
 		UnityEngine.Tilemaps.Tilemap DirtTilemap { get; }
 		UnityEngine.Tilemaps.Tilemap EnvironmentTilemap { get; }
-		ActorBehaviour PlayerActor { get; }
+		ActorBehaviour PlayerActor { get; set; }
 
 		HashSet<ActorBehaviour> Actors { get; set; }
 		HashSet<Vector2Int> VisiblePositions { get; set; }

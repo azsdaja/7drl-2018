@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Configuration;
+﻿using Assets.Cinemachine.Base.Runtime.Behaviours;
+using Assets.Scripts.Configuration;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -12,15 +13,18 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ModeConfig ModeConfig;
 		public SmellConfig SmellConfig;
 		public ActorConfig ActorConfig;
+		public CinemachineVirtualCamera FollowPlayerCamera;
 
 		public int RngSeed
 		{
 			get { return _rngSeed; }
 		}
 
+
 		NeedConfig IGameConfig.NeedConfig { get { return NeedConfig; }}
 		ModeConfig IGameConfig.ModeConfig { get { return ModeConfig; }}
 		SmellConfig IGameConfig.SmellConfig { get { return SmellConfig; } }
 		ActorConfig IGameConfig.ActorConfig { get { return ActorConfig; } }
+		CinemachineVirtualCamera IGameConfig.FollowPlayerCamera { get { return FollowPlayerCamera; } }
 	}
 }

@@ -36,9 +36,9 @@ namespace Assets.Scripts.GameLogic
 			_gameConfig = gameConfig;
 		}
 
-		new void Start()
+		new void Awake()
 		{
-			base.Start();
+			base.Awake();
 			_actorInitializer.Initialize(ActorData);
 		}
 

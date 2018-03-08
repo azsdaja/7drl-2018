@@ -26,43 +26,33 @@ namespace Assets.Scripts.GameLogic
 			EntityData.LogicalPosition = _gridInfoProvider.WorldToCell(transform.position).ToVector2Int();
 		}
 
-		protected virtual void Start()
+		protected virtual void Awake()
 		{
 			EntityAnimator = GetComponent<EntityAnimator>();
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 			_spriteRenderer.enabled = false;
+			Hide();
 		}
 
 		public virtual void Show()
 		{
 			_spriteRenderer.enabled = true;
-			Transform needsDiplayers = transform.Find("NeedsDisplayers");
-			if (needsDiplayers != null)
-			{
-				needsDiplayers.gameObject.SetActive(true);
-			}
 
-			
-			Transform healthDiplayer = transform.Find("HealthDisplayer");
-			if (healthDiplayer != null)
+			for (int i = 0; i < transform.childCount; i++)
 			{
-				healthDiplayer.gameObject.SetActive(true);
+				if (transform.GetChild(i).name == "ControlArrows")
+					continue;
+				transform.GetChild(i).gameObject.SetActive(true);
 			}
 		}
 
 		public virtual void Hide()
 		{
 			_spriteRenderer.enabled = false;
-			Transform needsDiplayers = transform.Find("NeedsDisplayers");
-			if (needsDiplayers != null)
-			{
-				needsDiplayers.gameObject.SetActive(false);
-			}
 
-			Transform healthDiplayer = transform.Find("HealthDisplayer");
-			if (healthDiplayer != null)
+			for (int i = 0; i < transform.childCount; i++)
 			{
-				healthDiplayer.gameObject.SetActive(false);
+				transform.GetChild(i).gameObject.SetActive(false);
 			}
 		}
 

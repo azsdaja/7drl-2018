@@ -24,7 +24,7 @@ public class SwordsIndicator : MonoBehaviour
 	}
 
 	// Use this for initialization
-	void Start ()
+	void Awake()
 	{
 		_actorBehaviour = transform.parent.GetComponent<ActorBehaviour>();
 		_frameSpriteRenderer = GetComponent<SpriteRenderer>();

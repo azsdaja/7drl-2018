@@ -43,6 +43,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 
 		readonly Action<string> _logger;
 		private Vector3Int _offset;
+		private int _roomSizeMaxX = 8;
+		private int _roomSizeMaxY = 8;
 
 
 		public Dungeon(IRandomNumberGenerator rnd, Action<string> logger)
@@ -422,7 +424,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 			*******************************************************************************/
 
 			// start with making a room in the middle, which we can start building upon
-			this.MakeRoom(this._xsize / 2, this._ysize / 2, 8, 6, RandomDirection()); // getrand saken f????r att slumpa fram riktning p?? rummet
+			this.MakeRoom(this._xsize / 2, this._ysize / 2, _roomSizeMaxX, _roomSizeMaxY, RandomDirection()); // getrand saken f????r att slumpa fram riktning p?? rummet
 
 			// keep count of the number of "objects" we've made
 			int currentFeatures = 1; // +1 for the first room we just made

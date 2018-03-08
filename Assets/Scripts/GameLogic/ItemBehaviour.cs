@@ -14,9 +14,9 @@ namespace Assets.Scripts.GameLogic
 
 		public ItemData ItemData { get { return _itemData; } }
 
-		public new void Start()
+		public new void Awake()
 		{
-			base.Start();
+			base.Awake();
 		}
 
 		public class Factory : Zenject.Factory<ItemBehaviour>{}
