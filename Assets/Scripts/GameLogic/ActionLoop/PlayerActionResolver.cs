@@ -5,22 +5,25 @@ using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.AI;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using Assets.Scripts.Pathfinding;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
 	public class PlayerActionResolver : IPlayerActionResolver
 	{
 		private readonly IEntityDetector _entityDetector;
+		private readonly IGameContext _gameContext;
 		private readonly IInputHolder _inputHolder;
 		private readonly IActionFactory _actionFactory;
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
 		private readonly IWeaponColorizer _weaponColorizer;
 		private readonly IClearWayBetweenTwoPointsDetector _clearWayBetweenTwoPointsDetector;
-		
+
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
 			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer, 
-			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector)
+			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector, IGameContext gameContext)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
@@ -28,6 +31,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_arrowsVisibilityManager = arrowsVisibilityManager;
 			_weaponColorizer = weaponColorizer;
 			_clearWayBetweenTwoPointsDetector = clearWayBetweenTwoPointsDetector;
+			_gameContext = gameContext;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -158,7 +162,24 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			else
 			{
-				gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+				TileBase wallTileAtTarget = _gameContext.WallsTilemap.GetTile(targetPosition.ToVector3Int());
+				if (wallTileAtTarget != null)
+				{
+					var doorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_H_closed");
+					var doorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_V_closed");
+
+					if (wallTileAtTarget == doorsHClosedTile || wallTileAtTarget == doorsVClosedTile)
+					{
+						bool isHorizontal = wallTileAtTarget == doorsHClosedTile;
+						gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal);
+					}
+					else
+					{
+						gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+					}
+				}
+				else
+					gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
 			}
 			_inputHolder.PlayerInput = PlayerInput.None;
 			return gameActionToReturn;

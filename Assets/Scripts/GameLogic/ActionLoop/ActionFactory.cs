@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
 using Assets.Scripts.UI;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -21,9 +23,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IDeathHandler _deathHandler;
 		private readonly IEntityDetector _entityDetector;
 		private readonly IEntityRemover _entityRemover;
+		private readonly IGameContext _gameContext;
 
 		public ActionFactory(IGridInfoProvider gridInfoProvider, IActionEffectFactory actionEffectFactory, 
-			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator, IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector)
+			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator,
+			IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector, IGameContext gameContext)
 		{
 			_gridInfoProvider = gridInfoProvider;
 			_actionEffectFactory = actionEffectFactory;
@@ -33,6 +37,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_deathHandler = deathHandler;
 			_entityRemover = entityRemover;
 			_entityDetector = entityDetector;
+			_gameContext = gameContext;
 		}
 
 		public IGameAction CreateDisplaceAction(ActorData actorData, ActorData actorAtTargetPosition)
@@ -110,6 +115,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		public IGameAction CreatePushAction(ActorData actorData, ActorData targetEnemy)
 		{
 			return new PushAction(actorData, targetEnemy, 1f, _actionEffectFactory, _randomNumberGenerator, _gridInfoProvider, _entityDetector);
+		}
+
+		public IGameAction CreateOpenDoorAction(ActorData actorData, Vector2Int targetPosition, bool isHorizontal)
+		{
+			return new OpenDoorAction(actorData, targetPosition, isHorizontal, 1f, _actionEffectFactory, _gameContext);
 		}
 	}
 }

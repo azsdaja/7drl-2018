@@ -97,15 +97,19 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			foreach (BoundsInt room in generator.Rooms.Skip(1))
 			{
-				if(_rng.Check(0.7f))
+				bool roomIsEmpty = _rng.Check(0.6f);
+				if (roomIsEmpty)
 				{
 					continue;
 				}
-				var actorTypesAvailable = new[]{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
-				ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
-				Vector2Int position = BoundsIntUtilities.Center(room);
-				_entitySpawner.SpawnActor(actorTypeChosen, position);
-				//break;
+				int actorsInRoom = _rng.Choice(new[] {1, 1, 1, 2, 2, 3});
+				for (int i = 0; i < actorsInRoom; i++)
+				{
+					var actorTypesAvailable = new[] { ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief, };
+					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
+					Vector2Int position = BoundsIntUtilities.Center(room);
+					_entitySpawner.SpawnActor(actorTypeChosen, position);
+				}
 			}
 		}
 
