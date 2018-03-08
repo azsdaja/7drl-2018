@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic;
 using UnityEngine;
 using Zenject;
@@ -29,8 +31,11 @@ public class SwordsIndicator : MonoBehaviour
 		_actorBehaviour = transform.parent.GetComponent<ActorBehaviour>();
 		_frameSpriteRenderer = GetComponent<SpriteRenderer>();
 
-		_maxSwordsShown = _maxSwordsCalculator.Calculate(_actorBehaviour.ActorData);
-		_swordsShown = _maxSwordsShown;
+		var maxSwords = _maxSwordsCalculator.Calculate(_actorBehaviour.ActorData);
+		_actorBehaviour.ActorData.MaxSwords = maxSwords;
+		_actorBehaviour.ActorData.Swords = maxSwords;
+		_maxSwordsShown = maxSwords;
+		InitializeActiveSwords(maxSwords);
 		SetFrameSpriteToMaxSwords(_maxSwordsShown);
 	}
 
@@ -45,30 +50,55 @@ public class SwordsIndicator : MonoBehaviour
 			_maxSwordsShown = playerMaxSwords;
 		}
 
-		int playerSwords = _actorBehaviour.ActorData.Swords;
-		if (playerSwords != _swordsShown)
+		
+		int actorSwords = _actorBehaviour.ActorData.Swords;
+		if (actorSwords != _swordsShown)
 		{
-			UpdateActiveSwords(playerSwords);
+			UpdateActiveSwords(actorSwords);
+		}
+
+		int reallyShown = SwordsSprites.Count(s => s.enabled);
+		if (reallyShown != actorSwords)
+		{
+			
 		}
 	}
 
-	private void UpdateActiveSwords(int playerSwords)
+	private void InitializeActiveSwords(int actorSwords)
 	{
-		_swordsShown = playerSwords;
 		for (int i = 0; i < SwordsSprites.Count; i++)
 		{
-			if (i < playerSwords)
+			if (i < actorSwords)
 			{
-				if (!SwordsSprites[i].enabled)
+				SwordsSprites[i].enabled = true;
+				_appearCoroutine = AppearSword(i);
+				StartCoroutine(_appearCoroutine);
+			}
+			else
+			{
+				SwordsSprites[i].enabled = false;
+			}
+		}
+		_swordsShown = actorSwords;
+	}
+
+	private void UpdateActiveSwords(int actorSwords)
+	{
+		_swordsShown = actorSwords;
+		for (int i = 0; i < SwordsSprites.Count; i++)
+		{
+			if (i < actorSwords)
+			{
+				if (SwordsSprites[i].color == Color.clear)
 				{
-					SwordsSprites[i].enabled = true;
+					SwordsSprites[i].color = Color.white;
 					_appearCoroutine = AppearSword(i);
 					StartCoroutine(_appearCoroutine);
 				}
 			}
 			else
 			{
-				if (SwordsSprites[i].enabled)
+				if (SwordsSprites[i].color == Color.white)
 				{
 					_shrinkCoroutine = ShrinkSword(i);
 					StartCoroutine(_shrinkCoroutine);
@@ -84,7 +114,7 @@ public class SwordsIndicator : MonoBehaviour
 			SwordsSprites[index].transform.localScale = Vector3.one * (1-progress);
 			yield return new WaitForSeconds(.03f);
 		}
-		SwordsSprites[index].enabled = false;
+		SwordsSprites[index].color = Color.clear;
 	}
 
 	private IEnumerator AppearSword(int index)

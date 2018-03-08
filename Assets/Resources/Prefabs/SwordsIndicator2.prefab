@@ -201,6 +201,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c9ea1e7c1b3ecd4fac4dc1243cc5816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _swordAppearCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   SwordsSprites:
   - {fileID: 212278345374450448}
   - {fileID: 212352158466273678}
