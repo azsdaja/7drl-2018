@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.RNG;
 using UnityEngine;
 
@@ -545,6 +546,25 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 
 			// all done with the map generation, tell the user about it and finish
 			Console.WriteLine(MsgNumObjects + currentFeatures);
+
+			for (int y = 0; y < this._ysize; y++)
+			{
+				for (int x = 0; x < this._xsize; x++)
+				{
+					if (GetCellTypeNoOffset(x, y) == GenTile.Corridor)
+					{
+						List<Vector2Int> neighbours = Vector2IntUtilities.Neighbours8(new Vector2Int(x, y));
+						foreach (Vector2Int neighbour in neighbours)
+						{
+							GenTile neighbourCell = GetCellTypeNoOffset(neighbour.x, neighbour.y);
+							if (neighbourCell == GenTile.Unused)
+							{
+								SetCell(neighbour.x, neighbour.y, GenTile.StoneWall);
+							}
+						}
+					}
+				}
+			}
 
 			return true;
 		}

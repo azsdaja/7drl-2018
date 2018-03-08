@@ -21,7 +21,11 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 		public TileBase Dirt;
 		public TileBase Grass;
-		public TileBase Rock;
+		public TileBase Wall;
+		public TileBase StairsUp;
+		public TileBase StairsDown;
+		public TileBase DoorsHorizontalClosed;
+		public TileBase DoorsVerticalClosed;
 
 		private HashSet<Vector2Int> _caveTiles;
 		private HashSet<Vector2Int> _processedCaveTiles;
@@ -114,8 +118,11 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				switch (genTile)
 				{
 					case GenTile.DirtFloor:
+					{
+						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						break;
+					}
 					case GenTile.Corridor:
-					case GenTile.Door:
 					{
 						_gameContext.FloorsTilemap.SetTile(position, Dirt);
 						break;
@@ -123,9 +130,29 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					case GenTile.StoneWall:
 					case GenTile.DirtWall:
 					{
-						_gameContext.WallsTilemap.SetTile(position, Rock);
+						_gameContext.WallsTilemap.SetTile(position, Wall);
 						break;
 					}
+					case GenTile.Upstairs:
+					{
+						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.EnvironmentTilemap.SetTile(position, StairsUp);
+						break;
+					}
+					case GenTile.Downstairs:
+					{
+						_gameContext.EnvironmentTilemap.SetTile(position, StairsDown);
+						break;
+					}
+					case GenTile.Door:
+					{
+						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						GenTile tileToRight = generator.GetCellType(position.x + 1, position.y);
+						bool isHorizontalDoor = tileToRight == GenTile.Corridor || tileToRight == GenTile.DirtFloor;
+						_gameContext.WallsTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalClosed : DoorsVerticalClosed);
+						break;
+					}
+					
 					default:
 					{
 						break;
@@ -205,7 +232,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				{
 					_caveTiles.Add(currentPosition);
 					RemoveEnvironmentalObjects(currentPosition);
-					_gameContext.WallsTilemap.SetTile(currentPosition.ToVector3Int(), Rock);
+					_gameContext.WallsTilemap.SetTile(currentPosition.ToVector3Int(), Wall);
 				}
 			}
 
