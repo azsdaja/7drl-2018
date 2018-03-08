@@ -15,6 +15,9 @@ namespace Assets.Scripts.FieldOfView
 	/// </example>
 	public interface IBresenhamLineCreator
 	{
+		IList<Vector2Int> GetBresenhamLine(int x1, int y1, int x2, int y2);
+
+		/// <remarks>Anno Domini 1965, doesn't need testing!</remarks>
 		IList<Vector2Int> GetBresenhamLine(int x1, int y1, int x2, int y2, 
 			int rayLength, Func<Vector2Int, bool> isWalkable, bool allowFinishOnUnwalkable = true);
 	}

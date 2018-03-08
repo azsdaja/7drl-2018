@@ -5,6 +5,7 @@ using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
 using Assets.Scripts.UI;
 using UnityEngine;
@@ -14,23 +15,27 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 	public class AiActionResolver : IAiActionResolver
 	{
 		private readonly IGameContext _gameContext;
+		private readonly IGridInfoProvider _gridInfoProvider;
 		private readonly IRandomNumberGenerator _rng;
 		private readonly IActionFactory _actionFactory;
 		private readonly INavigator _navigator;
 		private readonly IEntityDetector _entityDetector;
 		private readonly ITextEffectPresenter _textEffectPresenter;
 		private readonly IActiveNeedResolver _activeNeedResolver;
-	
-		public AiActionResolver(IGameContext gameContext, IRandomNumberGenerator rng, IActionFactory actionFactory,
-			INavigator navigator, IEntityDetector entityDetector, ITextEffectPresenter textEffectPresenter, IActiveNeedResolver activeNeedResolver)
+		private readonly IClearWayBetweenTwoPointsDetector _clearWayBetweenTwoPointsDetector;
+
+		public AiActionResolver(IGameContext gameContext, IGridInfoProvider gridInfoProvider, IRandomNumberGenerator rng,
+			IActionFactory actionFactory, INavigator navigator, IEntityDetector entityDetector, ITextEffectPresenter textEffectPresenter, IActiveNeedResolver activeNeedResolver, IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector)
 		{
 			_gameContext = gameContext;
+			_gridInfoProvider = gridInfoProvider;
 			_rng = rng;
 			_actionFactory = actionFactory;
 			_navigator = navigator;
 			_entityDetector = entityDetector;
 			_textEffectPresenter = textEffectPresenter;
 			_activeNeedResolver = activeNeedResolver;
+			_clearWayBetweenTwoPointsDetector = clearWayBetweenTwoPointsDetector;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -125,7 +130,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (closestEnemy != null)
 			{
 				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
-				if (Vector2IntUtilities.IsOneStep(toEnemy) || actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy))
+				if (Vector2IntUtilities.IsOneStep(toEnemy) 
+					|| (actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
+								&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, closestEnemy.LogicalPosition)))
 				{
 					IGameAction attackAction = _actionFactory.CreateAttackAction(actorData, closestEnemy);
 					if (DateTime.UtcNow < closestEnemy.BlockedUntil)
@@ -140,8 +147,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				int moveY = toEnemy.y.CompareTo(0);
 				Vector2Int moveVector = new Vector2Int(moveX, moveY);
 
-				var actorsBlockingMove = _entityDetector.DetectActors(actorData.LogicalPosition + moveVector);
-				if (actorsBlockingMove.Any())
+				Func<Vector2Int, bool> isWalkableAndFree = position =>
+					_gridInfoProvider.IsWalkable(position)
+					&& !_entityDetector.DetectActors(position).Any();
+
+				if (!isWalkableAndFree(actorData.LogicalPosition + moveVector))
 				{
 					Vector2Int? finalMoveVector = null;
 					Vector2Int alternativeMoveVector1;
@@ -163,17 +173,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 						alternativeMoveVector1 = new Vector2Int(moveVector.x, 0);
 						alternativeMoveVector2 = new Vector2Int(0, moveVector.y);
 					}
-					
 
-					var actorsBlockingAlternativeMove1 = _entityDetector.DetectActors(actorData.LogicalPosition + alternativeMoveVector1);
-					if (!actorsBlockingAlternativeMove1.Any())
+					if (isWalkableAndFree(actorData.LogicalPosition + alternativeMoveVector1))
 					{
 						finalMoveVector = alternativeMoveVector1;
 					}
-					else
+					else if (isWalkableAndFree(actorData.LogicalPosition + alternativeMoveVector2))
 					{
-						var actorsBlockingAlternativeMove2 = _entityDetector.DetectActors(actorData.LogicalPosition + alternativeMoveVector2);
-						if (!actorsBlockingAlternativeMove2.Any())
 							finalMoveVector = alternativeMoveVector2;
 					}
 					if (finalMoveVector.HasValue)

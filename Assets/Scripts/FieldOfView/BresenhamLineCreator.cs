@@ -6,6 +6,11 @@ namespace Assets.Scripts.FieldOfView
 {
 	public class BresenhamLineCreator : IBresenhamLineCreator
 	{
+		public IList<Vector2Int> GetBresenhamLine(int x1, int y1, int x2, int y2)
+		{
+			return GetBresenhamLine(x1, y1, x2, y2, -1, position => true);
+		}
+
 		/// <remarks>Anno Domini 1965, doesn't need testing!</remarks>
 		public IList<Vector2Int> GetBresenhamLine(int x1, int y1, int x2, int y2, 
 			int rayLength, Func<Vector2Int, bool> isWalkable, bool allowFinishOnUnwalkable = true)

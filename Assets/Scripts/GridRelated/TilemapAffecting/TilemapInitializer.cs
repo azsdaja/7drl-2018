@@ -93,6 +93,10 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			foreach (BoundsInt room in generator.Rooms.Skip(1))
 			{
+				if(_rng.Check(0.7f))
+				{
+					continue;
+				}
 				var actorTypesAvailable = new[]{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
 				ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
 				Vector2Int position = BoundsIntUtilities.Center(room);

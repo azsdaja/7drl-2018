@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.ActionLoop.AI;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using UnityEngine;
@@ -16,15 +16,18 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IActionFactory _actionFactory;
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
 		private readonly IWeaponColorizer _weaponColorizer;
-
+		private readonly IClearWayBetweenTwoPointsDetector _clearWayBetweenTwoPointsDetector;
+		
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
-			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer)
+			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer, 
+			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
 			_actionFactory = actionFactory;
 			_arrowsVisibilityManager = arrowsVisibilityManager;
 			_weaponColorizer = weaponColorizer;
+			_clearWayBetweenTwoPointsDetector = clearWayBetweenTwoPointsDetector;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -136,7 +139,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			else
 			{
-				targetEnemy = enemiesCloseToCone.FirstOrDefault(a => targetPositionsCone.Contains(a.LogicalPosition));
+				targetEnemy = enemiesCloseToCone
+					.FirstOrDefault(potentialTarget => targetPositionsCone.Contains(potentialTarget.LogicalPosition)
+					&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, potentialTarget.LogicalPosition));
 			}
 			
 			if(targetEnemy != null) // hit!
