@@ -134,14 +134,26 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					|| (actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
 								&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, closestEnemy.LogicalPosition)))
 				{
-					IGameAction attackAction = _actionFactory.CreateAttackAction(actorData, closestEnemy);
+					bool pushingIsDesired = Vector2IntUtilities.IsOneStep(toEnemy) 
+											&& _gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy)
+											&& actorData.Weapon.CloseCombatModifier < closestEnemy.Weapon.CloseCombatModifier
+											&& _rng.Check(0.8f);
+					IGameAction actionToPerform;
+					if (pushingIsDesired)
+					{
+						actionToPerform = _actionFactory.CreatePushAction(actorData, closestEnemy);
+					}
+					else
+					{
+						actionToPerform = _actionFactory.CreateAttackAction(actorData, closestEnemy);
+					}
 					if (DateTime.UtcNow < closestEnemy.BlockedUntil)
 					{
-						actorData.StoredAction = attackAction;
+						actorData.StoredAction = actionToPerform;
 						actorData.BlockedUntil = closestEnemy.BlockedUntil;
 						return null;
 					}
-					return attackAction;
+					return actionToPerform;
 				}
 				int moveX = toEnemy.x.CompareTo(0);
 				int moveY = toEnemy.y.CompareTo(0);
