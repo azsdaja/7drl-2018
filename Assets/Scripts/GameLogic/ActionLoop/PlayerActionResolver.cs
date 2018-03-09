@@ -133,7 +133,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				isAggressiveAttack = true;
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
 				_inputHolder.PlayerInput = PlayerInput.None;
-				_weaponColorizer.Decolorize();
+				_weaponColorizer.Decolorize((actorData.Entity as ActorBehaviour).WeaponAnimator);
 			}
 
 			IList<Vector2Int> targetPositionsCone = Vector2IntUtilities.GetCone(actionVector)

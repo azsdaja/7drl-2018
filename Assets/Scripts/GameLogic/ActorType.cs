@@ -9,6 +9,7 @@
 		Dog,
 		Rat,
 		RatVeteran,
-		RatChief
+		RatChief,
+		BruisedRat
 	}
 }

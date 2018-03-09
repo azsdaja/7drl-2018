@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 114566206639055990}
   - component: {fileID: 114070219409680718}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Actor
   m_TagString: Actor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,6 +508,7 @@ MonoBehaviour:
     _xp: 0
     _level: 0
     _traits: 
+    _aiTraits: 
   WeaponAnimator: {fileID: 114634945239459294}
 --- !u!114 &114631866426545798
 MonoBehaviour:

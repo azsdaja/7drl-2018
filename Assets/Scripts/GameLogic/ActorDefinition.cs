@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameLogic.Configuration;
+﻿using System.Collections.Generic;
+using Assets.Scripts.GameLogic.Configuration;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic
@@ -17,5 +18,7 @@ namespace Assets.Scripts.GameLogic
 		public float Accuracy = 0.6f;
 		public int XpGiven;
 		public int InitialLevel;
+		public List<Trait> InitialTraits;
+		public List<AiTrait> AiTraits;
 	}
 }

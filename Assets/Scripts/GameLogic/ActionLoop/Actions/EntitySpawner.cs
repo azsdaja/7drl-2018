@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameLogic.GameCore;
+﻿using System.Linq;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.RNG;
 using UnityEngine;
 
@@ -57,6 +58,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			actorData.Accuracy = actorDefinition.Accuracy;
 			actorData.XpGiven = actorDefinition.XpGiven;
 			actorData.Level = actorDefinition.InitialLevel;
+			actorData.Traits = actorDefinition.InitialTraits.ToArray().ToList();
 
 			actorData.LogicalPosition = position;
 			instantiatedActor.RefreshWorldPosition();

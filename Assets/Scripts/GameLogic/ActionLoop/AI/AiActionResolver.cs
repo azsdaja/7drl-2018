@@ -145,7 +145,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					}
 					else
 					{
-						actionToPerform = _actionFactory.CreateAttackAction(actorData, closestEnemy);
+						bool isDaringBlow = false;
+						if (actorData.Traits.Contains(Trait.DaringBlow) && actorData.Swords >= 2)
+						{
+							float daringBlowChance = actorData.AiTraits.Contains(AiTrait.Aggressive) ? .8f : .3f;
+							if (_rng.Check(daringBlowChance))
+							{
+								isDaringBlow = true;
+							}
+						}
+						actionToPerform = _actionFactory.CreateAttackAction(actorData, closestEnemy, isDaringBlow);
 					}
 					if (DateTime.UtcNow < closestEnemy.BlockedUntil)
 					{

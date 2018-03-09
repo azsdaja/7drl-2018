@@ -11,16 +11,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly ActorData _attackedActor;
 		private readonly IRandomNumberGenerator _rng;
 		private readonly IDeathHandler _deathHandler;
-		private readonly bool _isAggressiveAttack;
+		private readonly bool _isDaringBlow;
 
 		public AttackAction(ActorData actorData, ActorData attackedActor, float energyCost, IActionEffectFactory actionEffectFactory, 
-			IRandomNumberGenerator rng, IDeathHandler deathHandler, bool isAggressiveAttack) 
+			IRandomNumberGenerator rng, IDeathHandler deathHandler, bool isDaringBlow) 
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_attackedActor = attackedActor;
 			_rng = rng;
 			_deathHandler = deathHandler;
-			_isAggressiveAttack = isAggressiveAttack;
+			_isDaringBlow = isDaringBlow;
 		}
 
 		internal ActorData AttackedActor
@@ -33,12 +33,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			float chanceToDealAccurateBlow = ActorData.Accuracy;
 			bool accurate = _rng.Check(chanceToDealAccurateBlow);
 
-			if (_isAggressiveAttack)
+			if (_isDaringBlow)
 			{
 				ActorData.Swords -= 2;
 			}
 
-			bool hit = _isAggressiveAttack || _attackedActor.Swords <= 0 && accurate;
+			bool hit = _attackedActor.Swords <= 0 && accurate;
 			if (hit)
 			{
 				_attackedActor.Health -= ActorData.Weapon.MaxDamage;
@@ -69,7 +69,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			}
 			else
 			{
-				IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit, _isAggressiveAttack);
+				IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit, _isDaringBlow);
 				yield return strikeEffect;
 			}
 			

@@ -4,10 +4,11 @@
 	{
 		Tough,
 		Tough2,
-		RiskyBlow,
+		DaringBlow,
 		Push,
 		Fencer,
 		Fencer2,
-		Accurate
+		Accurate,
+		Nimble
 	}
 }

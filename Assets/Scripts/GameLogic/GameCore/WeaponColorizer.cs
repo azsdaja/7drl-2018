@@ -14,15 +14,15 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 		// todo: iteresting question — how should we initialize _playerWeaponSpriteRenderer if player is created at Start phase?
 
-		public void Colorize(Color color)
+		public void Colorize(WeaponAnimator weapon, Color color)
 		{
-			_playerWeaponSpriteRenderer = _gameContext.PlayerActor.transform.Find("Weapon").GetComponent<SpriteRenderer>();
+			_playerWeaponSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
 			_playerWeaponSpriteRenderer.color = color;
 		}
 
-		public void Decolorize()
+		public void Decolorize(WeaponAnimator weapon)
 		{
-			_playerWeaponSpriteRenderer = _gameContext.PlayerActor.transform.Find("Weapon").GetComponent<SpriteRenderer>();
+			_playerWeaponSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
 			_playerWeaponSpriteRenderer.color = Color.white;
 		}
 	}

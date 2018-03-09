@@ -4,7 +4,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 {
 	public interface IWeaponColorizer
 	{
-		void Colorize(Color color);
-		void Decolorize();
+		void Colorize(WeaponAnimator weapon, Color color);
+		void Decolorize(WeaponAnimator weaponAnimator);
 	}
 }

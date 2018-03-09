@@ -121,8 +121,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				int actorsInRoom = _rng.Choice(new[] {1, 1, 1, 2, 2, 3});
 				for (int i = 0; i < actorsInRoom; i++)
 				{
-					var actorTypesAvailable = new[]
-						{ActorType.Dog, ActorType.Dog, ActorType.Dog, ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
+					//var actorTypesAvailable = new[]{ActorType.Dog, ActorType.Dog, ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
+					var actorTypesAvailable = new[]{ActorType.BruisedRat};
 					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
 					Vector2Int position = BoundsIntUtilities.Center(room);
 					_entitySpawner.SpawnActor(actorTypeChosen, position);
@@ -162,7 +162,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					}
 					case GenTile.Downstairs:
 					{
-						_gameContext.EnvironmentTilemap.SetTile(position, StairsDown);
+						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						//_gameContext.EnvironmentTilemap.SetTile(position, StairsDown);
 						break;
 					}
 					case GenTile.Door:

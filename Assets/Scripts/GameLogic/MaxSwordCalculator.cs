@@ -32,7 +32,7 @@ namespace Assets.Scripts.GameLogic
 			{
 				sum += actorData.Weapon.CloseCombatModifier;
 			}
-			if (actorData.HasLittleSpace)
+			if (actorData.HasLittleSpace && !actorData.Traits.Contains(Trait.Nimble))
 			{
 				--sum;
 			}

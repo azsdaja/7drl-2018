@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.GameLogic;
+﻿using Assets.Scripts.GameLogic;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
 using Zenject;
@@ -18,6 +16,11 @@ public class WeaponAnimator : MonoBehaviour
 	private Quaternion _mySwingTargetRotation;
 	private bool _isAggressiveAttack;
 
+	public SpriteRenderer WeaponSprite
+	{
+		get { return _weaponSprite; }
+	}
+
 	[Inject]
 	public void Init(IGridInfoProvider gridInfoProvider)
 	{
@@ -30,7 +33,7 @@ public class WeaponAnimator : MonoBehaviour
 		Weapon usedWeapon = transform.parent.GetComponent<ActorBehaviour>().ActorData.Weapon;
 		_weaponAnimationData = usedWeapon.WeaponAnimationData;
 		_weaponSprite = GetComponent<SpriteRenderer>();
-		_weaponSprite.sprite = usedWeapon.Sprite;
+		WeaponSprite.sprite = usedWeapon.Sprite;
 	}
 
 	void Update()

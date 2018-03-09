@@ -66,7 +66,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 				if(cancelledInputModifier == PlayerInputModifier.Move || cancelledInputModifier == PlayerInputModifier.Push)
 					_arrowsVisibilityManager.Hide();
 				else if(cancelledInputModifier == PlayerInputModifier.Aggresive)
-					_weaponColorizer.Decolorize();
+					_weaponColorizer.Decolorize(_gameContext.PlayerActor.WeaponAnimator);
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
 			}
 			if (Input.GetKeyDown(KeyCode.M))
@@ -88,7 +88,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 				if (_gameContext.PlayerActor.ActorData.Swords >= 2)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
-					_weaponColorizer.Colorize(Color.red);
+					_weaponColorizer.Colorize(_gameContext.PlayerActor.WeaponAnimator, Color.red);
 				}
 			}
 			if ((Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Comma))

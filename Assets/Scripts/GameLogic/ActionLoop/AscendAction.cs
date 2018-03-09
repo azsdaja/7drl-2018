@@ -25,7 +25,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			Action action = () =>
 			{
 				_gameContext.PlayerActor.RefreshWorldPosition();
-				GameObject.Find("FollowPlayerCamera").GetComponent<CinemachineVirtualCamera>().Follow =_gameContext.PlayerActor.transform;
 			};
 
 			yield return new LambdaEffect(action);

@@ -36,6 +36,7 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private int _xp;
 		[SerializeField, HideInInspector] private int _level;
 		[SerializeField, HideInInspector] private List<Trait> _traits;
+		[SerializeField, HideInInspector] private List<AiTrait> _aiTraits;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -221,6 +222,13 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _traits; }
 			set { _traits = value; }
+		}
+
+		[ShowInInspector]
+		public List<AiTrait> AiTraits
+		{
+			get { return _aiTraits; }
+			set { _aiTraits = value; }
 		}
 	}
 }

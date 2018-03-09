@@ -39,7 +39,7 @@ namespace Assets.Scripts.IoC
 			Container.Bind<IInputHolder>().To<InputHolder>().AsSingle();
 
 			ItemBehaviour itemPrefab = Resources.Load<ItemBehaviour>("Prefabs/Item");
-			ActorBehaviour actorPrefab = Resources.Load<ActorBehaviour>("Prefabs/Enemy");
+			ActorBehaviour actorPrefab = Resources.Load<ActorBehaviour>("Prefabs/Actor");
 			Container.BindFactory<ItemBehaviour, ItemBehaviour.Factory>().FromComponentInNewPrefab(itemPrefab);
 			Container.BindFactory<ActorBehaviour, ActorBehaviour.Factory>().FromComponentInNewPrefab(actorPrefab);
 
