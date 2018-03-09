@@ -1,10 +1,6 @@
-﻿using System.Linq;
-using Assets.Scripts.CSharpUtilities;
-using Assets.Scripts.GridRelated;
+﻿using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.UI;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.GameLogic
 {

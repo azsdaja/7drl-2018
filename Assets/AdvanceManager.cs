@@ -9,6 +9,7 @@ using Zenject;
 public class AdvanceManager : MonoBehaviour
 {
 	private IGameContext _gameContext;
+	private IUiConfig _uiConfig;
 
 	private int _currentHolderIndex;
 
@@ -17,10 +18,10 @@ public class AdvanceManager : MonoBehaviour
 	public Text TraitDescriptor;
 
 	[Inject]
-	public void Init(IGameContext gameContext)
+	public void Init(IGameContext gameContext, IUiConfig uiConfig)
 	{
 		_gameContext = gameContext;
-		
+		_uiConfig = uiConfig;
 	}
 
 	// Use this for initialization
@@ -73,6 +74,12 @@ public class AdvanceManager : MonoBehaviour
 				case Trait.Tough:
 				case Trait.Tough2:
 					playerActor.MaxHealth = (int) (playerActor.MaxHealth * 1.3f);
+					break;
+				case Trait.DaringBlow:
+					_uiConfig.DaringBlowAbilityButton.gameObject.SetActive(true);
+					break;
+				case Trait.Push:
+					_uiConfig.PushAbilityButton.gameObject.SetActive(true);
 					break;
 				default: break;
 			}

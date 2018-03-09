@@ -10,5 +10,9 @@ namespace Assets.Scripts.GameLogic.GameCore
 		Button RestartButton { get; }
 		GameObject Arrows { get;}
 		AdvanceManager AdvanceManager { get; }
+
+		Button WalkAbilityButton { get; }
+		Button DaringBlowAbilityButton { get; }
+		Button PushAbilityButton { get; }
 	}
 }

@@ -41,7 +41,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			bool hit = (_isDaringBlow || _attackedActor.Swords <= 0) && accurate;
 			if (hit)
 			{
-				_attackedActor.Health -= ActorData.Weapon.MaxDamage;
+				int damage = Math.Max(_rng.Next(ActorData.Weapon.MaxDamage + 1), _rng.Next(ActorData.Weapon.MaxDamage + 1));
+				_attackedActor.Health -= damage;
 				if (_attackedActor.Health <= 0)
 				{
 					_deathHandler.HandleDeath(_attackedActor);

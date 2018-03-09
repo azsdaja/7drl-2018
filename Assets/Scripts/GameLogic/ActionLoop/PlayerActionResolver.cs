@@ -128,7 +128,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				return gameActionToReturn;
 			}
 			bool isAggressiveAttack = false;
-			if (_inputHolder.PlayerInputModifier == PlayerInputModifier.Aggresive)
+			if (_inputHolder.PlayerInputModifier == PlayerInputModifier.DaringBlow)
 			{
 				isAggressiveAttack = true;
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;

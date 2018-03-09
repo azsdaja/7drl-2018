@@ -126,7 +126,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				if (room == playerRoom) continue;
 				float populationValue = _rng.NextFloat();
 				int populationInRoom = Mathf.RoundToInt(dungeonConfig.ChanceToRoomPopulation.Evaluate(populationValue));
-				Debug.Log("dungeon " + dungeonConfig.Size + ": " + populationInRoom);
 				for (int i = 0; i < populationInRoom; i++)
 				{
 					ActorDefinition[] actorTypesAvailable = dungeonConfig.EnemiesToSpawn;

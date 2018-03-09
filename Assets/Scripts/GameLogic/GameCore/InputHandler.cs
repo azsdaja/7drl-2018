@@ -65,7 +65,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 				PlayerInputModifier cancelledInputModifier = _inputHolder.PlayerInputModifier;
 				if(cancelledInputModifier == PlayerInputModifier.Move || cancelledInputModifier == PlayerInputModifier.Push)
 					_arrowsVisibilityManager.Hide();
-				else if(cancelledInputModifier == PlayerInputModifier.Aggresive)
+				else if(cancelledInputModifier == PlayerInputModifier.DaringBlow)
 					_weaponColorizer.Decolorize(_gameContext.PlayerActor.WeaponAnimator);
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
 			}
@@ -75,9 +75,11 @@ namespace Assets.Scripts.GameLogic.GameCore
 				var naturalGreen = new Color(33, 160, 73);
 				_arrowsVisibilityManager.Show(naturalGreen);
 			}
-			if (Input.GetKeyDown(KeyCode.K))
+			if (Input.GetKeyDown(KeyCode.D))
 			{
-				if (_gameContext.PlayerActor.ActorData.Swords >= 1)
+				ActorData playerData = _gameContext.PlayerActor.ActorData;
+
+				if (playerData.Traits.Contains(Trait.DaringBlow) && playerData.Swords >= 1)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
 					_arrowsVisibilityManager.Show(Color.yellow);
@@ -85,9 +87,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			if (Input.GetKeyDown(KeyCode.A))
 			{
-				if (_gameContext.PlayerActor.ActorData.Swords >= 2)
+				ActorData playerData = _gameContext.PlayerActor.ActorData;
+				if (playerData.Traits.Contains(Trait.DaringBlow) && playerData.Swords >= 2)
 				{
-					_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
+					_inputHolder.PlayerInputModifier = PlayerInputModifier.DaringBlow;
 					_weaponColorizer.Colorize(_gameContext.PlayerActor.WeaponAnimator, Color.red);
 				}
 			}

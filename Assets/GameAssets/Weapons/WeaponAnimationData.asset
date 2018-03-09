@@ -17,8 +17,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0
-      value: 0
+      time: 0.004760742
+      value: 0.01373291
       inSlope: 0.022178253
       outSlope: 0.022178253
       tangentMode: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   AggressiveMovementCurve:
     serializedVersion: 2
     m_Curve:
