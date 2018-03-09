@@ -59,6 +59,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			actorData.XpGiven = actorDefinition.XpGiven;
 			actorData.Level = actorDefinition.InitialLevel;
 			actorData.Traits = actorDefinition.InitialTraits.ToArray().ToList();
+			actorData.AiTraits = actorDefinition.AiTraits.ToArray().ToList();
 
 			actorData.LogicalPosition = position;
 			instantiatedActor.RefreshWorldPosition();

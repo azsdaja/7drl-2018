@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84aac180eb4e4849b9e4e7425945032, type: 3}
+  m_Name: Dungeon1
+  m_EditorClassIdentifier: 
+  Size: {x: 30, y: 30}
+  ChanceToRoomPopulation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.006225586
+      value: -0.010437012
+      inSlope: 0.03146927
+      outSlope: 0.03146927
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.38231638
+      value: 0.41719005
+      inSlope: 1.0001659
+      outSlope: 1.0001659
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 2.991333
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  EnemiesToSpawn:
+  - {fileID: 11400000, guid: dd63c5639f9ebf54280726956fdef480, type: 2}
+  - {fileID: 11400000, guid: 52ca8d9737456a54ab0c5ad30a58a863, type: 2}
+  - {fileID: 11400000, guid: dd63c5639f9ebf54280726956fdef480, type: 2}
+  BossToSpawn: {fileID: 11400000, guid: 10a7ce990fd65ac428b967d0c3d196a0, type: 2}

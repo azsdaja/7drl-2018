@@ -38,7 +38,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				ActorData.Swords -= 2;
 			}
 
-			bool hit = _attackedActor.Swords <= 0 && accurate;
+			bool hit = (_isDaringBlow || _attackedActor.Swords <= 0) && accurate;
 			if (hit)
 			{
 				_attackedActor.Health -= ActorData.Weapon.MaxDamage;

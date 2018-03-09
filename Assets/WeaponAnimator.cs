@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameLogic;
+﻿using System;
+using Assets.Scripts.GameLogic;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
@@ -56,7 +57,7 @@ public class WeaponAnimator : MonoBehaviour
 		AnimationCurve movementCurve = _isAggressiveAttack ? _weaponAnimationData.AggressiveMovementCurve : _weaponAnimationData.NormalMovementCurve;
 		
 		transform.position = Vector3.LerpUnclamped(_initialPosition, _mySwingTarget, movementCurve.Evaluate(progress));
-		transform.rotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, _weaponAnimationData.NormalMovementCurve.Evaluate(progress));
+		transform.localRotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, _weaponAnimationData.NormalMovementCurve.Evaluate(progress));
 	}
 	
 	public void SwingTo(Vector2Int targetPosition, bool isAggressiveAttack)
@@ -66,17 +67,26 @@ public class WeaponAnimator : MonoBehaviour
 		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 		_animator.enabled = false;
 		Vector3 directionToTarget = _mySwingTarget - _initialPosition;
-		_mySwingTargetRotation = Quaternion.LookRotation(directionToTarget);
+
+		var angle = ZRotationForLookAt2DConsidering45OffsetOfWeapon(Math.Abs(directionToTarget.x), directionToTarget.y);
+		_mySwingTargetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+		
 	}
-	
+
+	public static float ZRotationForLookAt2DConsidering45OffsetOfWeapon(float x, float y)
+	{
+		var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+		return angle - 90 + 45;
+	}
+
 	public void DefendSwing(Transform enemyWeaponTransform, Vector2Int targetPosition)
 	{
 		_initialPosition = transform.position;
-		_initialRotation = transform.rotation;
+		_initialRotation = transform.localRotation;
 
 		Vector3 enemySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 		_mySwingTarget = (enemyWeaponTransform.position + enemySwingTarget) * .5f;
-		Quaternion enemyWeaponRotation = enemyWeaponTransform.rotation;
+		Quaternion enemyWeaponRotation = enemyWeaponTransform.localRotation;
 		int rotationToUse = 90;
 
 		// should give enemy weapon z rotation plus rotationToUse degrees

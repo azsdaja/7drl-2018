@@ -15,11 +15,13 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 1b825f3dc6c4c014ab1141c1f10dbf35, type: 3}
   WeaponPool:
   - {fileID: 11400000, guid: c931bd20154a1094fb055c2bcbb033b3, type: 2}
-  SwordsFromSkill: 4
+  SwordsFromSkill: 1
   VisionRayLength: 6
   EnergyGain: 0.1
   Team: 2
   MaxHealth: 45
-  Accuracy: 0.7
+  Accuracy: 0.6
   XpGiven: 0
   InitialLevel: 1
+  InitialTraits: 
+  AiTraits: 

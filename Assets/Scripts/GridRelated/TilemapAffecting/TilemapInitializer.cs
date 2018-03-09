@@ -11,6 +11,7 @@ using Assets.Scripts.RNG;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
+using Debug = UnityEngine.Debug;
 using Tile = UnityEngine.Tilemaps.Tile;
 
 namespace Assets.Scripts.GridRelated.TilemapAffecting
@@ -59,14 +60,17 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		// Use this for initialization
 		void Start()
 		{
-			var dungeon1 = GenerateDungeon(0,0,50, 50);
-			var dungeon2 = GenerateDungeon(50,0,50, 50);
-			var dungeon3 = GenerateDungeon(100,0,50, 50);
+			DungeonConfig[] dungeonConfigs = _gameConfig.DungeonConfigs;
+			for (var dungeonIndex = 0; dungeonIndex < dungeonConfigs.Length; dungeonIndex++)
+			{
+				DungeonConfig dungeonConfig = dungeonConfigs[dungeonIndex];
+				var dungeon = GenerateDungeon(dungeonIndex * 60, 0, dungeonConfig.Size.x, dungeonConfig.Size.y);
+				_gameContext.Dungeons.Add(dungeon);
+				GenerateActorsInDungeon(dungeon, dungeonConfig, isFirstDungeon: dungeonIndex == 0);
+			}
+
 			_gameContext.CurrentDungeonIndex = 0;
-			_gameContext.Dungeons.Add(dungeon1);
-			_gameContext.Dungeons.Add(dungeon2);
-			_gameContext.Dungeons.Add(dungeon3);
-			GenerateActorsInDungeon(dungeon1);
+
 			//GenerateWilderness();
 			InitializeVisibilityOfTiles();
 			_pathfinder.InitializeNavigationGrid();
@@ -97,37 +101,42 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			return generator;
 		}
 
-		private void GenerateActorsInDungeon(Dungeon generator)
+		private void GenerateActorsInDungeon(Dungeon currentDungeon, DungeonConfig dungeonConfig, bool isFirstDungeon)
 		{
-			BoundsInt roomToSpawnActorIn = generator.Rooms[0];
-
-			Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnActorIn);
-			
-			var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
-
-			playerActorBehaviour.ActorData.ControlledByPlayer = true;
-			_gameContext.PlayerActor = playerActorBehaviour;
-			_gameConfig.FollowPlayerCamera.Follow = playerActorBehaviour.transform;
-			_uiConfig.Arrows.transform.parent = playerActorBehaviour.transform;
-			_uiConfig.Arrows.transform.localPosition = Vector3.zero;
-
-			foreach (BoundsInt room in generator.Rooms.Skip(1))
+			BoundsInt playerRoom = new BoundsInt();
+			if (isFirstDungeon)
 			{
-				bool roomIsEmpty = _rng.Check(0.6f);
-				if (roomIsEmpty)
+				BoundsInt furthestRoomToStairs = FurthestRoomToStairsResolver.GetFurthestRoomToStairs(currentDungeon);
+
+				playerRoom = furthestRoomToStairs;
+
+				BoundsInt roomToSpawnPlayerIn = playerRoom;
+				Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnPlayerIn);
+				var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
+
+				playerActorBehaviour.ActorData.ControlledByPlayer = true;
+				_gameContext.PlayerActor = playerActorBehaviour;
+				_gameConfig.FollowPlayerCamera.Follow = playerActorBehaviour.transform;
+				_uiConfig.Arrows.transform.parent = playerActorBehaviour.transform;
+				_uiConfig.Arrows.transform.localPosition = Vector3.zero;
+			}
+
+			foreach (BoundsInt room in currentDungeon.Rooms.Skip(isFirstDungeon ? 1 :0))
+			{
+				if (room == playerRoom) continue;
+				float populationValue = _rng.NextFloat();
+				int populationInRoom = Mathf.RoundToInt(dungeonConfig.ChanceToRoomPopulation.Evaluate(populationValue));
+				Debug.Log("dungeon " + dungeonConfig.Size + ": " + populationInRoom);
+				for (int i = 0; i < populationInRoom; i++)
 				{
-					continue;
-				}
-				int actorsInRoom = _rng.Choice(new[] {1, 1, 1, 2, 2, 3});
-				for (int i = 0; i < actorsInRoom; i++)
-				{
-					//var actorTypesAvailable = new[]{ActorType.Dog, ActorType.Dog, ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
-					var actorTypesAvailable = new[]{ActorType.BruisedRat};
-					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
-					Vector2Int position = BoundsIntUtilities.Center(room);
-					_entitySpawner.SpawnActor(actorTypeChosen, position);
+					ActorDefinition[] actorTypesAvailable = dungeonConfig.EnemiesToSpawn;
+					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable).ActorType;
+					Vector2Int centralPosition = BoundsIntUtilities.Center(room);
+					_entitySpawner.SpawnActor(actorTypeChosen, centralPosition);
 				}
 			}
+
+			_entitySpawner.SpawnActor(dungeonConfig.BossToSpawn.ActorType, currentDungeon.StairsLocation);
 		}
 
 		private void PlaceTilesBasingOnDungeon(BoundsInt gridBounds, Dungeon generator)

@@ -24,3 +24,4 @@ MonoBehaviour:
   XpGiven: 8
   InitialLevel: 0
   InitialTraits: 07000000
+  AiTraits: 

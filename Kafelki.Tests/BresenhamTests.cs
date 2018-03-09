@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.FieldOfView;
 using FluentAssertions;
 using NUnit.Framework;
@@ -9,6 +11,21 @@ namespace Kafelki.Tests
 	[TestFixture]
 	public class BresenhamTests
 	{
+		[Test]
+		public void Pawel()
+		{
+			foreach (var direction in Vector2IntUtilities.Neighbours8(Vector2Int.zero))
+			{
+				Console.WriteLine(direction +", "+ ZRotationForLookAt2D(direction.x, direction.y));
+			}
+		}
+
+		private static float ZRotationForLookAt2D(float x, float y)
+		{
+			var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+			return angle - 45;
+		}
+
 		[Test]
 		public void TwoLinesThereAndBackAreDifferent()
 		{

@@ -9,6 +9,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ModeConfig ModeConfig { get; }
 		SmellConfig SmellConfig { get; }
 		ActorConfig ActorConfig { get; }
+		DungeonConfig[] DungeonConfigs { get; }
 		CinemachineVirtualCamera FollowPlayerCamera { get; }
 		int RngSeed { get; }
 	}

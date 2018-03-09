@@ -13,6 +13,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ModeConfig ModeConfig;
 		public SmellConfig SmellConfig;
 		public ActorConfig ActorConfig;
+		public DungeonConfig[] DungeonConfigs;
 		public CinemachineVirtualCamera FollowPlayerCamera;
 
 		public int RngSeed
@@ -25,6 +26,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ModeConfig IGameConfig.ModeConfig { get { return ModeConfig; }}
 		SmellConfig IGameConfig.SmellConfig { get { return SmellConfig; } }
 		ActorConfig IGameConfig.ActorConfig { get { return ActorConfig; } }
+		DungeonConfig[] IGameConfig.DungeonConfigs { get { return DungeonConfigs; } }
 		CinemachineVirtualCamera IGameConfig.FollowPlayerCamera { get { return FollowPlayerCamera; } }
 	}
 }

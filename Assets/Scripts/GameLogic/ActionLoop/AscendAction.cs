@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Cinemachine.Base.Runtime.Behaviours;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
+using Assets.Scripts.GridRelated.TilemapAffecting;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
@@ -21,7 +22,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		public override IEnumerable<IActionEffect> Execute()
 		{
 			++_gameContext.CurrentDungeonIndex;
-			_gameContext.PlayerActor.ActorData.LogicalPosition = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex].StairsLocation;
+			Dungeon nextDungeon = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex];
+			BoundsInt furthestRoomToStairs = FurthestRoomToStairsResolver.GetFurthestRoomToStairs(nextDungeon);
+			Vector2Int startingPosition = new Vector2Int((int) furthestRoomToStairs.center.x, (int) furthestRoomToStairs.center.y);
+			_gameContext.PlayerActor.ActorData.LogicalPosition = startingPosition;
 			Action action = () =>
 			{
 				_gameContext.PlayerActor.RefreshWorldPosition();
