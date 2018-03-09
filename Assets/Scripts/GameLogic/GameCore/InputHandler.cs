@@ -93,12 +93,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			if ((Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Comma))
 			{
-				Vector2Int playerPosition = _gameContext.PlayerActor.ActorData.LogicalPosition;
-				TileBase envTileBelowPlayer = _gameContext.EnvironmentTilemap.GetTile(playerPosition.ToVector3Int());
-				if (envTileBelowPlayer != null)
-				{
-					Debug.Log("Going up!");
-				}
+				_inputHolder.PlayerInput = PlayerInput.Ascend;
 			}
 			if (Input.GetKeyDown(KeyCode.G))
 			{

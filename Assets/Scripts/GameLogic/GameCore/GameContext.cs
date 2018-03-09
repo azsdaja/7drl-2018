@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -18,7 +19,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ActorBehaviour PlayerActor;
 		private HashSet<ActorBehaviour> _actors;
 		private HashSet<Vector2Int> _visiblePositions = new HashSet<Vector2Int>();
-	
+		private List<Dungeon> _dungeons = new List<Dungeon>();
+
 		Grid IGameContext.GameGrid
 		{
 			get { return GameGrid; }
@@ -63,6 +65,14 @@ namespace Assets.Scripts.GameLogic.GameCore
 			get { return _visiblePositions; }
 			set { _visiblePositions = value; }
 		}
+
+		public List<Dungeon> Dungeons
+		{
+			get { return _dungeons; }
+			set { _dungeons = value; }
+		}
+
+		public int CurrentDungeonIndex { get; set; }
 
 		ActorBehaviour IGameContext.PlayerActor
 		{

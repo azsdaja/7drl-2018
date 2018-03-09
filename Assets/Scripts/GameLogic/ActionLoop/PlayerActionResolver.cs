@@ -99,6 +99,17 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 				return _actionFactory.CreateEatAction(actorData, foodAtFeet);
 			}
+			if (_inputHolder.PlayerInput == PlayerInput.Ascend)
+			{
+				_inputHolder.PlayerInput = PlayerInput.None;
+				Vector2Int playerPosition = _gameContext.PlayerActor.ActorData.LogicalPosition;
+				TileBase envTileBelowPlayer = _gameContext.EnvironmentTilemap.GetTile(playerPosition.ToVector3Int());
+				if (envTileBelowPlayer != null)
+				{
+					return _actionFactory.CreateAscendAction(actorData);
+				}
+				return null;
+			}
 			Vector2Int actionVector = GetActionVector(_inputHolder.PlayerInput);
 			Vector2Int targetPosition = actionVector + actorData.LogicalPosition;
 

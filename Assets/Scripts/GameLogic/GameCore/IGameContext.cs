@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -16,6 +17,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 		HashSet<ActorBehaviour> Actors { get; set; }
 		HashSet<Vector2Int> VisiblePositions { get; set; }
+		List<Dungeon> Dungeons { get; set; }
+		int CurrentDungeonIndex { get; set; }
+
+
 		IList<Vector2Int> HousePositions { get; }
 		IList<Vector2Int> LeavesPositions { get; }
 		void AddHousePosition(int x, int y);

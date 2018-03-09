@@ -121,5 +121,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			return new OpenDoorAction(actorData, targetPosition, isHorizontal, 1f, _actionEffectFactory, _gameContext);
 		}
+
+		public IGameAction CreateAscendAction(ActorData actorData)
+		{
+			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext);
+		}
 	}
 }

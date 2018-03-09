@@ -24,7 +24,7 @@ public class WeaponAnimator : MonoBehaviour
 		_gridInfoProvider = gridInfoProvider;
 	}
 
-	void Start()
+	void Awake()
 	{
 		_animator = GetComponent<Animator>();
 		Weapon usedWeapon = transform.parent.GetComponent<ActorBehaviour>().ActorData.Weapon;

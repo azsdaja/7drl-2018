@@ -16,6 +16,7 @@
 		Catch,
 		Release,
 		Pass,
-		Eat
+		Eat,
+		Ascend
 	}
 }

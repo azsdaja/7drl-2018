@@ -19,5 +19,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		IGameAction CreateStandUpAction(ActorData actorData);
 		IGameAction CreatePushAction(ActorData actorData, ActorData targetEnemy);
 		IGameAction CreateOpenDoorAction(ActorData actorData, Vector2Int targetPosition, bool isHorizontal);
+		IGameAction CreateAscendAction(ActorData actorData);
 	}
 }

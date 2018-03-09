@@ -59,8 +59,14 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		// Use this for initialization
 		void Start()
 		{
-			var dungeon = GenerateDungeon();
-			GenerateActorsInDungeon(dungeon);
+			var dungeon1 = GenerateDungeon(0,0,50, 50);
+			var dungeon2 = GenerateDungeon(50,0,50, 50);
+			var dungeon3 = GenerateDungeon(100,0,50, 50);
+			_gameContext.CurrentDungeonIndex = 0;
+			_gameContext.Dungeons.Add(dungeon1);
+			_gameContext.Dungeons.Add(dungeon2);
+			_gameContext.Dungeons.Add(dungeon3);
+			GenerateActorsInDungeon(dungeon1);
 			//GenerateWilderness();
 			InitializeVisibilityOfTiles();
 			_pathfinder.InitializeNavigationGrid();
@@ -68,13 +74,14 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			//GenerateAnimals(6);
 		}
 
-		private Dungeon GenerateDungeon()
+		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)
 		{
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 			
-			_gameContext.TilemapDefiningOuterBounds.CompressBounds();
-			BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
+			//_gameContext.TilemapDefiningOuterBounds.CompressBounds();
+			//BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
+			BoundsInt gridBounds = new BoundsInt(positionX, positionY, 0, sizeX, sizeY, 1);
 
 			Dungeon generator = new Dungeon(_rng, message => { });
 

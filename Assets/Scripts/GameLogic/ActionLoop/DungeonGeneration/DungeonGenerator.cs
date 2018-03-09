@@ -46,8 +46,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 		private Vector3Int _offset;
 		private int _roomSizeMaxX = 8;
 		private int _roomSizeMaxY = 8;
-
-
+		private Vector2Int _stairsLocation;
+		
 		public Dungeon(IRandomNumberGenerator rnd, Action<string> logger)
 		{
 			_rnd = rnd;
@@ -63,6 +63,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 		public IList<BoundsInt> Rooms
 		{
 			get { return _rooms; }
+		}
+
+		public Vector2Int StairsLocation
+		{
+			get { return _stairsLocation; }
+			set { _stairsLocation = value; }
 		}
 
 		public static bool IsWall(int x, int y, int xlen, int ylen, int xt, int yt, Direction d)
@@ -644,6 +650,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 						{
 							// we're in state 0, let's place a "upstairs" thing
 							this.SetCell(newx, newy, GenTile.Upstairs);
+							StairsLocation = new Vector2Int(newx, newy) + _offset.ToVector2Int();
 							state = 1;
 							break;
 						}
