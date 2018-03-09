@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.GameLogic;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
 using Zenject;
@@ -9,6 +10,7 @@ public class WeaponAnimator : MonoBehaviour
 	private WeaponAnimationData _weaponAnimationData;
 	private SpriteRenderer _weaponSprite;
 	private IGridInfoProvider _gridInfoProvider;
+	private IWeaponColorizer _weaponColorizer;
 	private Vector3 _initialPosition;
 	private Quaternion _initialRotation;
 	private float _timeSinceBeginning;
@@ -22,9 +24,10 @@ public class WeaponAnimator : MonoBehaviour
 	}
 
 	[Inject]
-	public void Init(IGridInfoProvider gridInfoProvider)
+	public void Init(IGridInfoProvider gridInfoProvider, IWeaponColorizer weaponColorizer)
 	{
 		_gridInfoProvider = gridInfoProvider;
+		_weaponColorizer = weaponColorizer;
 	}
 
 	void Awake()
@@ -46,6 +49,7 @@ public class WeaponAnimator : MonoBehaviour
 		
 		if (progress > 1f)
 		{
+			_weaponColorizer.Decolorize(this);
 			_timeSinceBeginning = 0f;
 			_animator.enabled = true;
 		}
