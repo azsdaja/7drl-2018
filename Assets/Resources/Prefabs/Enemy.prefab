@@ -504,6 +504,10 @@ MonoBehaviour:
     _roundsCount: 0
     _accuracy: 0.6
     _hasLittleSpace: 0
+    _xpGiven: 0
+    _xp: 0
+    _level: 0
+    _traits: 
   WeaponAnimator: {fileID: 114634945239459294}
 --- !u!114 &114631866426545798
 MonoBehaviour:

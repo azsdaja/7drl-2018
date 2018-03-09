@@ -12,15 +12,17 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 	{
 		private readonly IEntityDetector _entityDetector;
 		private readonly IGameConfig _gameConfig;
+		private readonly IUiConfig _uiConfig;
 		private readonly IDeathHandler _deathHandler;
 		private readonly IMaxSwordCalculator _maxSwordCalculator;
 		private readonly IPlayerSpaceResolver _playerSpaceResolver;
 
-		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IDeathHandler deathHandler, 
-			IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver)
+		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IUiConfig uiConfig, 
+			IDeathHandler deathHandler, IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver)
 		{
 			_entityDetector = entityDetector;
 			_gameConfig = gameConfig;
+			_uiConfig = uiConfig;
 			_deathHandler = deathHandler;
 			_maxSwordCalculator = maxSwordCalculator;
 			_playerSpaceResolver = playerSpaceResolver;
@@ -55,6 +57,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (actorData.Swords < maxSwords && actorData.RoundsCount % actorData.Weapon.RecoveryTime == 0)
 			{
 				++actorData.Swords;
+			}
+
+			if (actorData.Xp > 30 * actorData.Level)
+			{
+				actorData.Level = 2;
+				_uiConfig.AdvanceManager.gameObject.SetActive(true);
 			}
 		}
 

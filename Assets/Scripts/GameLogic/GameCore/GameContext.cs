@@ -50,6 +50,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 		}
 
 
+		public bool ControlBlocked { get; set; }
+
 		public HashSet<ActorBehaviour> Actors
 		{
 			get { return _actors; }

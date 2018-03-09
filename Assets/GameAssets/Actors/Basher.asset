@@ -21,3 +21,5 @@ MonoBehaviour:
   Team: 3
   MaxHealth: 35
   Accuracy: 0.6
+  XpGiven: 45
+  InitialLevel: 0

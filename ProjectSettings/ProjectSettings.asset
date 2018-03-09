@@ -11,7 +11,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Deaven
+  companyName: "Pawe\u0142 \u015Alusarczyk"
   productName: Artifex Gladii
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -572,6 +572,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
     1: ODIN_INSPECTOR
+    7: ODIN_INSPECTOR
     13: ODIN_INSPECTOR
   platformArchitecture: {}
   scriptingBackend: {}

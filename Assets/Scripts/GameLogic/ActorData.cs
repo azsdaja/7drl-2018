@@ -32,6 +32,10 @@ namespace Assets.Scripts.GameLogic
 		[SerializeField, HideInInspector] private int _roundsCount;
 		[SerializeField, HideInInspector] private float _accuracy;
 		[SerializeField, HideInInspector] private bool _hasLittleSpace;
+		[SerializeField, HideInInspector] private int _xpGiven;
+		[SerializeField, HideInInspector] private int _xp;
+		[SerializeField, HideInInspector] private int _level;
+		[SerializeField, HideInInspector] private List<Trait> _traits;
 
 		[ShowInInspector]
 		public ActorType ActorType
@@ -189,6 +193,34 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _hasLittleSpace; }
 			set { _hasLittleSpace = value; }
+		}
+
+		[ShowInInspector]
+		public int XpGiven
+		{
+			get { return _xpGiven; }
+			set { _xpGiven = value; }
+		}
+
+		[ShowInInspector]
+		public int Xp
+		{
+			get { return _xp; }
+			set { _xp = value; }
+		}
+
+		[ShowInInspector]
+		public int Level
+		{
+			get { return _level; }
+			set { _level = value; }
+		}
+
+		[ShowInInspector]
+		public List<Trait> Traits
+		{
+			get { return _traits; }
+			set { _traits = value; }
 		}
 	}
 }

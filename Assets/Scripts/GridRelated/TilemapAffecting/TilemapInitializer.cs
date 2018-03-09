@@ -59,7 +59,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		// Use this for initialization
 		void Start()
 		{
-			GenerateDungeon();
+			var dungeon = GenerateDungeon();
+			GenerateActorsInDungeon(dungeon);
 			//GenerateWilderness();
 			InitializeVisibilityOfTiles();
 			_pathfinder.InitializeNavigationGrid();
@@ -67,7 +68,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			//GenerateAnimals(6);
 		}
 
-		private void GenerateDungeon()
+		private Dungeon GenerateDungeon()
 		{
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -86,9 +87,17 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			PlaceTilesBasingOnDungeon(gridBounds, generator);
 
+			return generator;
+		}
+
+		private void GenerateActorsInDungeon(Dungeon generator)
+		{
 			BoundsInt roomToSpawnActorIn = generator.Rooms[0];
+
 			Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnActorIn);
-			ActorBehaviour playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
+			
+			var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
+
 			playerActorBehaviour.ActorData.ControlledByPlayer = true;
 			_gameContext.PlayerActor = playerActorBehaviour;
 			_gameConfig.FollowPlayerCamera.Follow = playerActorBehaviour.transform;
@@ -105,7 +114,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				int actorsInRoom = _rng.Choice(new[] {1, 1, 1, 2, 2, 3});
 				for (int i = 0; i < actorsInRoom; i++)
 				{
-					var actorTypesAvailable = new[] { ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief, };
+					var actorTypesAvailable = new[]
+						{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
 					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
 					Vector2Int position = BoundsIntUtilities.Center(room);
 					_entitySpawner.SpawnActor(actorTypeChosen, position);

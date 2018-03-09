@@ -45,6 +45,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				if (_attackedActor.Health <= 0)
 				{
 					_deathHandler.HandleDeath(_attackedActor);
+					ActorData.Xp += _attackedActor.XpGiven;
 				}
 
 				yield return new LambdaEffect(() =>

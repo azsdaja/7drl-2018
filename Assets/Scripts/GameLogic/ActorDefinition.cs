@@ -15,5 +15,7 @@ namespace Assets.Scripts.GameLogic
 		public Team Team = Team.Neutral;
 		public int MaxHealth;
 		public float Accuracy = 0.6f;
+		public int XpGiven;
+		public int InitialLevel;
 	}
 }

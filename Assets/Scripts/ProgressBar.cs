@@ -14,9 +14,11 @@ namespace Assets.Scripts
 
 		public Image BarValue;
 
-		public void Initialize(Func<float> progressGetter)
+		public void Initialize(Func<float> progressGetter, float initialValue = 1f)
 		{
 			_progressGetter = progressGetter;
+			_lastValue = initialValue;
+			BarValue.fillAmount = initialValue;
 		}
 
 		// Use this for initialization
@@ -29,6 +31,9 @@ namespace Assets.Scripts
 		// Update is called once per frame
 		void Update ()
 		{
+			if (_progressGetter == null)
+				return;
+
 			float progress = _progressGetter();
 
 			if (progress >= 1)

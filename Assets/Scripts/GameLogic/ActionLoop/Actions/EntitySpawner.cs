@@ -55,11 +55,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			actorData.MaxHealth = actorDefinition.MaxHealth;
 			actorData.Health = actorDefinition.MaxHealth;
 			actorData.Accuracy = actorDefinition.Accuracy;
+			actorData.XpGiven = actorDefinition.XpGiven;
+			actorData.Level = actorDefinition.InitialLevel;
 
 			actorData.LogicalPosition = position;
 			instantiatedActor.RefreshWorldPosition();
 			_gameContext.Actors.Add(instantiatedActor);
-			
 			instantiatedActor.gameObject.SetActive(true);
 			return instantiatedActor;
 		}

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.CSharpUtilities;
 using C5;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Zenject;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -49,6 +51,9 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 		public void Update()
 		{
+			if (_gameContext.ControlBlocked)
+				return;
+
 			if (!Input.anyKey && !Input.anyKeyDown)
 			{
 				_timeLeftToRepeat = InitialTimeLeftToRepeat;
@@ -84,6 +89,15 @@ namespace Assets.Scripts.GameLogic.GameCore
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Aggresive;
 					_weaponColorizer.Colorize(Color.red);
+				}
+			}
+			if ((Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Comma))
+			{
+				Vector2Int playerPosition = _gameContext.PlayerActor.ActorData.LogicalPosition;
+				TileBase envTileBelowPlayer = _gameContext.EnvironmentTilemap.GetTile(playerPosition.ToVector3Int());
+				if (envTileBelowPlayer != null)
+				{
+					Debug.Log("Going up!");
 				}
 			}
 			if (Input.GetKeyDown(KeyCode.G))
