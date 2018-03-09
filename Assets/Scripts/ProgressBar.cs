@@ -7,6 +7,7 @@ namespace Assets.Scripts
 {
 	public class ProgressBar : MonoBehaviour
 	{
+		public bool VisibleAboveOne = false;
 		private static Color _freshGreen;
 		private Func<float> _progressGetter;
 		private float _lastValue;
@@ -36,7 +37,7 @@ namespace Assets.Scripts
 
 			float progress = _progressGetter();
 
-			if (progress >= 1)
+			if (!VisibleAboveOne && progress >= 1)
 			{
 				_canvas.enabled = false;
 				return;

@@ -12,5 +12,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		DungeonConfig[] DungeonConfigs { get; }
 		CinemachineVirtualCamera FollowPlayerCamera { get; }
 		int RngSeed { get; }
+		int[] XpForLevels { get; }
 	}
 }

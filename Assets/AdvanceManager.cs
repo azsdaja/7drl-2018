@@ -74,6 +74,7 @@ public class AdvanceManager : MonoBehaviour
 				case Trait.Tough:
 				case Trait.Tough2:
 					playerActor.MaxHealth = (int) (playerActor.MaxHealth * 1.3f);
+					playerActor.Health = (int) (playerActor.Health * 1.3f);
 					break;
 				case Trait.DaringBlow:
 					_uiConfig.DaringBlowAbilityButton.gameObject.SetActive(true);

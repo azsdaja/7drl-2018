@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
+using Assets.Scripts.RNG;
 using UnityEngine;
 using Zenject;
 
@@ -12,12 +15,19 @@ public class WeaponAnimator : MonoBehaviour
 	private SpriteRenderer _weaponSprite;
 	private IGridInfoProvider _gridInfoProvider;
 	private IWeaponColorizer _weaponColorizer;
+	private IRandomNumberGenerator _rng;
 	private Vector3 _initialPosition;
 	private Quaternion _initialRotation;
 	private float _timeSinceBeginning;
 	private Vector3 _mySwingTarget;
 	private Quaternion _mySwingTargetRotation;
 	private bool _isAggressiveAttack;
+	private AnimationCurve _deviationCurveForX;
+	private AnimationCurve _deviationCurveForY;
+	private float _deviationImportanceForX;
+	private float _deviationImportanceForY;
+	private AnimationCurve _deviationCurveForRotation;
+	private IEnumerator _createSparksCoroutine;
 
 	public SpriteRenderer WeaponSprite
 	{
@@ -25,10 +35,11 @@ public class WeaponAnimator : MonoBehaviour
 	}
 
 	[Inject]
-	public void Init(IGridInfoProvider gridInfoProvider, IWeaponColorizer weaponColorizer)
+	public void Init(IGridInfoProvider gridInfoProvider, IWeaponColorizer weaponColorizer, IRandomNumberGenerator rng)
 	{
 		_gridInfoProvider = gridInfoProvider;
 		_weaponColorizer = weaponColorizer;
+		_rng = rng;
 	}
 
 	void Awake()
@@ -55,9 +66,33 @@ public class WeaponAnimator : MonoBehaviour
 			_animator.enabled = true;
 		}
 		AnimationCurve movementCurve = _isAggressiveAttack ? _weaponAnimationData.AggressiveMovementCurve : _weaponAnimationData.NormalMovementCurve;
-		
-		transform.position = Vector3.LerpUnclamped(_initialPosition, _mySwingTarget, movementCurve.Evaluate(progress));
-		transform.localRotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, _weaponAnimationData.NormalMovementCurve.Evaluate(progress));
+
+		Vector3 positionWithoutDeviation = Vector3.LerpUnclamped(_initialPosition, _mySwingTarget, movementCurve.Evaluate(progress));
+
+		if (_deviationCurveForX != null)
+		{
+			var positionAfterDeviation = positionWithoutDeviation
+			                             + new Vector3(
+				                             _deviationCurveForX.Evaluate(progress) * _deviationImportanceForX,
+				                             _deviationCurveForY.Evaluate(progress) * _deviationImportanceForY,
+				                             0);
+
+			transform.position = positionAfterDeviation;
+
+			Quaternion rotationWithoutDeviation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation,
+				_weaponAnimationData.NormalMovementCurve.Evaluate(progress));
+			float eulerZDeviation = 360 * _deviationCurveForRotation.Evaluate(progress);
+			var withDeviation = Quaternion.Euler(rotationWithoutDeviation.eulerAngles.x, rotationWithoutDeviation.eulerAngles.y,
+				rotationWithoutDeviation.eulerAngles.z + eulerZDeviation);
+			transform.localRotation = withDeviation;
+
+		}
+		else
+		{
+			transform.position = positionWithoutDeviation;
+			transform.localRotation = Quaternion.Lerp(_initialRotation, _mySwingTargetRotation, _weaponAnimationData.NormalMovementCurve.Evaluate(progress));
+		}
+
 	}
 	
 	public void SwingTo(Vector2Int targetPosition, bool isAggressiveAttack)
@@ -67,6 +102,12 @@ public class WeaponAnimator : MonoBehaviour
 		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);
 		_animator.enabled = false;
 		Vector3 directionToTarget = _mySwingTarget - _initialPosition;
+
+		_deviationCurveForX = _rng.Choice(_weaponAnimationData.DeviationCurves);
+		_deviationCurveForY = _rng.Choice(_weaponAnimationData.DeviationCurves);
+		_deviationCurveForRotation = _rng.Choice(_weaponAnimationData.DeviationCurvesForRotation);
+		_deviationImportanceForX = _rng.NextFloat();
+		_deviationImportanceForY = _rng.NextFloat();
 
 		var angle = ZRotationForLookAt2DConsidering45OffsetOfWeapon(Math.Abs(directionToTarget.x), directionToTarget.y);
 		_mySwingTargetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -93,6 +134,20 @@ public class WeaponAnimator : MonoBehaviour
 		float zRotation = (((enemyWeaponRotation.eulerAngles.z + rotationToUse) + 180) % 360) - 180; 
 
 		_mySwingTargetRotation = Quaternion.Euler(_initialRotation.eulerAngles.x, _initialRotation.eulerAngles.y, zRotation);
+
+		_createSparksCoroutine = CreateSparks(_mySwingTarget);
+		StartCoroutine(_createSparksCoroutine);
+
 		_animator.enabled = false;
+	}
+
+	private IEnumerator CreateSparks(Vector3 position)
+	{
+		yield return new WaitForSeconds(0.1f);
+
+		Animator sparks = Resources.Load<Animator>("Prefabs/Sparks");
+		Animator sparksObject = GameObject.Instantiate(sparks, position, Quaternion.identity);
+		sparksObject.Play("Sparks");
+		GameObject.Destroy(sparksObject.gameObject, .2f);
 	}
 }

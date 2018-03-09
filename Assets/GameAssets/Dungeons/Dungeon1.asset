@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84aac180eb4e4849b9e4e7425945032, type: 3}
   m_Name: Dungeon1
   m_EditorClassIdentifier: 
-  Size: {x: 30, y: 30}
+  Size: {x: 35, y: 35}
   ChanceToRoomPopulation:
     serializedVersion: 2
     m_Curve:

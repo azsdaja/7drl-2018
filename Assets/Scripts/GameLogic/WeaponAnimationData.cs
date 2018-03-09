@@ -10,5 +10,7 @@ namespace Assets.Scripts.GameLogic
 		public float AggressiveAnimationDuration = .4f;
 		public AnimationCurve NormalMovementCurve;
 		public AnimationCurve AggressiveMovementCurve;
+		public AnimationCurve[] DeviationCurves;
+		public AnimationCurve[] DeviationCurvesForRotation;
 	}
 }

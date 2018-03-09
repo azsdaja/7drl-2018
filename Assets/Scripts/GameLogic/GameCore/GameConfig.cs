@@ -1,4 +1,5 @@
-﻿using Assets.Cinemachine.Base.Runtime.Behaviours;
+﻿using System.Collections.Generic;
+using Assets.Cinemachine.Base.Runtime.Behaviours;
 using Assets.Scripts.Configuration;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ActorConfig ActorConfig;
 		public DungeonConfig[] DungeonConfigs;
 		public CinemachineVirtualCamera FollowPlayerCamera;
+		public int[] XpForLevels;
 
 		public int RngSeed
 		{
@@ -28,5 +30,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ActorConfig IGameConfig.ActorConfig { get { return ActorConfig; } }
 		DungeonConfig[] IGameConfig.DungeonConfigs { get { return DungeonConfigs; } }
 		CinemachineVirtualCamera IGameConfig.FollowPlayerCamera { get { return FollowPlayerCamera; } }
+		int[] IGameConfig.XpForLevels { get { return XpForLevels; }}
 	}
 }

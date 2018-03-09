@@ -59,10 +59,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				++actorData.Swords;
 			}
 
-			if (actorData.Xp > 30 * actorData.Level)
+			if (actorData.ControlledByPlayer)
 			{
-				++actorData.Level;
-				_uiConfig.AdvanceManager.gameObject.SetActive(true);
+				if (actorData.Xp >= _gameConfig.XpForLevels[actorData.Level + 1])
+				{
+					++actorData.Level;
+					_uiConfig.AdvanceManager.gameObject.SetActive(true);
+				}
 			}
 		}
 

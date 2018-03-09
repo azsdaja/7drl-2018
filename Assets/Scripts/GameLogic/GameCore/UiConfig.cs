@@ -19,8 +19,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 		Button IUiConfig.RestartButton { get { return RestartButton; }}
 		GameObject IUiConfig.Arrows { get { return Arrows; } }
 		AdvanceManager IUiConfig.AdvanceManager { get { return AdvanceManager; } }
-		Button IUiConfig.WalkAbilityButton { get { return RestartButton; } }
-		Button IUiConfig.DaringBlowAbilityButton { get { return RestartButton; } }
-		Button IUiConfig.PushAbilityButton { get { return RestartButton; } }
+		Button IUiConfig.WalkAbilityButton { get { return WalkAbilityButton; } }
+		Button IUiConfig.DaringBlowAbilityButton { get { return DaringBlowAbilityButton; } }
+		Button IUiConfig.PushAbilityButton { get { return PushAbilityButton; } }
 	}
 }
