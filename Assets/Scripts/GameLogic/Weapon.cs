@@ -5,6 +5,8 @@ namespace Assets.Scripts.GameLogic
 	[CreateAssetMenu(fileName = "Weapon", menuName = "7DRL Assets/Weapon", order = 0)]
 	public class Weapon : ScriptableObject
 	{
+		public bool IsBodyPart;
+
 		public Sprite Sprite;
 
 		public int RecoveryTime;

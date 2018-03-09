@@ -115,7 +115,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				for (int i = 0; i < actorsInRoom; i++)
 				{
 					var actorTypesAvailable = new[]
-						{ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
+						{ActorType.Dog, ActorType.Dog, ActorType.Dog, ActorType.Rogue, ActorType.Basher, ActorType.Rat, ActorType.RatVeteran, ActorType.RatChief,};
 					ActorType actorTypeChosen = _rng.Choice(actorTypesAvailable);
 					Vector2Int position = BoundsIntUtilities.Center(room);
 					_entitySpawner.SpawnActor(actorTypeChosen, position);

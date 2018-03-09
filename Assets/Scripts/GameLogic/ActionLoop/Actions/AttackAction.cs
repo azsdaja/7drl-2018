@@ -61,9 +61,18 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			{
 				--_attackedActor.Swords;
 			}
+
+			if (ActorData.Weapon.IsBodyPart)
+			{
+				IActionEffect bumpEffect = ActionEffectFactory.CreateBumpEffect(ActorData, AttackedActor.LogicalPosition);
+				yield return bumpEffect;
+			}
+			else
+			{
+				IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit, _isAggressiveAttack);
+				yield return strikeEffect;
+			}
 			
-			IActionEffect strikeEffect = ActionEffectFactory.CreateStrikeEffect(ActorData, AttackedActor, !hit, _isAggressiveAttack);
-			yield return strikeEffect;
 
 			AttackedActor.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);
 			ActorData.BlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(300);

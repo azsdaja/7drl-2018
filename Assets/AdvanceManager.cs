@@ -80,6 +80,7 @@ public class AdvanceManager : MonoBehaviour
 			Holders.RemoveAll(holder => holder.Trait == chosenTrait);
 			_gameContext.ControlBlocked = false;
 			gameObject.SetActive(false);
+			_currentHolderIndex = 0;
 		}
 	}
 }

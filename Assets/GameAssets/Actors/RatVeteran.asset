@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76cbf1dd48134a243936d9c5795dbd39, type: 3}
   m_Name: RatVeteran
   m_EditorClassIdentifier: 
-  ActorType: 5
+  ActorType: 6
   Sprite: {fileID: 21300000, guid: 05883d3eb49bb674693528648c64e2a5, type: 3}
   WeaponPool:
   - {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}

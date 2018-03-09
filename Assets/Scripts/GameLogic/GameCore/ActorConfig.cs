@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -10,7 +11,16 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 		public ActorDefinition GetDefinition(ActorType actorType)
 		{
-			return Definitions.Single(d => d.ActorType == actorType);
+			try
+			{
+				return Definitions.Single(d => d.ActorType == actorType);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
+			
 		}
 	}
 }

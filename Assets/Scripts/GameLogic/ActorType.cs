@@ -6,6 +6,7 @@
 		Player,
 		Rogue,
 		Basher,
+		Dog,
 		Rat,
 		RatVeteran,
 		RatChief

@@ -61,7 +61,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			if (actorData.Xp > 30 * actorData.Level)
 			{
-				actorData.Level = 2;
+				++actorData.Level;
 				_uiConfig.AdvanceManager.gameObject.SetActive(true);
 			}
 		}
