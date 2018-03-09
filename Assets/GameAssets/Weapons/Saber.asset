@@ -11,9 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3b9a5a3c6eb194bb79c3a394223c59, type: 3}
   m_Name: Saber
   m_EditorClassIdentifier: 
+  IsBodyPart: 0
   Sprite: {fileID: 21300000, guid: b70420bdee7db154a8e04bce6c6c4f86, type: 3}
   RecoveryTime: 2
-  MaxDamage: 10
+  MaxDamage: 12
   Swords: 2
   CloseCombatModifier: -1
   AllowsFarCombat: 1
