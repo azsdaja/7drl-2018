@@ -50,7 +50,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				{
 					return null;
 				}
-				ItemData itemToPickUp = items.First();
+				ItemData itemToPickUp = items.First(i => i.Weapon != null);
 				_inputHolder.PlayerInput = PlayerInput.None;
 				return _actionFactory.CreatePickUpAction(actorData, itemToPickUp);
 			}
@@ -148,7 +148,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			bool isPushing = _inputHolder.PlayerInputModifier == PlayerInputModifier.Push;
 			_arrowsVisibilityManager.Hide();
 			_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
-			if (enemyAtTargetPosition != null || isPushing)
+			if ((enemyAtTargetPosition != null || isPushing) || actorData.Weapon.AllowsFarCombat == false)
 			{
 				targetEnemy = enemyAtTargetPosition;
 			}

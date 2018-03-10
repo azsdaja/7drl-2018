@@ -15064,7 +15064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20f693a566014a54d82f16005423f366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeAsUndiscovered: 1
+  InitializeAsUndiscovered: 0
   Dirt: {fileID: 11400000, guid: 055f88fb4c3406f42a43a7cbcceadc1b, type: 2}
   Grass: {fileID: 11400000, guid: 903b3d986dc6d804498363ed74b2b816, type: 2}
   Wall: {fileID: 11400000, guid: c5528f95e1ad4cf428d13cf05bbcdb0c, type: 2}

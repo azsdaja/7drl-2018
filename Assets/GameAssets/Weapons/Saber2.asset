@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3b9a5a3c6eb194bb79c3a394223c59, type: 3}
+  m_Name: Saber2
+  m_EditorClassIdentifier: 
+  IsBodyPart: 0
+  Sprite: {fileID: 21300000, guid: 7c7a237a6e46c72438081a1b7e5d1ed0, type: 3}
+  RecoveryTime: 2
+  MaxDamage: 12
+  Swords: 3
+  CloseCombatModifier: -1
+  AllowsFarCombat: 1
+  WeaponAnimationData: {fileID: 11400000, guid: ed173a2cdc9ddc54bbbc06d1129390c3,
+    type: 2}

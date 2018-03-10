@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}
   - {fileID: 11400000, guid: c931bd20154a1094fb055c2bcbb033b3, type: 2}
   - {fileID: 11400000, guid: 3baecdc35af06614e8e1bd4aa533726a, type: 2}
+  - {fileID: 11400000, guid: 18d2ab357dbe85a419c294092eda4bc6, type: 2}
   SwordsFromSkill: 2
   VisionRayLength: 6
   EnergyGain: 0.1
@@ -25,3 +26,5 @@ MonoBehaviour:
   Accuracy: 0.6
   XpGiven: 15
   InitialLevel: 0
+  InitialTraits: 
+  AiTraits: 
