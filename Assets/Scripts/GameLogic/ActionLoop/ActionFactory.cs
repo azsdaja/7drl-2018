@@ -24,10 +24,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IEntityDetector _entityDetector;
 		private readonly IEntityRemover _entityRemover;
 		private readonly IGameContext _gameContext;
+		private readonly IEntitySpawner _entitySpawner;
 
 		public ActionFactory(IGridInfoProvider gridInfoProvider, IActionEffectFactory actionEffectFactory, 
 			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator,
-			IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector, IGameContext gameContext)
+			IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector, IGameContext gameContext, 
+			IEntitySpawner entitySpawner)
 		{
 			_gridInfoProvider = gridInfoProvider;
 			_actionEffectFactory = actionEffectFactory;
@@ -38,6 +40,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_entityRemover = entityRemover;
 			_entityDetector = entityDetector;
 			_gameContext = gameContext;
+			_entitySpawner = entitySpawner;
 		}
 
 		public IGameAction CreateDisplaceAction(ActorData actorData, ActorData actorAtTargetPosition)
@@ -62,7 +65,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreatePickUpAction(ActorData actorData, ItemData itemToPickUp)
 		{
-			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory);
+			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory, _entitySpawner, _entityRemover);
 		}
 
 		public IGameAction CreateCatchAction(ActorData actorData, ActorData caughtActor)

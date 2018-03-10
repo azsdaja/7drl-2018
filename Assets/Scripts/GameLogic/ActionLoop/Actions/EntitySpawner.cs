@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.GameCore;
+using Assets.Scripts.GridRelated;
+using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
 using UnityEngine;
 
@@ -11,16 +15,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly ActorBehaviour.Factory _actorBehaviourFactory;
 		private readonly IGameContext _gameContext;
 		private readonly IGameConfig _gameConfig;
-		private IRandomNumberGenerator _rng;
+		private readonly IRandomNumberGenerator _rng;
+		private readonly IEntityDetector _entityDetector;
+		private IGridInfoProvider _gridInfoProvider;
 
 		public EntitySpawner(ItemBehaviour.Factory itemBehaviourFactory, ActorBehaviour.Factory actorBehaviourFactory, 
-			IGameContext gameContext, IGameConfig gameConfig, IRandomNumberGenerator rng)
+			IGameContext gameContext, IGameConfig gameConfig, IRandomNumberGenerator rng, IEntityDetector entityDetector, IGridInfoProvider gridInfoProvider)
 		{
 			_itemBehaviourFactory = itemBehaviourFactory;
 			_actorBehaviourFactory = actorBehaviourFactory;
 			_gameContext = gameContext;
 			_gameConfig = gameConfig;
 			_rng = rng;
+			_entityDetector = entityDetector;
+			_gridInfoProvider = gridInfoProvider;
 		}
 
 		public void SpawnItem(ItemType itemType, Vector2Int position)
@@ -66,6 +74,31 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			_gameContext.Actors.Add(instantiatedActor);
 			instantiatedActor.gameObject.SetActive(true);
 			return instantiatedActor;
+		}
+
+		public void SpawnWeapon(Weapon weaponToSpawn, Vector2Int position)
+		{
+			ItemBehaviour instantiatedItem = _itemBehaviourFactory.Create();
+
+			instantiatedItem.GetComponent<SpriteRenderer>().sprite = weaponToSpawn.Sprite;
+			instantiatedItem.ItemData.ItemType = ItemType.Weapon;
+			instantiatedItem.ItemData.Weapon = weaponToSpawn;
+
+			Vector2Int positionToPlaceItem = position;
+			if (_entityDetector.DetectItems(positionToPlaceItem).Any())
+			{
+				List<Vector2Int> neighbours = Vector2IntUtilities.Neighbours8(positionToPlaceItem);
+				foreach (Vector2Int neighbour in neighbours)
+				{
+					if (_gridInfoProvider.IsWalkable(neighbour) && !_entityDetector.DetectItems(positionToPlaceItem).Any())
+					{
+						positionToPlaceItem = neighbour;
+						break;
+					}
+				}
+			}
+			instantiatedItem.ItemData.LogicalPosition = positionToPlaceItem;
+			instantiatedItem.RefreshWorldPosition();
 		}
 	}
 }

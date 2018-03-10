@@ -42,7 +42,7 @@ public class WeaponAnimator : MonoBehaviour
 		_rng = rng;
 	}
 
-	void Awake()
+	public void Awake()
 	{
 		_animator = GetComponent<Animator>();
 		Weapon usedWeapon = transform.parent.GetComponent<ActorBehaviour>().ActorData.Weapon;

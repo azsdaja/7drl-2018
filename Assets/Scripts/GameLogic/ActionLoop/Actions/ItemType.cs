@@ -4,6 +4,7 @@
 	{
 		Default = 0,
 		Key,
-		DeadBody
+		DeadBody,
+		Weapon
 	}
 }

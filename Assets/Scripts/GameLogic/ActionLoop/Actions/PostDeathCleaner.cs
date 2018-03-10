@@ -26,10 +26,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			GameObject.Destroy(actorData.Entity.gameObject);
 		}
 
-		public void RemoveItem(ItemData foodItemToEat)
+		public void RemoveItem(ItemData item)
 		{
-			_entityPresenter.RemoveDestroyedEntity(foodItemToEat.Entity);
-			GameObject.Destroy(foodItemToEat.Entity.gameObject);
+			_entityPresenter.RemoveDestroyedEntity(item.Entity);
+			GameObject.Destroy(item.Entity.gameObject);
 		}
 	}
 }

@@ -17,9 +17,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 	
 		public void HandleDeath(ActorData actorData)
 		{
+			Weapon weaponToSpawn = actorData.Weapon;
 			_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
 
 			_entitySpawner.SpawnItem(ItemType.DeadBody, actorData.LogicalPosition);
+			_entitySpawner.SpawnWeapon(weaponToSpawn, actorData.LogicalPosition);
 
 			if (actorData.ControlledByPlayer)
 			{

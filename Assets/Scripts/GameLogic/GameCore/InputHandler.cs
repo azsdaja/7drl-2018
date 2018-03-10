@@ -150,7 +150,9 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDownLeft;
 			}
-			else if (KeyDownOrRepeating(KeyCode.Keypad3) || KeyDownOrRepeating(KeyCode.Comma))
+			else if (KeyDownOrRepeating(KeyCode.Keypad3) || 
+				(KeyDownOrRepeating(KeyCode.Comma) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
+				)
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDownRight;
 			}
