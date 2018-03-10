@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2019389346, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
+  m_Name: mieczyki_atlas
+  m_EditorClassIdentifier: 
+  hashCode: 1931014807
+  material: {fileID: 21567761195214394}
+  materialHashCode: 0
+  spriteSheet: {fileID: 2800000, guid: 3db43e92cc9cc8145b0dde3f47bc5bb9, type: 3}
+  spriteInfoList:
+  - id: 0
+    x: 0
+    y: 28
+    width: 4
+    height: 4
+    xOffset: 0.43
+    yOffset: 3.82
+    xAdvance: 10.73
+    scale: 1.03
+    name: mieczyki_atlas_0
+    hashCode: -1658852840
+    unicode: 0
+    pivot: {x: -3, y: 2}
+    sprite: {fileID: 21300000, guid: 3db43e92cc9cc8145b0dde3f47bc5bb9, type: 3}
+  - id: 1
+    x: 6
+    y: 28
+    width: 6
+    height: 4
+    xOffset: -3
+    yOffset: 2
+    xAdvance: 6
+    scale: 1
+    name: mieczyki_atlas_1
+    hashCode: -1658852839
+    unicode: 0
+    pivot: {x: -3, y: 2}
+    sprite: {fileID: 21300002, guid: 3db43e92cc9cc8145b0dde3f47bc5bb9, type: 3}
+  fallbackSpriteAssets: []
+--- !u!21 &21567761195214394
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: TextMeshPro/Sprite
+  m_Shader: {fileID: 4800000, guid: 3a1c68c8292caf046bd21158886c5e40, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 3db43e92cc9cc8145b0dde3f47bc5bb9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}

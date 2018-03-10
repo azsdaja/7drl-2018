@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.GameLogic;
 using Assets.Scripts.GameLogic.GameCore;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -15,7 +16,7 @@ public class AdvanceManager : MonoBehaviour
 
 	public List<TraitHolder> Holders;
 	public Image Picker;
-	public Text TraitDescriptor;
+	public TextMeshProUGUI TraitDescriptor;
 
 	[Inject]
 	public void Init(IGameContext gameContext, IUiConfig uiConfig)
