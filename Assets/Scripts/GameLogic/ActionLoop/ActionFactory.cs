@@ -132,5 +132,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext);
 		}
+
+		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item)
+		{
+			return new UseItemAction(actorData, item, 1f, _entitySpawner, _uiConfig, _actionEffectFactory);
+		}
 	}
 }

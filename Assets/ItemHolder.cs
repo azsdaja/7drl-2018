@@ -41,12 +41,13 @@ public class ItemHolder : MonoBehaviour
 	{
 		DeselectItem();
 
-		SelectedItemIndex = index;
-		if (SelectedItemIndex != null)
+		if (Items[index] != null)
 		{
 			HeldItemsImages[index].transform.localScale = HeldItemsImages[index].transform.localScale * 2;
 		}
-			
+
+		SelectedItemIndex = index;
+
 		return Items[index];
 	}
 
@@ -56,5 +57,14 @@ public class ItemHolder : MonoBehaviour
 
 		HeldItemsImages[SelectedItemIndex].transform.localScale = HeldItemsImages[SelectedItemIndex].transform.localScale * 0.5f;
 		SelectedItemIndex = -1;
+	}
+
+	public ItemDefinition CurrentItem()
+	{
+		if (SelectedItemIndex < 0)
+		{
+			return null;
+		}
+		return Items[SelectedItemIndex];
 	}
 }

@@ -5,7 +5,6 @@ using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.AI;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
-using Assets.Scripts.Pathfinding;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,6 +14,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 	{
 		private readonly IEntityDetector _entityDetector;
 		private readonly IGameContext _gameContext;
+		private readonly IUiConfig _uiConfig;
 		private readonly IInputHolder _inputHolder;
 		private readonly IActionFactory _actionFactory;
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
@@ -23,7 +23,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
 			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer, 
-			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector, IGameContext gameContext)
+			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector, IGameContext gameContext, IUiConfig uiConfig)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
@@ -32,6 +32,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_weaponColorizer = weaponColorizer;
 			_clearWayBetweenTwoPointsDetector = clearWayBetweenTwoPointsDetector;
 			_gameContext = gameContext;
+			_uiConfig = uiConfig;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -39,6 +40,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (_inputHolder.PlayerInput == PlayerInput.None)
 			{
 				return null;
+			}
+
+			if (_inputHolder.PlayerInput != PlayerInput.UseCurrentItem)
+			{
+				_uiConfig.ItemHolder.DeselectItem();
+				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
 			}
 
 			IGameAction gameActionToReturn;
@@ -98,6 +105,18 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 					return null;
 				}
 				return _actionFactory.CreateEatAction(actorData, foodAtFeet);
+			}
+			if (_inputHolder.PlayerInput == PlayerInput.UseCurrentItem)
+			{
+				_inputHolder.PlayerInput = PlayerInput.None;
+				ItemDefinition item = _uiConfig.ItemHolder.CurrentItem();
+				if (item == null)
+					return null;
+
+				_uiConfig.ItemHolder.DeselectItem();
+				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
+
+				return _actionFactory.CreateUseItemAction(actorData, item);
 			}
 			if (_inputHolder.PlayerInput == PlayerInput.Ascend)
 			{

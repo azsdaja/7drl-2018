@@ -96,6 +96,10 @@ public class WeaponAnimator : MonoBehaviour
 	
 	public void SwingTo(Vector2Int targetPosition, bool isAggressiveAttack)
 	{
+		if (!gameObject.activeInHierarchy)
+		{
+			gameObject.SetActive(true);
+		}
 		_initialPosition = transform.position;
 		_isAggressiveAttack = isAggressiveAttack;
 		_mySwingTarget = _gridInfoProvider.GetCellCenterWorld(targetPosition);

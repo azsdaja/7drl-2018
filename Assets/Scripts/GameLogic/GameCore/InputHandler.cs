@@ -61,12 +61,12 @@ namespace Assets.Scripts.GameLogic.GameCore
 				return;
 			}
 
-			if(Input.anyKeyDown && !(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) 
-				|| Input.GetKeyDown(KeyCode.Alpha4)))
-			{
-				_uiConfig.ItemHolder.DeselectItem();
-				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
-			}
+			//if(Input.anyKeyDown && !(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) 
+			//	|| Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.E))) // jak zmieniasz E, to w obu miejscach!
+			//{
+			//	_uiConfig.ItemHolder.DeselectItem();
+			//	_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
+			//}
 
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
@@ -121,6 +121,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 			else if (Input.GetKeyDown(KeyCode.R))
 			{
 				_inputHolder.PlayerInput = PlayerInput.Release;
+			}
+			else if (Input.GetKeyDown(KeyCode.E)) // jak zmieniasz E, to w obu miejscach!
+			{
+				_inputHolder.PlayerInput = PlayerInput.UseCurrentItem;
 			}
 			else if (KeyDownOrRepeating(KeyCode.Alpha1))
 			{

@@ -17,6 +17,7 @@
 		Release,
 		Pass,
 		Eat,
-		Ascend
+		Ascend,
+		UseCurrentItem
 	}
 }
