@@ -7658,7 +7658,7 @@ Prefab:
     - target: {fileID: 61887468149757110, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
         type: 2}
       propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.5
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 61887468149757110, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
         type: 2}
@@ -19385,11 +19385,12 @@ MonoBehaviour:
   ActorConfig: {fileID: 11400000, guid: 854df4f8d21d254428fdcc605c3fe867, type: 2}
   ItemConfig: {fileID: 11400000, guid: d1f0cd3a4cb8de64685644ea8d84664c, type: 2}
   DungeonConfigs:
+  - {fileID: 11400000, guid: 6b8e18778c5f79f43aeffc987da5ded9, type: 2}
   - {fileID: 11400000, guid: fb73e27a61e1390478c9fb99d4ada478, type: 2}
   - {fileID: 11400000, guid: d33b6369f4d84fa4a93a003cbcb87193, type: 2}
   - {fileID: 11400000, guid: a468f8e5f52aabb42abaafae27a822fe, type: 2}
   FollowPlayerCamera: {fileID: 587042685}
-  XpForLevels: 00000000000000000f00000028000000460000006900000091000000c3000000f50000000f270000
+  XpForLevels: 00000000000000000a000000230000004b00000078000000a0000000d70000001d0100000f270000
 --- !u!4 &1364300173
 Transform:
   m_ObjectHideFlags: 0
@@ -20098,7 +20099,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.25}
+    pivot: {x: 0.47, y: 0.25}
     oldSize: {x: 0.32, y: 0.32}
     newSize: {x: 0.7, y: 0.9}
     adaptiveTilingThreshold: 0.5
@@ -20603,7 +20604,7 @@ Prefab:
     - target: {fileID: 61887468149757110, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
         type: 2}
       propertyPath: m_SpriteTilingProperty.pivot.x
-      value: 0.5
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 61887468149757110, guid: fdfd38cd4f8fb3a4894da5fcc82eae4f,
         type: 2}
