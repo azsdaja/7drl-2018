@@ -112,11 +112,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			else if (Input.GetKeyDown(KeyCode.D))
 			{
-				_inputHolder.PlayerInput = PlayerInput.Drop;
-			}
-			else if (Input.GetKeyDown(KeyCode.C))
-			{
-				_inputHolder.PlayerInput = PlayerInput.Catch;
+				_inputHolder.PlayerInput = PlayerInput.DropCurrentItem;
 			}
 			else if (Input.GetKeyDown(KeyCode.R))
 			{
@@ -125,6 +121,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 			else if (Input.GetKeyDown(KeyCode.E)) // jak zmieniasz E, to w obu miejscach!
 			{
 				_inputHolder.PlayerInput = PlayerInput.UseCurrentItem;
+			}
+			else if (Input.GetKeyDown(KeyCode.D)) // jak zmieniasz E, to w obu miejscach!
+			{
+				_inputHolder.PlayerInput = PlayerInput.DropCurrentItem;
 			}
 			else if (KeyDownOrRepeating(KeyCode.Alpha1))
 			{
@@ -183,7 +183,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			ItemDefinition selectedItem = _uiConfig.ItemHolder.SelectItem(index);
 			if (selectedItem != null)
 			{
-				_uiConfig.TooltipPresenter.Present(selectedItem);
+				_uiConfig.TooltipPresenter.Present(selectedItem, true);
 			}
 		}
 

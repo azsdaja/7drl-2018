@@ -33,8 +33,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			++actorData.RoundsCount;
 
-			if (actorData.Health < actorData.MaxHealth)
-				++actorData.Health;
+			//if (actorData.Health < actorData.MaxHealth)
+			//	++actorData.Health;
 
 			IEnumerable<ActorData> enemiesNearby = _entityDetector.DetectActors(actorData.LogicalPosition, 2)
 				.Where(a => a.Team != actorData.Team);

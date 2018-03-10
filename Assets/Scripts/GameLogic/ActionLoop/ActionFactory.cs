@@ -137,5 +137,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			return new UseItemAction(actorData, item, 1f, _entitySpawner, _uiConfig, _actionEffectFactory);
 		}
+
+		public IGameAction CreateDropItemAction(ActorData actorData, ItemDefinition item)
+		{
+			return new DropItemAction(actorData, item, 1f, _entitySpawner, _actionEffectFactory, _uiConfig);
+		}
 	}
 }

@@ -137,7 +137,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					bool pushingIsDesired = Vector2IntUtilities.IsOneStep(toEnemy) 
 											&& _gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy)
 											&& actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier < closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier
-											&& _rng.Check(0.8f);
+											&& _rng.Check(0.4f);
 					IGameAction actionToPerform;
 					if (pushingIsDesired)
 					{

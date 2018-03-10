@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.Animation;
@@ -31,6 +32,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 
 		public virtual void Process()
 		{
+			DateTime potentialBlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(200);
+			ActorData.BlockedUntil = ActorData.BlockedUntil < potentialBlockedUntil
+				? ActorData.BlockedUntil : potentialBlockedUntil;
+
 			IGameEntity entity = ActorData.Entity;
 			IEntityAnimator entityAnimator = entity.EntityAnimator;
 
@@ -76,7 +81,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 			ItemData itemOnTheGround = _entityDetector.DetectItems(ActorData.LogicalPosition).FirstOrDefault();
 			if (itemOnTheGround != null)
 			{
-				_uiConfig.TooltipPresenter.Present(itemOnTheGround.ItemDefinition);
+				_uiConfig.TooltipPresenter.Present(itemOnTheGround.ItemDefinition, false);
 			}
 		}
 	}

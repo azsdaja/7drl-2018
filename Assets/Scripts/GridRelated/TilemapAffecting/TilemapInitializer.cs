@@ -118,7 +118,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				_gameContext.PlayerActor = playerActorBehaviour;
 				_gameConfig.FollowPlayerCamera.Follow = playerActorBehaviour.transform;
 				_uiConfig.Arrows.transform.parent = playerActorBehaviour.transform;
-				_uiConfig.Arrows.transform.localPosition = Vector3.zero;
+				_uiConfig.Arrows.transform.localPosition = new Vector3(0, -0.1f, 0);
 			}
 
 			foreach (BoundsInt room in currentDungeon.Rooms.Skip(isFirstDungeon ? 1 :0))

@@ -23,7 +23,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			_uiConfig.ItemHolder.RemoveItem(_uiConfig.ItemHolder.SelectedItemIndex);
 			if (_item.ItemType == ItemType.Weapon)
 			{
 				ItemDefinition previousWeapon = ActorData.WeaponWeld;
@@ -34,6 +33,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				var effect = new LambdaEffect(effectAction);
 				yield return effect;
 			}
+			else if (_item.ItemType == ItemType.Food)
+			{
+				ActorData.Health = (int) (ActorData.Health * 1.3f);
+				if (ActorData.Health > ActorData.MaxHealth)
+					ActorData.Health = ActorData.MaxHealth;
+			}
+			_uiConfig.ItemHolder.RemoveItem(_uiConfig.ItemHolder.SelectedItemIndex);
 		}
 	}
 }

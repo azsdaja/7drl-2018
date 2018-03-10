@@ -14,7 +14,5 @@ MonoBehaviour:
   ItemType: 3
   Sprite: {fileID: 21300000, guid: 457a3b592e2cace4b9cfcf44c98bcedc, type: 3}
   Name: Falchion
-  Description: 'Knife description
-
-'
+  Description: 
   WeaponDefinition: {fileID: 11400000, guid: 18d2ab357dbe85a419c294092eda4bc6, type: 2}

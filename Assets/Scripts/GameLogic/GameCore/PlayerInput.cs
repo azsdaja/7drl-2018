@@ -18,6 +18,7 @@
 		Pass,
 		Eat,
 		Ascend,
-		UseCurrentItem
+		UseCurrentItem,
+		DropCurrentItem
 	}
 }

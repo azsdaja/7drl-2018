@@ -42,7 +42,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				return null;
 			}
 
-			if (_inputHolder.PlayerInput != PlayerInput.UseCurrentItem)
+			if (_inputHolder.PlayerInput != PlayerInput.UseCurrentItem && _inputHolder.PlayerInput != PlayerInput.DropCurrentItem)
 			{
 				_uiConfig.ItemHolder.DeselectItem();
 				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
@@ -113,10 +113,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				if (item == null)
 					return null;
 
-				_uiConfig.ItemHolder.DeselectItem();
-				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
-
 				return _actionFactory.CreateUseItemAction(actorData, item);
+			}
+			if (_inputHolder.PlayerInput == PlayerInput.DropCurrentItem)
+			{
+				_inputHolder.PlayerInput = PlayerInput.None;
+				ItemDefinition item = _uiConfig.ItemHolder.CurrentItem();
+				if (item == null)
+					return null;
+
+				return _actionFactory.CreateDropItemAction(actorData, item);
 			}
 			if (_inputHolder.PlayerInput == PlayerInput.Ascend)
 			{
