@@ -21,12 +21,12 @@ namespace Assets.Scripts.GameLogic
 		{
 			int sum = 0;
 			sum += actorData.SwordsFromSkill;
-			sum += actorData.Weapon.Swords;
+			sum += actorData.WeaponWeld.WeaponDefinition.Swords;
 			if (actorData.Health < actorData.MaxHealth * .5f)
 				sum -= 1;
 			if (actorData.IsInCloseCombat)
 			{
-				sum += actorData.Weapon.CloseCombatModifier;
+				sum += actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier;
 			}
 			if (actorData.HasLittleSpace && !actorData.Traits.Contains(Trait.Nimble))
 			{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
@@ -17,15 +18,17 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IRandomNumberGenerator _rng;
 		private readonly IGridInfoProvider _gridInfoProvider;
 		private readonly IEntityDetector _entityDetector;
+		private readonly IUiConfig _uiConfig;
 
 		public PushAction(ActorData actorData, ActorData targetEnemy, float energyCost, IActionEffectFactory actionEffectFactory, 
-			IRandomNumberGenerator rng, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector) 
+			IRandomNumberGenerator rng, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector, IUiConfig uiConfig) 
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_targetEnemy = targetEnemy;
 			_rng = rng;
 			_gridInfoProvider = gridInfoProvider;
 			_entityDetector = entityDetector;
+			_uiConfig = uiConfig;
 		}
 
 		public override IEnumerable<IActionEffect> Execute()
@@ -46,7 +49,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 				Vector2Int previousPosition = _targetEnemy.LogicalPosition;
 				_targetEnemy.LogicalPosition += direction;
-				yield return new MoveEffect(_targetEnemy, previousPosition, _gridInfoProvider, _entityDetector);
+				yield return new MoveEffect(_targetEnemy, previousPosition, _gridInfoProvider, _entityDetector, _uiConfig);
 			}
 		}
 	}

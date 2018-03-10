@@ -12,7 +12,7 @@ namespace Assets.Scripts.GameLogic
 	public class ActorData : EntityData
 	{
 
-		[SerializeField, HideInInspector] private Weapon _weapon;
+		[SerializeField, HideInInspector] private ItemDefinition _weaponWeld;
 		[SerializeField, HideInInspector] private int _swordsFromSkill;
 		[SerializeField, HideInInspector] private ActorType _actorType;
 		[SerializeField, HideInInspector] private int _swords;
@@ -162,10 +162,10 @@ namespace Assets.Scripts.GameLogic
 		public DateTime BlockedUntil { get; set; }
 
 		[ShowInInspector]
-		public Weapon Weapon
+		public ItemDefinition WeaponWeld
 		{
-			get { return _weapon; }
-			set { _weapon = value; }
+			get { return _weaponWeld; }
+			set { _weaponWeld = value; }
 		}
 
 		public int RoundsCount

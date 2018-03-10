@@ -14,9 +14,9 @@ MonoBehaviour:
   ActorType: 5
   Sprite: {fileID: 21300000, guid: 8c31a47971e22c249921e9632f1afcb2, type: 3}
   WeaponPool:
-  - {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}
-  - {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}
-  - {fileID: 11400000, guid: c3228310fe958824fa07fdd1d0e091eb, type: 2}
+  - {fileID: 11400000, guid: 0ecde699e801bcb48871abd207ce1668, type: 2}
+  - {fileID: 11400000, guid: 0ecde699e801bcb48871abd207ce1668, type: 2}
+  - {fileID: 11400000, guid: 812f2dbf2dc7c5148b618349ee2dcedc, type: 2}
   SwordsFromSkill: 1
   VisionRayLength: 6
   EnergyGain: 0.1

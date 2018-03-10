@@ -2,8 +2,8 @@
 
 namespace Assets.Scripts.GameLogic
 {
-	[CreateAssetMenu(fileName = "Weapon", menuName = "7DRL Assets/Weapon", order = 0)]
-	public class Weapon : ScriptableObject
+	[CreateAssetMenu(fileName = "WeaponDefinition", menuName = "7DRL Assets/WeaponDefinition", order = 0)]
+	public class WeaponDefinition : ScriptableObject
 	{
 		public bool IsBodyPart;
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.GameLogic
 
 		public int CloseCombatModifier;
 		public bool AllowsFarCombat;
-
+		
 		public WeaponAnimationData WeaponAnimationData;
 	}
 }

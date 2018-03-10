@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Assets.Scripts.CSharpUtilities;
-using C5;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Zenject;
 
 namespace Assets.Scripts.GameLogic.GameCore
@@ -11,6 +10,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 	{
 		private IInputHolder _inputHolder;
 		private IGameContext _gameContext;
+		private IUiConfig _uiConfig;
 		private IArrowsVisibilityManager _arrowsVisibilityManager;
 		private IWeaponColorizer _weaponColorizer;
 		private const float InitialTimeLeftToRepeat = .35f;
@@ -20,12 +20,13 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 		[Inject]
 		public void Init(IInputHolder inputHolder, IArrowsVisibilityManager arrowsVisibilityManager, 
-			IWeaponColorizer weaponColorizer, IGameContext gameContext)
+			IWeaponColorizer weaponColorizer, IGameContext gameContext, IUiConfig uiConfig)
 		{
 			_inputHolder = inputHolder;
 			_arrowsVisibilityManager = arrowsVisibilityManager;
 			_weaponColorizer = weaponColorizer;
 			_gameContext = gameContext;
+			_uiConfig = uiConfig;
 		}
 
 		void Start()
@@ -58,6 +59,13 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				_timeLeftToRepeat = InitialTimeLeftToRepeat;
 				return;
+			}
+
+			if(Input.anyKeyDown && !(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) 
+				|| Input.GetKeyDown(KeyCode.Alpha4)))
+			{
+				_uiConfig.ItemHolder.DeselectItem();
+				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
 			}
 
 			if (Input.GetKeyDown(KeyCode.Escape))
@@ -114,13 +122,21 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				_inputHolder.PlayerInput = PlayerInput.Release;
 			}
-			else if (KeyDownOrRepeating(KeyCode.Alpha5))
+			else if (KeyDownOrRepeating(KeyCode.Alpha1))
 			{
-				_inputHolder.PlayerInput = PlayerInput.Pass;
+				SelectItem(0);
 			}
-			else if (KeyDownOrRepeating(KeyCode.E))
+			else if (KeyDownOrRepeating(KeyCode.Alpha2))
 			{
-				_inputHolder.PlayerInput = PlayerInput.Eat;
+				SelectItem(1);
+			}
+			else if (KeyDownOrRepeating(KeyCode.Alpha3))
+			{
+				SelectItem(2);
+			}
+			else if (KeyDownOrRepeating(KeyCode.Alpha4))
+			{
+				SelectItem(3);
 			}
 			else if (KeyDownOrRepeating(KeyCode.UpArrow) || KeyDownOrRepeating(KeyCode.Keypad8) || KeyDownOrRepeating(KeyCode.U))
 			{
@@ -155,6 +171,15 @@ namespace Assets.Scripts.GameLogic.GameCore
 				)
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDownRight;
+			}
+		}
+
+		private void SelectItem(int index)
+		{
+			ItemDefinition selectedItem = _uiConfig.ItemHolder.SelectItem(index);
+			if (selectedItem != null)
+			{
+				_uiConfig.TooltipPresenter.Present(selectedItem);
 			}
 		}
 

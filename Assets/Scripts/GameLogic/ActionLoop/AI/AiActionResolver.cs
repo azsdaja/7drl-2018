@@ -131,12 +131,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			{
 				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
 				if (Vector2IntUtilities.IsOneStep(toEnemy) 
-					|| (actorData.Weapon.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
+					|| (actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
 								&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, closestEnemy.LogicalPosition)))
 				{
 					bool pushingIsDesired = Vector2IntUtilities.IsOneStep(toEnemy) 
 											&& _gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy)
-											&& actorData.Weapon.CloseCombatModifier < closestEnemy.Weapon.CloseCombatModifier
+											&& actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier < closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier
 											&& _rng.Check(0.8f);
 					IGameAction actionToPerform;
 					if (pushingIsDesired)

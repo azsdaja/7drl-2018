@@ -10,15 +10,21 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public Button RestartButton;
 		public GameObject Arrows;
 		public AdvanceManager AdvanceManager;
+		public ItemHolder ItemHolder;
+		public TooltipPresenter TooltipPresenter;
+
 		public Button WalkAbilityButton;
 		public Button DaringBlowAbilityButton;
 		public Button PushAbilityButton;
-	
+
 		Canvas IUiConfig.TooltipPooled{ get { return TooltipPooled; }}
 		ProgressBar IUiConfig.HealthBar { get { return HealthBar; }}
 		Button IUiConfig.RestartButton { get { return RestartButton; }}
 		GameObject IUiConfig.Arrows { get { return Arrows; } }
 		AdvanceManager IUiConfig.AdvanceManager { get { return AdvanceManager; } }
+		ItemHolder IUiConfig.ItemHolder { get { return ItemHolder; } }
+		TooltipPresenter IUiConfig.TooltipPresenter { get { return TooltipPresenter; } }
+
 		Button IUiConfig.WalkAbilityButton { get { return WalkAbilityButton; } }
 		Button IUiConfig.DaringBlowAbilityButton { get { return DaringBlowAbilityButton; } }
 		Button IUiConfig.PushAbilityButton { get { return PushAbilityButton; } }

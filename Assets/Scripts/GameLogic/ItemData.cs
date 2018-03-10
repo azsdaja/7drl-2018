@@ -9,7 +9,8 @@ namespace Assets.Scripts.GameLogic
 	public class ItemData : EntityData
 	{
 		[SerializeField, HideInInspector] private ItemType _itemType;
-		[SerializeField, HideInInspector] private Weapon _weapon;
+		[SerializeField, HideInInspector] private WeaponDefinition _weaponDefinition;
+		[SerializeField, HideInInspector] private ItemDefinition _itemItemDefinition;
 
 		[ShowInInspector]
 		public ItemType ItemType
@@ -19,10 +20,17 @@ namespace Assets.Scripts.GameLogic
 		}
 
 		[ShowInInspector]
-		public Weapon Weapon
+		public WeaponDefinition WeaponDefinition
 		{
-			get { return _weapon; }
-			set { _weapon = value; }
+			get { return _weaponDefinition; }
+			set { _weaponDefinition = value; }
+		}
+
+		[ShowInInspector]
+		public ItemDefinition ItemDefinition
+		{
+			get { return _itemItemDefinition; }
+			set { _itemItemDefinition = value; }
 		}
 	}
 }

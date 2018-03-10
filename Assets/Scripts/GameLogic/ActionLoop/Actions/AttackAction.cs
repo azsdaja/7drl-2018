@@ -41,7 +41,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			bool hit = (_isDaringBlow || _attackedActor.Swords <= 0) && accurate;
 			if (hit)
 			{
-				int damage = Math.Max(_rng.Next(ActorData.Weapon.MaxDamage + 1), _rng.Next(ActorData.Weapon.MaxDamage + 1));
+				int damage = Math.Max(_rng.Next(ActorData.WeaponWeld.WeaponDefinition.MaxDamage + 1), _rng.Next(ActorData.WeaponWeld.WeaponDefinition.MaxDamage + 1));
 				_attackedActor.Health -= damage;
 				if (_attackedActor.Health <= 0)
 				{
@@ -63,7 +63,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				--_attackedActor.Swords;
 			}
 
-			if (ActorData.Weapon.IsBodyPart)
+			if (ActorData.WeaponWeld.WeaponDefinition.IsBodyPart)
 			{
 				IActionEffect bumpEffect = ActionEffectFactory.CreateBumpEffect(ActorData, AttackedActor.LogicalPosition);
 				yield return bumpEffect;

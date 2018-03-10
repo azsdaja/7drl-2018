@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.Animation;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
@@ -13,16 +13,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 	{
 		private readonly IGridInfoProvider _gridInfoProvider;
 		private readonly IEntityDetector _entityDetector;
+		private readonly IUiConfig _uiConfig;
 		private readonly ActorAligner _actorAligner;
 		public Vector2Int PreviousPosition { get; private set; }
 		public ActorData ActorData { get; private set; }
 
-		public MoveEffect(ActorData actorData, Vector2Int previousPosition, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector)
+		public MoveEffect(ActorData actorData, Vector2Int previousPosition, IGridInfoProvider gridInfoProvider, 
+			IEntityDetector entityDetector, IUiConfig uiConfig)
 		{
 			ActorData = actorData;
 			PreviousPosition = previousPosition;
 			_gridInfoProvider = gridInfoProvider;
 			_entityDetector = entityDetector;
+			_uiConfig = uiConfig;
 			_actorAligner = new ActorAligner();
 		}
 
@@ -66,6 +69,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 				// so that we can see and assign the reference to it in the inspector window. If this happens more often in other effects, 
 				// we could maybe extract some kind of proxy class to keep the Entity, so that we can test with fake proxy.
 				entity.Position = animationTargetPosition;
+			}
+
+			if (!ActorData.ControlledByPlayer) return;
+
+			ItemData itemOnTheGround = _entityDetector.DetectItems(ActorData.LogicalPosition).FirstOrDefault();
+			if (itemOnTheGround != null)
+			{
+				_uiConfig.TooltipPresenter.Present(itemOnTheGround.ItemDefinition);
 			}
 		}
 	}

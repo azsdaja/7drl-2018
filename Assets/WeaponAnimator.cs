@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Assets.Scripts.GameLogic;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
@@ -45,7 +44,7 @@ public class WeaponAnimator : MonoBehaviour
 	public void Awake()
 	{
 		_animator = GetComponent<Animator>();
-		Weapon usedWeapon = transform.parent.GetComponent<ActorBehaviour>().ActorData.Weapon;
+		WeaponDefinition usedWeapon = transform.parent.GetComponent<ActorBehaviour>().ActorData.WeaponWeld.WeaponDefinition;
 		_weaponAnimationData = usedWeapon.WeaponAnimationData;
 		_weaponSprite = GetComponent<SpriteRenderer>();
 		WeaponSprite.sprite = usedWeapon.Sprite;

@@ -479,7 +479,7 @@ MonoBehaviour:
   _actorData:
     _entity: {fileID: 114566206639055990}
     _logicalPosition: {x: 0, y: 0}
-    _weapon: {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}
+    _weaponWeld: {fileID: 0}
     _swordsFromSkill: 1
     _actorType: 4
     _swords: 2

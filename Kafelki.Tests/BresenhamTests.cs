@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.FieldOfView;
 using FluentAssertions;
@@ -11,6 +12,18 @@ namespace Kafelki.Tests
 	[TestFixture]
 	public class BresenhamTests
 	{
+		[Test]
+		public void DwaDalej()
+		{
+			var position = new Vector2Int(3,10);
+			foreach (var vector2Int in Vector2IntUtilities.Neighbours8(Vector2Int.zero)
+				.Select(v => new Vector2Int(v.x * 2, v.y * 2))
+				.Select(v => position + v))
+			{
+				Console.WriteLine(vector2Int);
+			}
+		}
+
 		[Test]
 		public void Pawel()
 		{

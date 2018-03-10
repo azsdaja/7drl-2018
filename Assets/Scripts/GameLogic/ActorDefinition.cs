@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.Configuration;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Assets.Scripts.GameLogic
 	{
 		public ActorType ActorType;
 		public Sprite Sprite;
-		public Weapon[] WeaponPool;
+		public ItemDefinition[] WeaponPool;
 		public int SwordsFromSkill;
 		public int VisionRayLength;
 		public float EnergyGain = 0.1f;

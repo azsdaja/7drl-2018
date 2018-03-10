@@ -13,5 +13,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		CinemachineVirtualCamera FollowPlayerCamera { get; }
 		int RngSeed { get; }
 		int[] XpForLevels { get; }
+		ItemConfig ItemConfig { get; }
 	}
 }

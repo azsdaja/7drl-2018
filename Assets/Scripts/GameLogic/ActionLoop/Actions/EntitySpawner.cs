@@ -31,19 +31,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			_gridInfoProvider = gridInfoProvider;
 		}
 
-		public void SpawnItem(ItemType itemType, Vector2Int position)
+		public void SpawnItem(ItemDefinition item, Vector2Int spawnPosition)
 		{
 			ItemBehaviour instantiatedItem = _itemBehaviourFactory.Create();
-			Sprite itemSprite;
-			if (itemType == ItemType.DeadBody)
-				itemSprite = Resources.Load<Sprite>("Sprites/Items/DeadBody");
-			else
-				itemSprite = Resources.Load<Sprite>("Sprites/Items/Key");
 
-			instantiatedItem.GetComponent<SpriteRenderer>().sprite = itemSprite;
-			instantiatedItem.ItemData.ItemType = itemType;
+			instantiatedItem.GetComponent<SpriteRenderer>().sprite = item.Sprite;
+			instantiatedItem.ItemData.ItemType = item.ItemType;
+			instantiatedItem.ItemData.ItemDefinition = item;
 
-			instantiatedItem.ItemData.LogicalPosition = position;
+			Vector2Int positionToPlaceItem = GetPositionToPlaceItem(spawnPosition);
+			instantiatedItem.ItemData.LogicalPosition = positionToPlaceItem;
 			instantiatedItem.RefreshWorldPosition();
 		}
 
@@ -56,7 +53,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 			ActorDefinition actorDefinition = _gameConfig.ActorConfig.GetDefinition(actorType);
 			instantiatedActor.GetComponent<SpriteRenderer>().sprite = actorDefinition.Sprite;
-			actorData.Weapon = _rng.Choice(actorDefinition.WeaponPool);
+			actorData.WeaponWeld = _rng.Choice(actorDefinition.WeaponPool);
 			actorData.SwordsFromSkill = actorDefinition.SwordsFromSkill;
 			actorData.VisionRayLength = actorDefinition.VisionRayLength;
 			actorData.EnergyGain = actorDefinition.EnergyGain;
@@ -76,29 +73,39 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			return instantiatedActor;
 		}
 
-		public void SpawnWeapon(Weapon weaponToSpawn, Vector2Int position)
+		public void SpawnWeapon(WeaponDefinition weaponToSpawn, Vector2Int spawnPosition)
 		{
 			ItemBehaviour instantiatedItem = _itemBehaviourFactory.Create();
 
 			instantiatedItem.GetComponent<SpriteRenderer>().sprite = weaponToSpawn.Sprite;
 			instantiatedItem.ItemData.ItemType = ItemType.Weapon;
-			instantiatedItem.ItemData.Weapon = weaponToSpawn;
+			instantiatedItem.ItemData.WeaponDefinition = weaponToSpawn;
+			
 
-			Vector2Int positionToPlaceItem = position;
-			if (_entityDetector.DetectItems(positionToPlaceItem).Any())
+			Vector2Int positionToPlaceItem = GetPositionToPlaceItem(spawnPosition);
+			instantiatedItem.ItemData.LogicalPosition = positionToPlaceItem;
+			instantiatedItem.RefreshWorldPosition();
+		}
+
+		private Vector2Int GetPositionToPlaceItem(Vector2Int position)
+		{
+			if (_entityDetector.DetectItems(position).Any())
 			{
-				List<Vector2Int> neighbours = Vector2IntUtilities.Neighbours8(positionToPlaceItem);
-				foreach (Vector2Int neighbour in neighbours)
+				List<Vector2Int> candidates = Vector2IntUtilities.Neighbours8(position);
+				var candidatesFurther = Vector2IntUtilities.Neighbours8(Vector2Int.zero)
+					.Select(v => new Vector2Int(v.x*2, v.y*2))
+					.Select(v => position + v);
+				candidates.AddRange(candidatesFurther);
+				foreach (Vector2Int neighbour in candidates)
 				{
-					if (_gridInfoProvider.IsWalkable(neighbour) && !_entityDetector.DetectItems(positionToPlaceItem).Any())
+					if (_gridInfoProvider.IsWalkable(neighbour) && !_entityDetector.DetectItems(neighbour).Any())
 					{
-						positionToPlaceItem = neighbour;
+						position = neighbour;
 						break;
 					}
 				}
 			}
-			instantiatedItem.ItemData.LogicalPosition = positionToPlaceItem;
-			instantiatedItem.RefreshWorldPosition();
+			return position;
 		}
 	}
 }

@@ -14,9 +14,9 @@ MonoBehaviour:
   ActorType: 8
   Sprite: {fileID: 21300000, guid: 084d40892186cb84faafdeed24b8723f, type: 3}
   WeaponPool:
-  - {fileID: 11400000, guid: d96027e00cb17fb4088d9ea8891f7a47, type: 2}
-  - {fileID: 11400000, guid: c931bd20154a1094fb055c2bcbb033b3, type: 2}
-  - {fileID: 11400000, guid: 18d2ab357dbe85a419c294092eda4bc6, type: 2}
+  - {fileID: 11400000, guid: 812f2dbf2dc7c5148b618349ee2dcedc, type: 2}
+  - {fileID: 11400000, guid: 812f2dbf2dc7c5148b618349ee2dcedc, type: 2}
+  - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   SwordsFromSkill: 2
   VisionRayLength: 6
   EnergyGain: 0.1
@@ -25,5 +25,5 @@ MonoBehaviour:
   Accuracy: 0.7
   XpGiven: 15
   InitialLevel: 0
-  InitialTraits: 02000000
+  InitialTraits: 0200000003000000
   AiTraits: 00000000

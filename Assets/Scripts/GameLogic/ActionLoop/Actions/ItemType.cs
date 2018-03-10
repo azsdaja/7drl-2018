@@ -5,6 +5,7 @@
 		Default = 0,
 		Key,
 		DeadBody,
-		Weapon
+		Weapon,
+		Food
 	}
 }

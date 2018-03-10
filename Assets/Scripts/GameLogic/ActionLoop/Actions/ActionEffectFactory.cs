@@ -12,17 +12,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly IGridInfoProvider _gridInfoProvider;
 		private readonly IEntityDetector _entityDetector;
 		private readonly IWeaponColorizer _weaponColorizer;
+		private readonly IUiConfig _uiConfig;
 
-		public ActionEffectFactory(IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector, IWeaponColorizer weaponColorizer)
+		public ActionEffectFactory(IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector, IWeaponColorizer weaponColorizer, 
+			IUiConfig uiConfig)
 		{
 			_gridInfoProvider = gridInfoProvider;
 			_entityDetector = entityDetector;
 			_weaponColorizer = weaponColorizer;
+			_uiConfig = uiConfig;
 		}
 
 		public IActionEffect CreateMoveEffect(ActorData activeActor, Vector2Int activeActorPositionBefore)
 		{
-			return new MoveEffect(activeActor, activeActorPositionBefore, _gridInfoProvider, _entityDetector);
+			return new MoveEffect(activeActor, activeActorPositionBefore, _gridInfoProvider, _entityDetector, _uiConfig);
 		}
 
 		public IActionEffect CreateLambdaEffect(Action action)

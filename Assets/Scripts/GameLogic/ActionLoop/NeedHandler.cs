@@ -54,7 +54,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (actorData.Swords > maxSwords)
 				actorData.Swords = maxSwords;
 
-			if (actorData.Swords < maxSwords && actorData.RoundsCount % actorData.Weapon.RecoveryTime == 0)
+			if (actorData.Swords < maxSwords && actorData.RoundsCount % actorData.WeaponWeld.WeaponDefinition.RecoveryTime == 0)
 			{
 				++actorData.Swords;
 			}

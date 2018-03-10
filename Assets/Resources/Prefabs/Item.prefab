@@ -82,7 +82,8 @@ MonoBehaviour:
     _entity: {fileID: 114267510360326220}
     _logicalPosition: {x: 0, y: 0}
     _itemType: 0
-    _weapon: {fileID: 0}
+    _weaponDefinition: {fileID: 0}
+    _itemItemDefinition: {fileID: 0}
 --- !u!212 &212261117626236814
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -25,11 +25,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IEntityRemover _entityRemover;
 		private readonly IGameContext _gameContext;
 		private readonly IEntitySpawner _entitySpawner;
+		private readonly IUiConfig _uiConfig;
 
 		public ActionFactory(IGridInfoProvider gridInfoProvider, IActionEffectFactory actionEffectFactory, 
 			ITextEffectPresenter textEffectPresenter, INeedHandler needHandler, IRandomNumberGenerator randomNumberGenerator,
 			IDeathHandler deathHandler, IEntityRemover entityRemover, IEntityDetector entityDetector, IGameContext gameContext, 
-			IEntitySpawner entitySpawner)
+			IEntitySpawner entitySpawner, IUiConfig uiConfig)
 		{
 			_gridInfoProvider = gridInfoProvider;
 			_actionEffectFactory = actionEffectFactory;
@@ -41,6 +42,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_entityDetector = entityDetector;
 			_gameContext = gameContext;
 			_entitySpawner = entitySpawner;
+			_uiConfig = uiConfig;
 		}
 
 		public IGameAction CreateDisplaceAction(ActorData actorData, ActorData actorAtTargetPosition)
@@ -65,7 +67,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreatePickUpAction(ActorData actorData, ItemData itemToPickUp)
 		{
-			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory, _entitySpawner, _entityRemover);
+			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory, _entitySpawner, _entityRemover, _uiConfig);
 		}
 
 		public IGameAction CreateCatchAction(ActorData actorData, ActorData caughtActor)
@@ -117,7 +119,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreatePushAction(ActorData actorData, ActorData targetEnemy)
 		{
-			return new PushAction(actorData, targetEnemy, 1f, _actionEffectFactory, _randomNumberGenerator, _gridInfoProvider, _entityDetector);
+			return new PushAction(actorData, targetEnemy, 1f, _actionEffectFactory, _randomNumberGenerator, _gridInfoProvider, 
+				_entityDetector, _uiConfig);
 		}
 
 		public IGameAction CreateOpenDoorAction(ActorData actorData, Vector2Int targetPosition, bool isHorizontal)

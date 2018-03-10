@@ -14,6 +14,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ModeConfig ModeConfig;
 		public SmellConfig SmellConfig;
 		public ActorConfig ActorConfig;
+		public ItemConfig ItemConfig;
 		public DungeonConfig[] DungeonConfigs;
 		public CinemachineVirtualCamera FollowPlayerCamera;
 		public int[] XpForLevels;
@@ -28,6 +29,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ModeConfig IGameConfig.ModeConfig { get { return ModeConfig; }}
 		SmellConfig IGameConfig.SmellConfig { get { return SmellConfig; } }
 		ActorConfig IGameConfig.ActorConfig { get { return ActorConfig; } }
+		ItemConfig IGameConfig.ItemConfig { get { return ItemConfig; } }
 		DungeonConfig[] IGameConfig.DungeonConfigs { get { return DungeonConfigs; } }
 		CinemachineVirtualCamera IGameConfig.FollowPlayerCamera { get { return FollowPlayerCamera; } }
 		int[] IGameConfig.XpForLevels { get { return XpForLevels; }}
