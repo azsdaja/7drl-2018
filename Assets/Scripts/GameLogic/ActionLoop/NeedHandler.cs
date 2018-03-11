@@ -56,12 +56,25 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			if (actorData.Swords < maxSwords)
 			{
-				if(actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.OnePerThree && actorData.RoundsCount % 3 == 0)
+				if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerSeven)
+				{
+					int roundNumber = actorData.RoundsCount % 7;
+					if (roundNumber == 1 || roundNumber == 4 || roundNumber == 7)
+					{
+						++maxSwords;
+					}
+				}
 					++actorData.Swords;
 				if(actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.OnePerTwo && actorData.RoundsCount % 2 == 0)
 					++actorData.Swords;
-				if(actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.TwoPerThree && (actorData.RoundsCount % 3 == 0 || actorData.RoundsCount % 3 == 1))
-					++actorData.Swords;
+				if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerFive)
+				{
+					int roundNumber = actorData.RoundsCount % 5;
+					if (roundNumber == 1 || roundNumber == 3 || roundNumber == 5)
+					{
+						++maxSwords;
+					}
+				}
 			}
 
 			if (actorData.ControlledByPlayer)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
@@ -7,6 +8,7 @@ using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.GridRelated.TilemapAffecting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -41,10 +43,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				yield return new LambdaEffect(refreshAction);
 				yield break;
 			}
-			 Dungeon nextDungeon = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex];
+			Dungeon nextDungeon = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex];
 			BoundsInt furthestRoomToStairs = FurthestRoomToStairsResolver.GetFurthestRoomToStairs(nextDungeon);
 			Vector2Int startingPosition = new Vector2Int((int) furthestRoomToStairs.center.x, (int) furthestRoomToStairs.center.y);
 			_gameContext.PlayerActor.ActorData.LogicalPosition = startingPosition;
+			TileBase stairsDownTile = Resources.Load<TileBase>("Tiles/Environment/Stairs_down");
+			_gameContext.EnvironmentTilemap.SetTile(startingPosition.ToVector3Int(), stairsDownTile);
 			IEnumerable<ActorData> actorAround = _entityDetector.DetectActors(startingPosition, 3);
 			foreach (var actorData in actorAround)
 			{

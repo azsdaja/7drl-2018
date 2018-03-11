@@ -21,8 +21,8 @@ namespace Assets.Scripts.GameLogic
 
 	public enum RecoveryTime
 	{
-		TwoPerThree,
+		ThreePerFive,
 			OnePerTwo,
-			OnePerThree
+			ThreePerSeven
 	}
 }

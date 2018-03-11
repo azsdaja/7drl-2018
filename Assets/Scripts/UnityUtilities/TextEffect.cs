@@ -52,7 +52,7 @@ namespace Assets.Scripts.UnityUtilities
 			Vector3 positionOnScreen = GetPositionOnScreen(progress);
 
 			var rect = new Rect(0, 0, 100, 60);
-			int xTweak = -20;
+			int xTweak = -40;
 			int yTweak = 30;
 			rect.x = positionOnScreen.x + xTweak;
 			rect.y = Screen.height - positionOnScreen.y - rect.height + yTweak;
@@ -62,7 +62,7 @@ namespace Assets.Scripts.UnityUtilities
 
 		private Vector3 GetPositionOnScreen(float progress)
 		{
-			const float finalYOffset = .1f;
+			const float finalYOffset = .2f;
 			float currentPositionY = Mathf.Lerp(transform.position.y, transform.position.y + finalYOffset, progress);
 			var currentPosition = new Vector3(transform.position.x, currentPositionY, transform.position.z);
 			Vector3 positionOnScreen = Camera.main.WorldToScreenPoint(currentPosition);

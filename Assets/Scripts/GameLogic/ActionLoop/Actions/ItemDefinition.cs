@@ -19,14 +19,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			}
 			if (ItemType == ItemType.Weapon)
 			{
+				string recoveryTimeName = WeaponDefinition.RecoveryTime == RecoveryTime.OnePerTwo
+					? "<color=#6f97e1>Medium</color>"
+					: WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerSeven
+						? "<color=#ff0000>Slow</color>"
+						: "<color=#10ff00>Fast</color>";
+
 				string descriptionPattern = @"Max combat capacity: +{0}<sprite=0><br>
-<sprite=0> recovery: 1<sprite=0> per {1} turns<br>
+<sprite=0> recovery rate: {1}<br>
 Max damage: {2}<br>
 Close combat modifier: {3}<sprite=0><br>
 Long: {4}";
 				var description = string.Format(descriptionPattern,
 					WeaponDefinition.Swords,
-					WeaponDefinition.RecoveryTime,
+					recoveryTimeName,
 					WeaponDefinition.MaxDamage,
 					WeaponDefinition.CloseCombatModifier,
 					WeaponDefinition.AllowsFarCombat ? "<color=#10ff00>yes</color>" : "<color=#ff0000>no</color>");

@@ -17,8 +17,9 @@ namespace Assets.Scripts.UI
 			_gameContext = gameContext;
 		}
 
-		public void ShowTextEffect(Vector2Int position, string text)
+		public void ShowTextEffect(Vector2Int position, string text, Color? color = null)
 		{
+			if (!color.HasValue) color = Color.white;
 			if (!_gameContext.VisiblePositions.Contains(position))
 			{
 				return;
@@ -26,9 +27,9 @@ namespace Assets.Scripts.UI
 			var textEffectObject = new GameObject("TextEffect");
 			textEffectObject.transform.position = _gridInfoProvider.GetCellCenterWorld(position);
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
-			float duration = Mathf.Max(1f, (float)text.Length / 15);
+			float duration = Mathf.Max(2.5f, (float)text.Length / 10);
 
-			textEffect.Initialize(text, duration);
+			textEffect.Initialize(text, color.Value, duration);
 
 			Object.Destroy(textEffectObject, duration);
 		}

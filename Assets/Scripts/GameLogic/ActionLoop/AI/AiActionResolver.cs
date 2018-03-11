@@ -119,7 +119,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
-			if (_rng.Check(0.08f))
+			if (_rng.Check(0.04f))
 			{
 				if (actorData.ActorType == ActorType.Dog && actorData.Team != Team.Beasts)
 				{
