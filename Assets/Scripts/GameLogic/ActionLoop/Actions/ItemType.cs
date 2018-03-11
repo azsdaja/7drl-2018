@@ -11,5 +11,6 @@
 		PotionOfFriend,
 		PotionOfLight,
 		PotionOfHealing,
+		PotionOfRecoverTail,
 	}
 }

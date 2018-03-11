@@ -5,6 +5,7 @@ using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -16,9 +17,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IDeathHandler _deathHandler;
 		private readonly IMaxSwordCalculator _maxSwordCalculator;
 		private readonly IPlayerSpaceResolver _playerSpaceResolver;
+		private readonly IGameContext _gameContext;
 
 		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IUiConfig uiConfig, 
-			IDeathHandler deathHandler, IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver)
+			IDeathHandler deathHandler, IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver, IGameContext gameContext)
 		{
 			_entityDetector = entityDetector;
 			_gameConfig = gameConfig;
@@ -26,12 +28,21 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_deathHandler = deathHandler;
 			_maxSwordCalculator = maxSwordCalculator;
 			_playerSpaceResolver = playerSpaceResolver;
+			_gameContext = gameContext;
 		}
 
 		public void Heartbeat(ActorData actorData)
 		{
-
 			++actorData.RoundsCount;
+
+			BoundsInt lastLevelBounds = new BoundsInt(-26, -105, 0, 59, 70, 1);
+			if (actorData.ActorType == ActorType.Player && _gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count && 
+				!lastLevelBounds.Contains(actorData.LogicalPosition.ToVector3Int()))
+			{
+				var finisher = _uiConfig.GameFinisher;
+				finisher.gameObject.SetActive(true);
+				finisher.Initialize(actorData);
+			}
 
 			//if (actorData.Health < actorData.MaxHealth)
 			//	++actorData.Health;
@@ -50,6 +61,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			actorData.HasLittleSpace = _playerSpaceResolver.ResolveIfPlayerHasLittleSpace(actorData);
 
 			int maxSwords = _maxSwordCalculator.Calculate(actorData);
+
 			actorData.MaxSwords = maxSwords;
 			if (actorData.Swords > maxSwords)
 				actorData.Swords = maxSwords;
@@ -58,21 +70,23 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			{
 				if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerSeven)
 				{
-					int roundNumber = actorData.RoundsCount % 7;
-					if (roundNumber == 1 || roundNumber == 4 || roundNumber == 7)
+					int roundNumber = actorData.RoundsCount % 21;
+					if (new[]{0, 3, 5, 8, 10, 13, 15, 18, 20}.Contains(roundNumber))
 					{
-						++maxSwords;
+						++actorData.Swords;
 					}
 				}
-					++actorData.Swords;
-				if(actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.OnePerTwo && actorData.RoundsCount % 2 == 0)
-					++actorData.Swords;
-				if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerFive)
+				else if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.OnePerTwo &&
+				         actorData.RoundsCount % 2 == 0)
 				{
-					int roundNumber = actorData.RoundsCount % 5;
-					if (roundNumber == 1 || roundNumber == 3 || roundNumber == 5)
+						++actorData.Swords;
+				}
+				else if (actorData.WeaponWeld.WeaponDefinition.RecoveryTime == RecoveryTime.ThreePerFive)
+				{
+					int roundNumber = actorData.RoundsCount % 15;
+					if (new[] {0, 2, 5, 7, 10, 12}.Contains(roundNumber))
 					{
-						++maxSwords;
+						++actorData.Swords;
 					}
 				}
 			}

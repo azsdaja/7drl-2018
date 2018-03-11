@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		GameObject Arrows { get;}
 		AdvanceManager AdvanceManager { get; }
 		ItemHolder ItemHolder { get; }
+		GameFinisher GameFinisher { get; }
 
 		Button WalkAbilityButton { get; }
 		Button DaringBlowAbilityButton { get; }

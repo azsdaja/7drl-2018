@@ -12,6 +12,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public AdvanceManager AdvanceManager;
 		public ItemHolder ItemHolder;
 		public TooltipPresenter TooltipPresenter;
+		public GameFinisher GameFinisher;
 
 		public Button WalkAbilityButton;
 		public Button DaringBlowAbilityButton;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		GameObject IUiConfig.Arrows { get { return Arrows; } }
 		AdvanceManager IUiConfig.AdvanceManager { get { return AdvanceManager; } }
 		ItemHolder IUiConfig.ItemHolder { get { return ItemHolder; } }
+		GameFinisher IUiConfig.GameFinisher { get { return GameFinisher; } }
 		TooltipPresenter IUiConfig.TooltipPresenter { get { return TooltipPresenter; } }
 
 		Button IUiConfig.WalkAbilityButton { get { return WalkAbilityButton; } }

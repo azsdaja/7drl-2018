@@ -15,7 +15,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		UnityEngine.Tilemaps.Tilemap EnvironmentTilemap { get; }
 		ActorBehaviour PlayerActor { get; set; }
 		bool ControlBlocked { get; set; }
-		bool PlayerPickedUpKey { get; set; }
 
 		HashSet<ActorBehaviour> Actors { get; set; }
 		HashSet<Vector2Int> VisiblePositions { get; set; }

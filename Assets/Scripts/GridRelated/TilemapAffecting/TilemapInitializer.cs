@@ -14,7 +14,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
 using Debug = UnityEngine.Debug;
-using Tile = UnityEngine.Tilemaps.Tile;
 
 namespace Assets.Scripts.GridRelated.TilemapAffecting
 {
@@ -86,7 +85,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				GenerateActorsInDungeon(dungeon, dungeonConfig, isFirstDungeon: dungeonIndex == 0);
 			}
 
-			GenerateActorsOutside();
+			GenerateActorsAndItemsOutside();
 
 			_gameContext.CurrentDungeonIndex = 0;
 
@@ -97,7 +96,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			//GenerateAnimals(6);
 		}
 
-		private void GenerateActorsOutside()
+		private void GenerateActorsAndItemsOutside()
 		{
 			var bound = new BoundsInt(new Vector3Int(-2, -53, 0), new Vector3Int(19,18,1));
 			for (int i = 0; i < 10; i++)
@@ -117,7 +116,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					_entitySpawner.SpawnActor(actor, randomPosition);
 				}
 			}
-			_entitySpawner.SpawnActor(ActorType.Dog, new Vector2Int(14,-40));
+			ItemDefinition recoverTailDefinition = Resources.Load<ItemDefinition>("PotionOfRecoverTail");
+			_entitySpawner.SpawnItem(recoverTailDefinition, new Vector2Int(-3,-83));
 		}
 
 		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)
@@ -224,7 +224,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						if (_rng.Check(0.03f))
 						{
-							_gameContext.FloorsTilemap.SetTile(position, _rng.Choice(FloorEnvironmetals));
+							_gameContext.EnvironmentTilemap.SetTile(position, _rng.Choice(FloorEnvironmetals));
 						}
 						if (_rng.Check(0.06f))
 						{
@@ -250,18 +250,18 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					}
 					case GenTile.Upstairs:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						_gameContext.EnvironmentTilemap.SetTile(position, StairsUp);
 						break;
 					}
 					case GenTile.Downstairs:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						break;
 					}
 					case GenTile.Door:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						GenTile tileToRight = generator.GetCellType(position.x + 1, position.y);
 						bool isHorizontalDoor = tileToRight == GenTile.Corridor || tileToRight == GenTile.DirtFloor;
 						_gameContext.WallsTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalClosed : DoorsVerticalClosed);
@@ -275,225 +275,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			}
 		}
 
-
-		// Update is called once per frame
-
-		private void GenerateWilderness()
-		{
-			_gameContext.TilemapDefiningOuterBounds.CompressBounds();
-			BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
-
-			GenerateDirt(gridBounds);
-			GenerateFloorsWithPerlin(gridBounds);
-			GenerateCavesWithPerlin(gridBounds);
-
-			PlaceHouses(gridBounds, 3);
-		}
-
-		private void GenerateDirt(BoundsInt gridBounds)
-		{
-			foreach (Vector3Int currentPosition in gridBounds.allPositionsWithin)
-			{
-				UnityEngine.Tilemaps.Tilemap tilemapToAffect = _gameContext.DirtTilemap;
-				tilemapToAffect.SetTileFlags(currentPosition, TileFlags.None);
-				tilemapToAffect.SetTile(currentPosition, Dirt);
-			}
-		}
-
-		private void GenerateFloorsWithPerlin(BoundsInt gridBounds)
-		{
-			float perlinScale = .08f;
-			float perlinOffsetX = _rng.Next(10000);
-			float perlinOffsetY = _rng.Next(10000);
-
-			for (int x = gridBounds.xMin; x <= gridBounds.xMax; x++)
-			for (int y = gridBounds.yMin; y <= gridBounds.yMax; y++)
-			{
-				var currentPosition = new Vector3Int(x, y, 0);
-				var tilemapsToAffect = new[] {_gameContext.FloorsTilemap};
-				foreach (var tilemap in tilemapsToAffect)
-				{
-					float perlinX = currentPosition.x * perlinScale + perlinOffsetX;
-					float perlinY = currentPosition.y * perlinScale + perlinOffsetY;
-					float value1 = Mathf.PerlinNoise(perlinX, perlinY);
-					float value2 = Mathf.PerlinNoise(perlinX * 2, perlinY * 2);
-					float value4 = Mathf.PerlinNoise(perlinX * 4, perlinY * 4);
-					float compundValue = (value1 + value2 + value4) * .4f;
-
-					tilemap.SetTileFlags(currentPosition, TileFlags.None);
-					InitializeTileWithBiomeFloor(compundValue, tilemap, currentPosition);
-					tilemap.SetColor(currentPosition, Color.white);
-				}
-				PlaceRandomEnvironmentalObjects(currentPosition);
-			}
-		}
-
-		private void GenerateCavesWithPerlin(BoundsInt gridBounds)
-		{
-			float perlinScale = .08f;
-			float perlinOffsetX = _rng.Next(10000);
-			float perlinOffsetY = _rng.Next(10000);
-
-			for (int x = gridBounds.xMin; x <= gridBounds.xMax; x++)
-			for (int y = gridBounds.yMin; y <= gridBounds.yMax; y++)
-			{
-				var currentPosition = new Vector2Int(x, y);
-				float perlinX = currentPosition.x * perlinScale + perlinOffsetX;
-				float perlinY = currentPosition.y * perlinScale + perlinOffsetY;
-				float value = Mathf.PerlinNoise(perlinX, perlinY);
-
-				if (value < 0.29f)
-				{
-					_caveTiles.Add(currentPosition);
-					RemoveEnvironmentalObjects(currentPosition);
-					_gameContext.WallsTilemap.SetTile(currentPosition.ToVector3Int(), Wall);
-				}
-			}
-
-			foreach (var potentialRootTile in _caveTiles)
-			{
-				if (_processedCaveTiles.Contains(potentialRootTile))
-					continue;
-
-				_caveRootsToCaves[potentialRootTile] = new HashSet<Vector2Int>();
-				Stack<Vector2Int> tilesToProcess = new Stack<Vector2Int>();
-			
-				tilesToProcess.Push(potentialRootTile);
-				do
-				{
-					Vector2Int poppedTile = tilesToProcess.Pop();
-
-					if (_gameContext.WallsTilemap.HasTile(poppedTile.ToVector3Int()))
-					{
-						_processedCaveTiles.Add(poppedTile);
-						_caveRootsToCaves[potentialRootTile].Add(poppedTile);
-						foreach (var neighbour in Vector2IntUtilities.Neighbours4(poppedTile))
-						{
-							if (!_processedCaveTiles.Contains(neighbour))
-							{
-								tilesToProcess.Push(neighbour);
-							}
-						}
-					}
-				} while (tilesToProcess.Any());
-			}
-			foreach (var caveRootsToCave in _caveRootsToCaves)
-			{
-				HashSet<Vector2Int> positionsInThisCave = caveRootsToCave.Value;
-				if (positionsInThisCave.Count < 20) continue;
-				int drunkardWalksToPerformInThisCave = positionsInThisCave.Count / 15;
-				for (int i = 0; i < drunkardWalksToPerformInThisCave; i++)
-				{
-					DrunkardWalk(_rng.Choice(positionsInThisCave.ToList()));
-				}
-			}
-		}
-
-		private void DrunkardWalk(Vector2Int startingPosition)
-		{
-			Vector3Int currentPosition = startingPosition.ToVector3Int();
-			while (_gameContext.WallsTilemap.HasTile(currentPosition))
-			{
-				_gameContext.WallsTilemap.SetTile(currentPosition, null);
-				_gameContext.FloorsTilemap.SetTile(currentPosition, null);
-
-				currentPosition = _rng.Choice(Vector2IntUtilities.Neighbours4(currentPosition.ToVector2Int())).ToVector3Int();
-			}
-		}
-
-		private void InitializeTileWithBiomeFloor(float value, UnityEngine.Tilemaps.Tilemap tilemap, Vector3Int currentPosition)
-		{
-			if (value < .3)
-			{
-				// let dirt remain there
-			}
-			else if (value < 1.0)
-			{
-				tilemap.SetTile(currentPosition, Grass);
-			}
-		}
-
-		private void PlaceRandomEnvironmentalObjects(Vector3Int currentPosition)
-		{
-			var treePotTile = Resources.Load<Tile>(@"Tiles\Environment\TreePot");
-			var bigLeavesTile = Resources.Load<Tile>(@"Tiles\Environment\BigLeaves");
-			var bushTile = Resources.Load<Tile>(@"Tiles\Environment\Bush");
-			var choppedTreeTile = Resources.Load<Tile>(@"Tiles\Environment\ChoppedTree");
-			var littleLeavesTile = Resources.Load<Tile>(@"Tiles\Environment\LittleLeaves");
-			var mushroomsTile = Resources.Load<Tile>(@"Tiles\Environment\Mushrooms");
-			if (_rng.Check(0.01f))
-			{
-				_gameContext.WallsTilemap.SetTile(currentPosition, treePotTile);
-			}
-			else if (_rng.Check(0.001f))
-			{
-				_gameContext.EnvironmentTilemap.SetTile(currentPosition, bigLeavesTile);
-				//_gameContext.AddSmellable(new Smellable(bigLeavesTile.sprite, .5f, () => currentPosition.ToVector2Int(), SmellableType.BigLeaves));
-				_gameContext.LeavesPositions.Add(currentPosition.ToVector2Int());
-			}
-			else if (_rng.Check(0.005f))
-			{
-				_gameContext.EnvironmentTilemap.SetTile(currentPosition, bushTile);
-			}
-			else if (_rng.Check(0.005f))
-			{
-				_gameContext.EnvironmentTilemap.SetTile(currentPosition, choppedTreeTile);
-			}
-			else if (_rng.Check(0.005f))
-			{
-				_gameContext.EnvironmentTilemap.SetTile(currentPosition, littleLeavesTile);
-			}
-			else if (_rng.Check(0.002f))
-			{
-				_gameContext.EnvironmentTilemap.SetTile(currentPosition, mushroomsTile);
-			}
-		}
-
-		private void RemoveEnvironmentalObjects(Vector2Int currentPosition)
-		{
-			_gameContext.EnvironmentTilemap.SetTile(currentPosition.ToVector3Int(), null);
-			_gameContext.LeavesPositions.Remove(currentPosition);
-		}
-
-		private void PlaceHouses(BoundsInt gridBounds, int count)
-		{
-			var woodenWallTile = Resources.Load<Tile>(@"Tiles\Walls\WoodenWall");
-			var woodenFloorTile = Resources.Load<Tile>(@"Tiles\Floors\WoodenFloor");
-			var foodSetTile = Resources.Load<Tile>(@"Tiles\Objects\FoodSet");
-			for (int i = 0; i < count; i++)
-			{
-				int houseX = _rng.Next(gridBounds.xMin, gridBounds.xMax);
-				int houseY = _rng.Next(gridBounds.yMin, gridBounds.yMax);
-				int size = 5;
-				_gameContext.AddHousePosition(houseX + size/2, houseY + size/2);
-				bool foodHasBeenPlaced = false;
-
-				for (int wallX = houseX; wallX <= houseX + size; wallX++)
-				for (int wallY = houseY; wallY <= houseY + size; wallY++)
-				{
-					_gameContext.FloorsTilemap.SetTile(new Vector3Int(wallX, wallY, 0), woodenFloorTile);
-					_gameContext.EnvironmentTilemap.SetTile(new Vector3Int(wallX, wallY, 0), null);
-
-					bool isPerimeter = wallX == houseX || wallX == houseX + size || wallY == houseY || wallY == houseY + size;
-					bool isDoor = isPerimeter && wallX == houseX + 3 && wallY == houseY;
-					if (isPerimeter && !isDoor)
-					{
-						_gameContext.WallsTilemap.SetTile(new Vector3Int(wallX, wallY, 0), woodenWallTile);
-					}
-					else // is inside
-					{
-						if (!foodHasBeenPlaced && _rng.Check(0.05f))
-						{
-							//_gameContext.EnvironmentTilemap.SetTile(new Vector3Int(wallX, wallY, 0), foodSetTile);
-							int smellableX = wallX;
-							int smellableY = wallY;
-							//_gameContext.AddSmellable(new Smellable(foodSetTile.sprite, 0.5f, () => new Vector2Int(smellableX, smellableY), SmellableType.Food));
-							foodHasBeenPlaced = true;
-						}
-					}
-				}
-			}
-		}
 
 		private void InitializeVisibilityOfTiles()
 		{
@@ -516,39 +297,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						tilemap.SetColor(currentPosition, TileColors.UnlitColor);
 				}
 			}
-		}
-
-		private void GenerateAnimals(int familiesCount)
-		{
-			BoundsInt gridBounds = _gameContext.TilemapDefiningOuterBounds.cellBounds;
-
-			for (int i = 0; i < familiesCount; i++)
-			{
-				Vector2Int familyPosition = _rng.NextPosition(gridBounds);
-				var deerFatherPosition = GetBiasedWalkablePosition(familyPosition);
-				var deerMotherPosition = GetBiasedWalkablePosition(familyPosition);
-				var deerImmaturePosition = GetBiasedWalkablePosition(familyPosition);
-				//ActorBehaviour spawnedFather = _entitySpawner.SpawnActor(ActorType.HerdAnimalFather, deerFatherPosition);
-				//ActorBehaviour spawnedMother = _entitySpawner.SpawnActor(ActorType.HerdAnimalMother, deerMotherPosition);
-				//ActorBehaviour spawnedImmature = _entitySpawner.SpawnActor(ActorType.HerdAnimalImmature, deerImmaturePosition);
-				//spawnedFather.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
-				//spawnedMother.ActorData.AiData.HerdMemberData.Child = spawnedImmature;
-				//spawnedImmature.ActorData.AiData.HerdMemberData.Protector = spawnedMother;
-			}
-		}
-
-		private Vector2Int GetBiasedWalkablePosition(Vector2Int centralPosition)
-		{
-			Vector2Int deerPosition;
-			bool positionIsClosed;
-			do
-			{
-				deerPosition = _rng.BiasedPosition(centralPosition, 4);
-				Vector2Int positionToValidateWalkability = deerPosition + new Vector2Int(5, 0);
-				var jumpPoints = _pathfinder.GetJumpPoints(deerPosition, positionToValidateWalkability);
-				positionIsClosed = jumpPoints == null;
-			} while (!_gridInfoProvider.IsWalkable(deerPosition) || positionIsClosed);
-			return deerPosition;
 		}
 	}
 }

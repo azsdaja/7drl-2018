@@ -32,29 +32,28 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			++_gameContext.CurrentDungeonIndex;
 			if (_gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count)
 			{
-				_gameContext.PlayerActor.ActorData.LogicalPosition = new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
-				_gameContext.PlayerActor.ActorData.VisionRayLength = 15;
-				_gameContext.PlayerActor.RefreshWorldPosition();
-				Action refreshAction = () =>
-				{
-					_gameContext.PlayerActor.RefreshWorldPosition();
-				};
-
-				yield return new LambdaEffect(refreshAction);
-				yield break;
+				_gameContext.PlayerActor.ActorData.LogicalPosition =
+					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
+													
+				// _gameContext.PlayerActor.ActorData.VisionRayLength = 13; _gameContext.VisiblePositions = new HashSet<Vector2Int>(); 
+				//this still breaks the field of view!
 			}
-			Dungeon nextDungeon = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex];
-			BoundsInt furthestRoomToStairs = FurthestRoomToStairsResolver.GetFurthestRoomToStairs(nextDungeon);
-			Vector2Int startingPosition = new Vector2Int((int) furthestRoomToStairs.center.x, (int) furthestRoomToStairs.center.y);
-			_gameContext.PlayerActor.ActorData.LogicalPosition = startingPosition;
-			TileBase stairsDownTile = Resources.Load<TileBase>("Tiles/Environment/Stairs_down");
-			_gameContext.EnvironmentTilemap.SetTile(startingPosition.ToVector3Int(), stairsDownTile);
-			IEnumerable<ActorData> actorAround = _entityDetector.DetectActors(startingPosition, 3);
-			foreach (var actorData in actorAround)
+			else
 			{
-				_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
-				Debug.Log("Removing an actor, because he was too close: " + actorData.ActorType);
+				Dungeon nextDungeon = _gameContext.Dungeons[_gameContext.CurrentDungeonIndex];
+				BoundsInt furthestRoomToStairs = FurthestRoomToStairsResolver.GetFurthestRoomToStairs(nextDungeon);
+				Vector2Int startingPosition = new Vector2Int((int)furthestRoomToStairs.center.x, (int)furthestRoomToStairs.center.y);
+				_gameContext.PlayerActor.ActorData.LogicalPosition = startingPosition;
+				TileBase stairsDownTile = Resources.Load<TileBase>("Tiles/Environment/Stairs_down");
+				_gameContext.EnvironmentTilemap.SetTile(startingPosition.ToVector3Int(), stairsDownTile);
+				IEnumerable<ActorData> actorAround = _entityDetector.DetectActors(startingPosition, 3);
+				foreach (var actorData in actorAround)
+				{
+					_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
+					Debug.Log("Removing an actor, because he was too close: " + actorData.ActorType);
+				}
 			}
+			
 			Action action = () =>
 			{
 				_gameContext.PlayerActor.RefreshWorldPosition();

@@ -20,6 +20,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
 		private readonly IWeaponColorizer _weaponColorizer;
 		private readonly IClearWayBetweenTwoPointsDetector _clearWayBetweenTwoPointsDetector;
+		private Tile _heavyDoorsHClosedTile;
+		private Tile _heavyDoorsVClosedTile;
 
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
 			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer, 
@@ -189,7 +191,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			else
 			{
 				targetActor = actorsCloseToCone
-					.FirstOrDefault(potentialTarget => targetPositionsCone.Contains(potentialTarget.LogicalPosition)
+					.FirstOrDefault(potentialTarget => potentialTarget.Team != actorData.Team && 
+					targetPositionsCone.Contains(potentialTarget.LogicalPosition)
 					&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, potentialTarget.LogicalPosition));
 			}
 			
@@ -204,26 +207,29 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				TileBase wallTileAtTarget = _gameContext.WallsTilemap.GetTile(targetPosition.ToVector3Int());
 				if (wallTileAtTarget != null)
 				{
-					if (!_gameContext.PlayerPickedUpKey)
+
+					_heavyDoorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_0");
+					_heavyDoorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_2");
+					if ((wallTileAtTarget == _heavyDoorsHClosedTile || wallTileAtTarget == _heavyDoorsVClosedTile)
+						&& _uiConfig.ItemHolder.Items.Where(i => i!= null).All(i => i.ItemType != ItemType.Key)
+						&& _gameContext.PlayerActor.ActorData.WeaponWeld.Name != "Key")
 					{
-						Debug.Log("Tu powinine być dfymek „Locked!”");
+						// bump	
 						gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
 					}
 					else
 					{
 						var doorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_H_closed");
 						var doorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_V_closed");
-						var heavyDoorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_0");
-						var heavyDoorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_2");
 
 						if (wallTileAtTarget == doorsHClosedTile || wallTileAtTarget == doorsVClosedTile)
 						{
 							bool isHorizontal = wallTileAtTarget == doorsHClosedTile;
 							gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal);
 						}
-						else if (wallTileAtTarget == heavyDoorsHClosedTile || wallTileAtTarget == heavyDoorsVClosedTile)
+						else if (wallTileAtTarget == _heavyDoorsHClosedTile || wallTileAtTarget == _heavyDoorsVClosedTile)
 						{
-							bool isHorizontal = wallTileAtTarget == heavyDoorsHClosedTile;
+							bool isHorizontal = wallTileAtTarget == _heavyDoorsHClosedTile;
 							gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal, true);
 						}
 						else

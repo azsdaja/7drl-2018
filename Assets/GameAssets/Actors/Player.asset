@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponPool:
   - {fileID: 11400000, guid: ee5ada2134e36b9459c583423aca5383, type: 2}
   SwordsFromSkill: 1
-  VisionRayLength: 6
+  VisionRayLength: 7
   EnergyGain: 0.1
   Team: 2
   MaxHealth: 45

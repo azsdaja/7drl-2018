@@ -28,8 +28,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		{
 			if (ItemToPickUp.ItemDefinition.Name == "Key") // uuch...
 			{
-				_gameContext.PlayerPickedUpKey = true;
-
 				ActorData.WeaponWeld = ItemToPickUp.ItemDefinition;
 				Action effectAction = () => ((ActorBehaviour)ActorData.Entity).WeaponAnimator.Awake();
 				var effect = new LambdaEffect(effectAction);

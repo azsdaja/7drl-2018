@@ -9,13 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 373ea5160dcca344d8b0c7d70b66582f, type: 3}
-  m_Name: PotionOfPureLight
+  m_Name: PotionOfRecoverTail
   m_EditorClassIdentifier: 
-  ItemType: 7
-  Sprite: {fileID: 21300000, guid: 8345330dda9ee5b419fa5592df75678f, type: 3}
-  Name: Potion of Pure Light.
-  Description: 'Looks like a single star on the night sky contained in a bottle.
+  ItemType: 9
+  Sprite: {fileID: 21300000, guid: 8ed9f258bcc152d4fb887bad6a0bb8b7, type: 3}
+  Name: Potion of Regrow Tail
+  Description: 'Looking at this potion makes your heart pump blood faster!
 
 
-    Blinds your enemies for a moment.'
+    Drink it and you tail will grow again.'
   WeaponDefinition: {fileID: 0}

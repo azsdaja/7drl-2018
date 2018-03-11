@@ -104,7 +104,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				ActorData playerData = _gameContext.PlayerActor.ActorData;
 
-				if (playerData.Traits.Contains(Trait.DaringBlow) && playerData.Swords >= 1)
+				if (playerData.Traits.Contains(Trait.Push) && playerData.Swords >= 1)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
 					_arrowsVisibilityManager.Show(Color.yellow);

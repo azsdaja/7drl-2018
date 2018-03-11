@@ -58,7 +58,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 
 		public bool ControlBlocked { get; set; }
-		public bool PlayerPickedUpKey { get; set; }
 
 		public HashSet<ActorBehaviour> Actors
 		{

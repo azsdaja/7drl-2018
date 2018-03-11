@@ -7,6 +7,7 @@ using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.RNG;
 using Assets.Scripts.UI;
+using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -35,6 +36,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			_uiConfig.ItemHolder.RemoveItem(_uiConfig.ItemHolder.SelectedItemIndex);
 
+			if (_item.ItemType == ItemType.PotionOfRecoverTail)
+			{
+				_textEffectPresenter.ShowTextEffect(ActorData.LogicalPosition, "Squeak! At last!", Color.yellow);
+			}
+			else
+			{
+				_textEffectPresenter.ShowTextEffect(ActorData.LogicalPosition, "Ha!", Color.yellow);
+			}
+
 			if (_item.ItemType == ItemType.Weapon)
 			{
 				ItemDefinition previousWeapon = ActorData.WeaponWeld;
@@ -62,6 +72,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			else if (_item.ItemType == ItemType.PotionOfFriend)
 			{
 				_entitySpawner.SpawnActor(ActorType.Friend, ActorData.LogicalPosition);
+			}
+			else if (_item.ItemType == ItemType.PotionOfRecoverTail)
+			{
+				Sprite withTailSprite = Resources.Load<Sprite>("Sprites/Characters/player_with_tail");
+				ActorData.Entity.SpriteRenderer.sprite = withTailSprite;
+				ActorData.HasTail = true;
 			}
 			else if (_item.ItemType == ItemType.PotionOfLight)
 			{

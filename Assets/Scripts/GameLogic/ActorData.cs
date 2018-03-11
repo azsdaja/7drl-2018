@@ -230,5 +230,9 @@ namespace Assets.Scripts.GameLogic
 			get { return _aiTraits; }
 			set { _aiTraits = value; }
 		}
+
+		public bool HasTail { get; set; }
+		public bool HasFinishedDuel { get; set; }
+		public bool HasWonDuel { get; set; }
 	}
 }
