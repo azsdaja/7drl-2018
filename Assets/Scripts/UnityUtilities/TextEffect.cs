@@ -10,16 +10,12 @@ namespace Assets.Scripts.UnityUtilities
 		private Color _initialColor;
 		private Color _transparentInitialColor;
 		private GUIStyle _guiStyle;
-		private TextMeshPro _textMeshPro;
 
 		private float _duration;
 		private float _timePassed;
 
 		public void Initialize(string text, float duration = 1f)
 		{
-			if (_textMeshPro == null)
-				_textMeshPro = GetComponent<TextMeshPro>();
-
 			_text = text;
 			_initialColor = Color.white;
 			_transparentInitialColor = new Color(1, 1, 1, 0);
@@ -28,11 +24,6 @@ namespace Assets.Scripts.UnityUtilities
 
 		public void Initialize(string text, Color color, float duration = 1f)
 		{
-			if (_textMeshPro == null)
-				_textMeshPro = GetComponent<TextMeshPro>();
-
-			_textMeshPro.transform.position = transform.position;
-			_textMeshPro.text = text;
 			_text = text;
 			_initialColor = color;
 			_transparentInitialColor = new Color(color.r, color.g, color.b, 0);
@@ -41,7 +32,8 @@ namespace Assets.Scripts.UnityUtilities
 
 		void Start()
 		{
-			_guiStyle = new GUIStyle { normal = { textColor = _initialColor } };
+			Font font = Resources.Load<Font>("Fonts/SDS_8x8");
+			_guiStyle = new GUIStyle { normal = { textColor = _initialColor }, font = font };
 		}
 
 		void OnGUI()
@@ -56,11 +48,6 @@ namespace Assets.Scripts.UnityUtilities
 
 			var currentColor = Color.Lerp(_initialColor, _transparentInitialColor, progress);
 			_guiStyle.normal.textColor = currentColor;
-			_textMeshPro.color = currentColor;
-
-			const float finalYOffset = .1f;
-			var newY = Mathf.Lerp(transform.position.y, transform.position.y + finalYOffset, progress);
-			_textMeshPro.transform.position = new Vector3(transform.position.x, newY, 0f);
 
 			Vector3 positionOnScreen = GetPositionOnScreen(progress);
 
@@ -70,7 +57,7 @@ namespace Assets.Scripts.UnityUtilities
 			rect.x = positionOnScreen.x + xTweak;
 			rect.y = Screen.height - positionOnScreen.y - rect.height + yTweak;
 
-			//GUI.Label(rect, _text, _guiStyle);
+			GUI.Label(rect, _text, _guiStyle);
 		}
 
 		private Vector3 GetPositionOnScreen(float progress)

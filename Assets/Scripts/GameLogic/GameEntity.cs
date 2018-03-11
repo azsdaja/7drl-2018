@@ -1,6 +1,9 @@
 ﻿using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.Animation;
+using Assets.Scripts.GameLogic.Configuration;
 using Assets.Scripts.Pathfinding;
+using Assets.Scripts.RNG;
+using Assets.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
@@ -10,6 +13,8 @@ namespace Assets.Scripts.GameLogic
 	{
 		private SpriteRenderer _spriteRenderer;
 		private IGridInfoProvider _gridInfoProvider;
+		private ITextEffectPresenter _textEffectPresenter;
+		private IRandomNumberGenerator _rng;
 
 		public IEntityAnimator EntityAnimator { get; private set; }
 		public abstract EntityData EntityData { get; }
@@ -20,10 +25,12 @@ namespace Assets.Scripts.GameLogic
 		}
 	
 		[Inject]
-		public void Init(IGridInfoProvider gridInfoProvider)
+		public void Init(IGridInfoProvider gridInfoProvider, ITextEffectPresenter textEffectPresenter, IRandomNumberGenerator rng)
 		{
 			_gridInfoProvider = gridInfoProvider;
+			_textEffectPresenter = textEffectPresenter;
 			EntityData.LogicalPosition = _gridInfoProvider.WorldToCell(transform.position).ToVector2Int();
+			_rng = rng;
 		}
 
 		protected virtual void Awake()
@@ -43,6 +50,31 @@ namespace Assets.Scripts.GameLogic
 				if (transform.GetChild(i).name == "ControlArrows")
 					continue;
 				transform.GetChild(i).gameObject.SetActive(true);
+			}
+			if (this is ActorBehaviour)
+			{
+				var actorData = ((ActorBehaviour) this).ActorData;
+				if (actorData.Team != Team.Beasts)
+				{
+					string text = "";
+					if (actorData.ActorType == ActorType.Dog)
+					{
+						text = _rng.Choice(new[] {"Woof!", "Whrrrr!", "Woof! Woof!"});
+					}
+					else if (actorData.ActorType == ActorType.BruisedRat)
+					{
+						text = _rng.Choice(new[] {"Give me your guts!", "Squeak! Squeak!", "Ghhhrrr!"});
+					}
+					else
+					{
+						text = _rng.Choice(new[]
+						{
+							"You?!", "Back to your ward!", "Squeak!", "He's there!", "", "", "En garde!", "Have at you!",
+							"Comrades, help me!", "Aah!"
+						});
+					}
+					_textEffectPresenter.ShowTextEffect(EntityData.LogicalPosition, text);
+				}
 			}
 		}
 

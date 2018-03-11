@@ -6,6 +6,7 @@ using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.RNG;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -16,9 +17,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IEntityDetector _entityDetector;
 		private readonly IUiConfig _uiConfig;
 		private readonly IRandomNumberGenerator _rng;
+		private readonly ITextEffectPresenter _textEffectPresenter;
 
 		public UseItemAction(ActorData actorData, ItemDefinition item, float energyCost, IEntitySpawner entitySpawner, 
-			IUiConfig uiConfig, IActionEffectFactory actionEffectFactory, IEntityDetector entityDetector, IRandomNumberGenerator rng)
+			IUiConfig uiConfig, IActionEffectFactory actionEffectFactory, IEntityDetector entityDetector, IRandomNumberGenerator rng, ITextEffectPresenter textEffectPresenter)
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_item = item;
@@ -26,6 +28,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_uiConfig = uiConfig;
 			_entityDetector = entityDetector;
 			_rng = rng;
+			_textEffectPresenter = textEffectPresenter;
 		}
 
 		public override IEnumerable<IActionEffect> Execute()
@@ -66,6 +69,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				foreach (var actorData in actorsAround)
 				{
 					actorData.Energy -= 2 + _rng.NextFloat() * 2f;
+					string text = "";
+					if (actorData.ActorType != ActorType.Dog)
+					{
+						text = _rng.Choice(new[] {"My eyes!", "I can't see!", "Oh!", "Squeak!"});
+					}
+					else
+					{
+						text = "Squeak!";
+					}
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
 				}
 			}
 		}

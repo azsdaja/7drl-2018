@@ -25,11 +25,10 @@ namespace Assets.Scripts.UI
 			}
 			var textEffectObject = new GameObject("TextEffect");
 			textEffectObject.transform.position = _gridInfoProvider.GetCellCenterWorld(position);
-			textEffectObject.AddComponent<TextMeshPro>();
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
 			textEffect.Initialize(text);
 
-			float time = Mathf.Min(2f, (float)text.Length / 15);
+			float time = Mathf.Min(3f, (float)text.Length / 15);
 			Object.Destroy(textEffectObject, time);
 		}
 	}

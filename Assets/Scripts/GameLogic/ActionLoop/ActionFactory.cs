@@ -136,7 +136,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item)
 		{
-			return new UseItemAction(actorData, item, 1f, _entitySpawner, _uiConfig, _actionEffectFactory, _entityDetector, _randomNumberGenerator);
+			return new UseItemAction(actorData, item, 1f, _entitySpawner, _uiConfig, _actionEffectFactory, _entityDetector, 
+				_randomNumberGenerator, _textEffectPresenter);
 		}
 
 		public IGameAction CreateDropItemAction(ActorData actorData, ItemDefinition item)

@@ -119,7 +119,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
-			_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Grrrr ha ha!");
+			if (_rng.Check(0.08f))
+			{
+				if (actorData.ActorType == ActorType.Dog && actorData.Team != Team.Beasts)
+				{
+					string text = _rng.Choice(new[] {"Woof", "Wrrrr!"});
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
+				}
+				else
+				{
+					string text = _rng.Choice(new[] { "Back to your ward!", "Squeak!", "You're mine!", "Comrades, help me!", "Aah!" });
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
+				}
+			}
 
 			List<ActorData> enemiesClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength)
 				.Where(a => a.Team != actorData.Team)

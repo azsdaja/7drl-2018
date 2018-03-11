@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.RNG;
+using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop.Actions
