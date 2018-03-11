@@ -234,5 +234,6 @@ namespace Assets.Scripts.GameLogic
 		public bool HasTail { get; set; }
 		public bool HasFinishedDuel { get; set; }
 		public bool HasWonDuel { get; set; }
+		public bool HardMode { get; set; }
 	}
 }
