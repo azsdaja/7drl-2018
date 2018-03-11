@@ -28,6 +28,20 @@ namespace Assets.Scripts.GameLogic
 			{
 				sum += actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier;
 			}
+			if (actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat == false)
+			{
+				if (actorData.Traits.Contains(Trait.ShortWeaponsExpert))
+					sum += 1;
+				if (actorData.Traits.Contains(Trait.ShortWeaponsMaster))
+					sum += 1;
+			}
+			if (actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat == true)
+			{
+				if (actorData.Traits.Contains(Trait.LongWeaponsExpert))
+					sum += 1;
+				if (actorData.Traits.Contains(Trait.LongWeaponsMaster))
+					sum += 1;
+			}
 			if (actorData.HasLittleSpace && !actorData.Traits.Contains(Trait.Nimble))
 			{
 				--sum;

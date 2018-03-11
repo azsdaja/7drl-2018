@@ -100,7 +100,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 				var naturalGreen = new Color(33, 160, 73);
 				_arrowsVisibilityManager.Show(naturalGreen);
 			}
-			if (Input.GetKeyDown(KeyCode.D))
+			if (Input.GetKeyDown(KeyCode.F))
 			{
 				ActorData playerData = _gameContext.PlayerActor.ActorData;
 

@@ -86,6 +86,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				GenerateActorsInDungeon(dungeon, dungeonConfig, isFirstDungeon: dungeonIndex == 0);
 			}
 
+			GenerateActorsOutside();
+
 			_gameContext.CurrentDungeonIndex = 0;
 
 			//GenerateWilderness();
@@ -93,6 +95,29 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			_pathfinder.InitializeNavigationGrid();
 
 			//GenerateAnimals(6);
+		}
+
+		private void GenerateActorsOutside()
+		{
+			var bound = new BoundsInt(new Vector3Int(-2, -53, 0), new Vector3Int(19,18,1));
+			for (int i = 0; i < 10; i++)
+			{
+				Vector2Int randomPosition = _rng.NextPosition(bound);
+				if (_gridInfoProvider.IsWalkable(randomPosition))
+				{
+					var actor = _rng.Choice(new[]
+					{
+						ActorType.Rogue,
+						ActorType.BruisedRat,
+						ActorType.Rat,
+						ActorType.RatChief,
+						ActorType.Dog,
+						ActorType.RatVeteran,
+					});
+					_entitySpawner.SpawnActor(actor, randomPosition);
+				}
+			}
+			_entitySpawner.SpawnActor(ActorType.Dog, new Vector2Int(14,-40));
 		}
 
 		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)

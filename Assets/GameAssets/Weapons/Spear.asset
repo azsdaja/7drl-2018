@@ -11,8 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3b9a5a3c6eb194bb79c3a394223c59, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
+  IsBodyPart: 0
   Sprite: {fileID: 21300000, guid: d7e2f217d5035ea41bba3c411364280d, type: 3}
-  RecoveryTime: 3
+  RecoveryTime: 1
   MaxDamage: 15
   Swords: 3
   CloseCombatModifier: -2

@@ -70,10 +70,6 @@ public class AdvanceManager : MonoBehaviour
 				case Trait.Accurate:
 					playerActor.Accuracy += .1f;
 					break;
-				case Trait.Fencer:
-				case Trait.Fencer2:
-					playerActor.SwordsFromSkill += 1;
-					break;
 				case Trait.Tough:
 				case Trait.Tough2:
 					playerActor.MaxHealth = (int) (playerActor.MaxHealth * 1.3f);

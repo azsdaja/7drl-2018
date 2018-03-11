@@ -9,7 +9,7 @@ namespace Assets.Scripts.GameLogic
 
 		public Sprite Sprite;
 
-		public int RecoveryTime;
+		public RecoveryTime RecoveryTime;
 		public int MaxDamage;
 		public int Swords;
 
@@ -17,5 +17,12 @@ namespace Assets.Scripts.GameLogic
 		public bool AllowsFarCombat;
 		
 		public WeaponAnimationData WeaponAnimationData;
+	}
+
+	public enum RecoveryTime
+	{
+		TwoPerThree,
+			OnePerTwo,
+			OnePerThree
 	}
 }

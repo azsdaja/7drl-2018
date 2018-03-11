@@ -26,10 +26,11 @@ namespace Assets.Scripts.UI
 			var textEffectObject = new GameObject("TextEffect");
 			textEffectObject.transform.position = _gridInfoProvider.GetCellCenterWorld(position);
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
-			textEffect.Initialize(text);
+			float duration = Mathf.Max(1f, (float)text.Length / 15);
 
-			float time = Mathf.Min(3f, (float)text.Length / 15);
-			Object.Destroy(textEffectObject, time);
+			textEffect.Initialize(text, duration);
+
+			Object.Destroy(textEffectObject, duration);
 		}
 	}
 }

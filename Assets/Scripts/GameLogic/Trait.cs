@@ -6,8 +6,10 @@
 		Tough2,
 		DaringBlow,
 		Push,
-		Fencer,
-		Fencer2,
+		ShortWeaponsExpert,
+		ShortWeaponsMaster,
+		LongWeaponsExpert,
+		LongWeaponsMaster,
 		Accurate,
 		Nimble,
 		FastFeet

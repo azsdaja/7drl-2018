@@ -13,9 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsBodyPart: 0
   Sprite: {fileID: 21300000, guid: cdd56ee75d60dfb429c12bf1d3673465, type: 3}
-  RecoveryTime: 2
-  MaxDamage: 12
-  Swords: 1
+  RecoveryTime: 0
+  MaxDamage: 15
+  Swords: 2
   CloseCombatModifier: 0
   AllowsFarCombat: 0
   WeaponAnimationData: {fileID: 11400000, guid: ed173a2cdc9ddc54bbbc06d1129390c3,

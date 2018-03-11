@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsBodyPart: 0
   Sprite: {fileID: 21300000, guid: 7c7a237a6e46c72438081a1b7e5d1ed0, type: 3}
-  RecoveryTime: 2
-  MaxDamage: 12
+  RecoveryTime: 1
+  MaxDamage: 15
   Swords: 3
   CloseCombatModifier: -1
   AllowsFarCombat: 1
