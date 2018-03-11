@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.UnityUtilities;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -24,11 +25,12 @@ namespace Assets.Scripts.UI
 			}
 			var textEffectObject = new GameObject("TextEffect");
 			textEffectObject.transform.position = _gridInfoProvider.GetCellCenterWorld(position);
+			textEffectObject.AddComponent<TextMeshPro>();
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
 			textEffect.Initialize(text);
 
 			float time = Mathf.Min(2f, (float)text.Length / 15);
-			Object.Destroy(textEffectObject, 2.0f);
+			Object.Destroy(textEffectObject, time);
 		}
 	}
 }

@@ -119,6 +119,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
+			_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Grrrr ha ha!");
+
 			List<ActorData> enemiesClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength)
 				.Where(a => a.Team != actorData.Team)
 				.ToList();
