@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373ea5160dcca344d8b0c7d70b66582f, type: 3}
+  m_Name: Bread
+  m_EditorClassIdentifier: 
+  ItemType: 4
+  Sprite: {fileID: 21300000, guid: 31cf27fd91df3f940aebacaa52f27e65, type: 3}
+  Name: Bread
+  Description: 'Very stale, but still edible.
+
+
+    Eating it will make you recover 30% health.'
+  WeaponDefinition: {fileID: 0}

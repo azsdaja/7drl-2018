@@ -134,17 +134,57 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					|| (actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
 								&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, closestEnemy.LogicalPosition)))
 				{
-					bool pushingIsDesired = Vector2IntUtilities.IsOneStep(toEnemy) 
-											&& _gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy)
-											&& actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier < closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier
-											&& _rng.Check(0.4f);
 					IGameAction actionToPerform;
-					if (pushingIsDesired)
+					
+					bool pushingIsPossible = actorData.AiTraits.Contains(AiTrait.Pusher) && Vector2IntUtilities.IsOneStep(toEnemy)
+					                         && _gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy);
+					bool pushingIsDesired = false;
+					if (pushingIsPossible)
+					{
+						float pushingChanceScore = 0.15f;
+						if (actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier < closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier)
+							pushingChanceScore += .3f;
+						if (!_gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy + toEnemy))
+							pushingChanceScore += .25f;
+
+						if (_rng.Check(pushingChanceScore))
+						{
+							pushingIsDesired = true;
+						}
+					}
+					
+					if (pushingIsPossible && pushingIsDesired)
 					{
 						actionToPerform = _actionFactory.CreatePushAction(actorData, closestEnemy);
 					}
 					else
 					{
+						bool isInGoodPosition = Vector2IntUtilities.IsOneStep(toEnemy) && actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier
+						                                               > closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier;
+						if (Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) && !isInGoodPosition)// && actorData.AiTraits.Contains(AiTrait.Careful)))
+						{
+
+
+							float chanceToStepBack = 0f;
+							float healthFactor = (1 - actorData.HealthProgress) * .2f;
+							float swordsFactor = (closestEnemy.Swords - actorData.Swords) * .2f;
+							chanceToStepBack = healthFactor + swordsFactor;
+							if (_rng.Check(chanceToStepBack))
+							{
+								Vector2Int directionFromEnemy = Vector2IntUtilities.Normalized(toEnemy) * -1;
+								IEnumerable<Vector2Int> positionsToStepBack = Vector2IntUtilities.GetCone(directionFromEnemy)
+									.Select(coneVector => actorData.LogicalPosition + coneVector - directionFromEnemy)
+									.Where( position => position!= actorData.LogicalPosition);
+								foreach (var conePosition in positionsToStepBack)
+								{
+									if (!_gridInfoProvider.IsWalkable(conePosition) ||
+									    _entityDetector.DetectEntities(conePosition).Any()) continue;
+									Vector2Int stepBackMoveVector = conePosition - actorData.LogicalPosition;
+									return _actionFactory.CreateMoveAction(actorData, stepBackMoveVector);
+								}
+							}
+						}
+
 						bool isDaringBlow = false;
 						if (actorData.Traits.Contains(Trait.DaringBlow) && actorData.Swords >= 2)
 						{

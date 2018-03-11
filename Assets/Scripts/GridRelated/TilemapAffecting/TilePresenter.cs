@@ -27,14 +27,14 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			foreach (Vector2Int oldPosition in LitPositionsSaved)
 			{
 				if (visiblePositions.Contains(oldPosition)) continue;
-				_tilemapAffector.SetColorOnTilemap(TilemapType.Floors | TilemapType.Walls | TilemapType.Environment | TilemapType.Dirt, 
+				_tilemapAffector.SetColorOnTilemap(TilemapType.Floors | TilemapType.Walls | TilemapType.Objects | TilemapType.Environment | TilemapType.Dirt, 
 					oldPosition, TileColors.UnlitColor);
 			}
 			foreach (Vector2Int currentPosition in visiblePositions)
 			{
 				if (LitPositionsSaved.Contains(currentPosition)) continue;
 				newlyLitPositions.Add(currentPosition);
-				_tilemapAffector.SetColorOnTilemap(TilemapType.Floors | TilemapType.Walls | TilemapType.Environment | TilemapType.Dirt, 
+				_tilemapAffector.SetColorOnTilemap(TilemapType.Floors | TilemapType.Walls | TilemapType.Objects | TilemapType.Environment | TilemapType.Dirt, 
 					currentPosition, TileColors.LitColor);
 			}
 

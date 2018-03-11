@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
@@ -8,6 +9,7 @@ using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
@@ -27,6 +29,12 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		public TileBase StairsDown;
 		public TileBase DoorsHorizontalClosed;
 		public TileBase DoorsVerticalClosed;
+		public TileBase[] FloorEnvironmetals;
+		public TileBase[] WallEnvironmetals;
+		public TileBase[] WallAttachmentEnvironmetals;
+
+		public ItemDefinition BreadItem;
+		public ItemDefinition KeyItem;
 
 		private HashSet<Vector2Int> _caveTiles;
 		private HashSet<Vector2Int> _processedCaveTiles;
@@ -64,7 +72,14 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			for (var dungeonIndex = 0; dungeonIndex < dungeonConfigs.Length; dungeonIndex++)
 			{
 				DungeonConfig dungeonConfig = dungeonConfigs[dungeonIndex];
-				var dungeon = GenerateDungeon(dungeonIndex * 60, 0, dungeonConfig.Size.x, dungeonConfig.Size.y);
+				Dungeon dungeon;
+				while (true)
+				{
+					dungeon = GenerateDungeon(dungeonIndex * 60, 0, dungeonConfig.Size.x, dungeonConfig.Size.y);
+					if (dungeon.StairsLocation != Vector2Int.zero)
+						break;
+					Debug.LogError("dungeon was created without stairs! trying to recreate");
+				}
 				_gameContext.Dungeons.Add(dungeon);
 				GenerateActorsInDungeon(dungeon, dungeonConfig, isFirstDungeon: dungeonIndex == 0);
 			}
@@ -112,6 +127,24 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 				BoundsInt roomToSpawnPlayerIn = playerRoom;
 				Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnPlayerIn);
+				Vector2Int breadPosition = Vector2Int.zero;
+				foreach (var neighbour in Vector2IntUtilities.Neighbours8(playerPosition))
+				{
+					if (_gridInfoProvider.IsWalkable(neighbour))
+					{
+						_entitySpawner.SpawnItem(BreadItem, neighbour);
+						breadPosition = neighbour;
+						break;
+					}
+				}
+				foreach (var neighbour in Vector2IntUtilities.Neighbours8(playerPosition))
+				{
+					if (neighbour != breadPosition && _gridInfoProvider.IsWalkable(neighbour))
+					{
+						_entitySpawner.SpawnItem(KeyItem, neighbour);
+						break;
+					}
+				}
 				var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
 
 				playerActorBehaviour.ActorData.ControlledByPlayer = true;
@@ -148,19 +181,32 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				{
 					case GenTile.DirtFloor:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.DirtTilemap.SetTile(position, Dirt);
+						if (_rng.Check(0.03f))
+						{
+							_gameContext.FloorsTilemap.SetTile(position, _rng.Choice(FloorEnvironmetals));
+						}
+						if (_rng.Check(0.06f))
+						{
+							if(Vector2IntUtilities.Neighbours8(position2D).All(n => generator.GetCellType(n.x, n.y) == GenTile.DirtFloor))
+							_gameContext.ObjectsTilemap.SetTile(position, _rng.Choice(WallEnvironmetals));
+						}
 						break;
 					}
 					case GenTile.Corridor:
 					{
-						_gameContext.FloorsTilemap.SetTile(position, Dirt);
+						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						break;
 					}
 					case GenTile.StoneWall:
 					case GenTile.DirtWall:
 					{
 						_gameContext.WallsTilemap.SetTile(position, Wall);
-						break;
+						if (_rng.Check(0.04f))
+						{
+							_gameContext.EnvironmentTilemap.SetTile(position, _rng.Choice(WallAttachmentEnvironmetals));
+						}
+							break;
 					}
 					case GenTile.Upstairs:
 					{
@@ -171,7 +217,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					case GenTile.Downstairs:
 					{
 						_gameContext.FloorsTilemap.SetTile(position, Dirt);
-						//_gameContext.EnvironmentTilemap.SetTile(position, StairsDown);
 						break;
 					}
 					case GenTile.Door:
@@ -182,7 +227,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						_gameContext.WallsTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalClosed : DoorsVerticalClosed);
 						break;
 					}
-					
 					default:
 					{
 						break;
@@ -418,7 +462,11 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			for (int y = gridBounds.yMin; y <= gridBounds.yMax; y++)
 			{
 				var currentPosition = new Vector3Int(x, y, 0);
-				var tilemapsToAffect = new[] {_gameContext.DirtTilemap, _gameContext.FloorsTilemap, _gameContext.EnvironmentTilemap, _gameContext.WallsTilemap };
+				var tilemapsToAffect = new[]
+				{
+					_gameContext.DirtTilemap, _gameContext.FloorsTilemap, _gameContext.EnvironmentTilemap,
+					_gameContext.ObjectsTilemap, _gameContext.WallsTilemap
+				};
 				foreach (var tilemap in tilemapsToAffect)
 				{
 					tilemap.SetTileFlags(currentPosition, TileFlags.None);

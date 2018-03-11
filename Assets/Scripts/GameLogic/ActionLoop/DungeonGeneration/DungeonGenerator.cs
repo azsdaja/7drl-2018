@@ -44,8 +44,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration
 
 		readonly Action<string> _logger;
 		private Vector3Int _offset;
-		private int _roomSizeMaxX = 8;
-		private int _roomSizeMaxY = 8;
+		private int _roomSizeMaxX = 10;
+		private int _roomSizeMaxY = 10;
 		private Vector2Int _stairsLocation;
 		
 		public Dungeon(IRandomNumberGenerator rnd, Action<string> logger)

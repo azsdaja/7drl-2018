@@ -36,6 +36,11 @@ namespace Assets.Scripts.GameLogic.GameCore
 			get { return WallsTilemap; }
 		}
 
+		UnityEngine.Tilemaps.Tilemap IGameContext.ObjectsTilemap
+		{
+			get { return ObjectsTilemap; }
+		}
+
 		UnityEngine.Tilemaps.Tilemap IGameContext.DirtTilemap
 		{
 			get { return DirtTilemap; }
@@ -53,6 +58,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 
 		public bool ControlBlocked { get; set; }
+		public bool PlayerPickedUpKey { get; set; }
 
 		public HashSet<ActorBehaviour> Actors
 		{

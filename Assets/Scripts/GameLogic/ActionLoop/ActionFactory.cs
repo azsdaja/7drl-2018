@@ -67,7 +67,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreatePickUpAction(ActorData actorData, ItemData itemToPickUp)
 		{
-			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory, _entitySpawner, _entityRemover, _uiConfig);
+			return new PickUpAction(actorData, 1f, itemToPickUp, _actionEffectFactory, _entityRemover, _uiConfig, _gameContext);
 		}
 
 		public IGameAction CreateCatchAction(ActorData actorData, ActorData caughtActor)

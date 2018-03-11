@@ -13,6 +13,20 @@ namespace Kafelki.Tests
 	public class BresenhamTests
 	{
 		[Test]
+		public void Cofanie()
+		{
+			var actorPosition = new Vector2Int(10, 10);
+			var toEnemy = new Vector2Int(-1, -1);
+			Vector2Int directionFromEnemy = Vector2IntUtilities.Normalized(toEnemy) * -1;
+			IEnumerable<Vector2Int> positionsToStepBack = Vector2IntUtilities.GetCone(directionFromEnemy)
+				.Select(coneVector => actorPosition + coneVector - directionFromEnemy);
+			foreach (var vector2Int in positionsToStepBack)
+			{
+				Console.WriteLine(vector2Int);
+			}
+		}
+
+		[Test]
 		public void DwaDalej()
 		{
 			var position = new Vector2Int(3,10);

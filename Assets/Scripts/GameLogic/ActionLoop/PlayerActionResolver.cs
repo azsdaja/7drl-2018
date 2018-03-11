@@ -53,7 +53,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (_inputHolder.PlayerInput == PlayerInput.PickUp)
 			{
 				IList<ItemData> items = _entityDetector.DetectItems(actorData.LogicalPosition).ToList();
-				if (!items.Any())
+				bool allSlotsOccupied = _uiConfig.ItemHolder.Items.All(i => i != null);
+				if (!items.Any() || allSlotsOccupied)
 				{
 					return null;
 				}
@@ -201,17 +202,25 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				TileBase wallTileAtTarget = _gameContext.WallsTilemap.GetTile(targetPosition.ToVector3Int());
 				if (wallTileAtTarget != null)
 				{
-					var doorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_H_closed");
-					var doorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_V_closed");
-
-					if (wallTileAtTarget == doorsHClosedTile || wallTileAtTarget == doorsVClosedTile)
+					if (!_gameContext.PlayerPickedUpKey)
 					{
-						bool isHorizontal = wallTileAtTarget == doorsHClosedTile;
-						gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal);
+						Debug.Log("Tu powinine być dfymek „Locked!”");
+						gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
 					}
 					else
 					{
-						gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+						var doorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_H_closed");
+						var doorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_V_closed");
+
+						if (wallTileAtTarget == doorsHClosedTile || wallTileAtTarget == doorsVClosedTile)
+						{
+							bool isHorizontal = wallTileAtTarget == doorsHClosedTile;
+							gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal);
+						}
+						else
+						{
+							gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+						}
 					}
 				}
 				else

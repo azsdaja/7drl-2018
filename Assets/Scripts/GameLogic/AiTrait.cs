@@ -2,6 +2,8 @@
 {
 	public enum AiTrait
 	{
-		Aggressive
+		Aggressive,
+		Careful, // maybe they should step away more often
+		Pusher // maybe they should push more often
 	}
 }

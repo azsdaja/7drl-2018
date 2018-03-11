@@ -31,7 +31,7 @@ namespace Assets.Scripts.GridRelated
 			List<IGameEntity> entitiesHit = _entityDetector.DetectEntities(actorPosition, cellsRangeInVision).ToList();
 
 			Vector2Int fovCenter = actorPosition;
-			HashSet<Vector2Int> visibleTiles = _fovCalculator.CalculateFov(fovCenter, cellsRangeInVision, _gridInfoProvider.IsWalkable);
+			HashSet<Vector2Int> visibleTiles = _fovCalculator.CalculateFov(fovCenter, cellsRangeInVision, _gridInfoProvider.IsPassingLight);
 
 			_tilePresenter.Illuminate(visibleTiles);
 			_entityPresenter.Illuminate(visibleTiles, entitiesHit);

@@ -13,6 +13,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public string GetDescription()
 		{
+			if (Name == "Key")
+			{
+				return "A key you found in a loaf of bread.";
+			}
 			if (ItemType == ItemType.Weapon)
 			{
 				string descriptionPattern = @"Max combat capacity: +{0}<sprite=0><br>

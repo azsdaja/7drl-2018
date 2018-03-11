@@ -10,5 +10,6 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		Floors = 2,
 		Walls = 4,
 		Environment = 8,
+		Objects = 16
 	}
 }

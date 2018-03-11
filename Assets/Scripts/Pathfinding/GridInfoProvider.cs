@@ -25,6 +25,12 @@ namespace Assets.Scripts.Pathfinding
 
 		public bool IsWalkable(Vector2Int positionToCheckForWall)
 		{
+			return !_gameContext.WallsTilemap.HasTile(positionToCheckForWall.ToVector3Int())
+			       && !_gameContext.ObjectsTilemap.HasTile(positionToCheckForWall.ToVector3Int());
+		}
+
+		public bool IsPassingLight(Vector2Int positionToCheckForWall)
+		{
 			return !_gameContext.WallsTilemap.HasTile(positionToCheckForWall.ToVector3Int());
 		}
 

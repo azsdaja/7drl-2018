@@ -40,6 +40,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				{TilemapType.Floors, _gameContext.FloorsTilemap},
 				{TilemapType.Walls, _gameContext.WallsTilemap},
 				{TilemapType.Environment, _gameContext.EnvironmentTilemap},
+				{TilemapType.Objects, _gameContext.ObjectsTilemap},
 			};
 			_tilemapsInitialized = true;
 		}
