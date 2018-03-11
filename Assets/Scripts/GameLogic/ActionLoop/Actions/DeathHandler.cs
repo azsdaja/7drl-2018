@@ -32,7 +32,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				_entitySpawner.SpawnItem(_rng.Choice(_gameConfig.ItemConfig.Definitions), actorData.LogicalPosition);
 			}
 			
-			if (!weaponToSpawn.WeaponDefinition.IsBodyPart)
+			if (!weaponToSpawn.WeaponDefinition.IsBodyPart && actorData.ActorType != ActorType.Friend)
 			{
 				_entitySpawner.SpawnItem(weaponToSpawn, actorData.LogicalPosition);
 			}

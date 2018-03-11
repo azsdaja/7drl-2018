@@ -131,6 +131,41 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			if (closestEnemy != null)
 			{
 				Vector2Int toEnemy = closestEnemy.LogicalPosition - actorData.LogicalPosition;
+
+				// mam nadzieje, ze zadziala
+				if(Vector2IntUtilities.WalkDistance(closestEnemy.LogicalPosition, actorData.LogicalPosition) == 2)
+				{ // move towards player if possible and desired
+					bool possible = false;
+
+					Vector2Int? legalMove = null;
+					Vector2Int directionToEnemy = Vector2IntUtilities.Normalized(toEnemy);
+					IEnumerable<Vector2Int> candidateMovesToEnemy = Vector2IntUtilities.GetCone(directionToEnemy)
+						.Select(coneVector => coneVector - directionToEnemy)
+						.Where(fixedConeVector => fixedConeVector != actorData.LogicalPosition);
+
+					IList<Vector2Int> candidateMovesShuffled = _rng.Shuffle(candidateMovesToEnemy);
+					foreach (var cand in candidateMovesShuffled)
+					{
+						if (!_entityDetector.DetectActors(actorData.LogicalPosition + cand).Any()
+						    && _gridInfoProvider.IsWalkable(actorData.LogicalPosition + cand))
+						{
+							legalMove = cand;
+							break;
+						}
+					}
+					if(legalMove.HasValue)
+					{
+						int closeCombatAdvantage = actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier -
+						                               closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier;
+						if (closeCombatAdvantage < 0) closeCombatAdvantage = 0;
+						float chanceToMove = .07f + 0.2f * closeCombatAdvantage;
+						if (_rng.Check(chanceToMove))
+						{
+							return _actionFactory.CreateMoveAction(actorData, legalMove.Value);
+						}
+					}
+				}
+
 				if (Vector2IntUtilities.IsOneStep(toEnemy) 
 					|| (actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat && Vector2IntUtilities.IsOneOrTwoSteps(toEnemy) 
 								&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, closestEnemy.LogicalPosition)))
@@ -167,8 +202,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 
 
 							float chanceToStepBack = 0f;
-							float healthFactor = (1 - actorData.HealthProgress) * .2f;
-							float swordsFactor = (closestEnemy.Swords - actorData.Swords) * .2f;
+							float healthFactor = (1 - actorData.HealthProgress) * .15f;
+							float swordsFactor = (closestEnemy.Swords - actorData.Swords) * .15f;
 							chanceToStepBack = healthFactor + swordsFactor;
 							if (_rng.Check(chanceToStepBack))
 							{

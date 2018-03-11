@@ -14,5 +14,6 @@ namespace Assets.Scripts.RNG
 		TimeSpan NextTimeSpan(TimeSpan maxSpan);
 		Vector2Int NextPosition(BoundsInt gridBounds);
 		Vector2Int BiasedPosition(Vector2Int centralPosition, int variationRadius);
+		IList<Vector2Int> Shuffle(IEnumerable<Vector2Int> candidateMovesToEnemy);
 	}
 }

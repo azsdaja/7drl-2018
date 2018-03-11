@@ -17,6 +17,7 @@ public class AdvanceManager : MonoBehaviour
 	public List<TraitHolder> Holders;
 	public Image Picker;
 	public TextMeshProUGUI TraitDescriptor;
+	public Text AdvanceHeader;
 
 	[Inject]
 	public void Init(IGameContext gameContext, IUiConfig uiConfig)
@@ -34,6 +35,7 @@ public class AdvanceManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		AdvanceHeader.text = "You advance to level " + _gameContext.PlayerActor.ActorData.Level;
 		_gameContext.ControlBlocked = true;
 
 		if (!Holders.Any())

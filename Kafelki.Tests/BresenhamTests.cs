@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.FieldOfView;
+using Assets.Scripts.RNG;
 using FluentAssertions;
 using NUnit.Framework;
 using UnityEngine;
@@ -12,6 +13,17 @@ namespace Kafelki.Tests
 	[TestFixture]
 	public class BresenhamTests
 	{
+		[Test]
+		public void shuffle()
+		{
+			var rng = new RandomNumberGenerator();
+			var result = rng.Shuffle(new[]{ new Vector2Int(1, 1), new Vector2Int(2, 2), new Vector2Int(3, 3), new Vector2Int(4, 4) });
+			foreach (var vector2Int in result)
+			{
+				Console.WriteLine(vector2Int);
+			}
+		}
+
 		[Test]
 		public void Cofanie()
 		{

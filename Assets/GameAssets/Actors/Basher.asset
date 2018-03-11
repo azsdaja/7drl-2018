@@ -25,5 +25,5 @@ MonoBehaviour:
   Accuracy: 0.6
   XpGiven: 50
   InitialLevel: 0
-  InitialTraits: 03000000
+  InitialTraits: 0300000002000000
   AiTraits: 02000000

@@ -37,7 +37,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			else if (_item.ItemType == ItemType.Food)
 			{
-				ActorData.Health = (int) (ActorData.MaxHealth * 1.3f);
+				ActorData.Health += (int) (ActorData.MaxHealth * 0.3f);
 				if (ActorData.Health > ActorData.MaxHealth)
 					ActorData.Health = ActorData.MaxHealth;
 			}

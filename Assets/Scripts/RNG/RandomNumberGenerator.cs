@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 using Random = System.Random;
@@ -74,6 +75,13 @@ namespace Assets.Scripts.RNG
 			} while (Vector2Int.Distance(centralPosition, candidatePosition) > variationRadius);
 
 			return candidatePosition;
+		}
+
+		public IList<Vector2Int> Shuffle(IEnumerable<Vector2Int> candidateMovesToEnemy)
+		{
+			List<Vector2Int> shuffled = candidateMovesToEnemy.ToList();
+			shuffled.Sort( (first, other) => NextFloat().CompareTo(NextFloat()));
+			return shuffled;
 		}
 	}
 }

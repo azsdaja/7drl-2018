@@ -57,7 +57,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreateMoveAction(ActorData actorData, Vector2Int actionVector)
 		{
-			return new MoveAction(actorData, 1f, _actionEffectFactory, actionVector, _gridInfoProvider, _entityDetector);
+			float energyCost = actorData.Traits.Contains(Trait.FastFeet) ? 0.75f : 1f;
+			return new MoveAction(actorData, energyCost, _actionEffectFactory, actionVector, _gridInfoProvider, _entityDetector);
 		}
 
 		public IGameAction CreateDropAction(ActorData actorData, ItemData firstItem)

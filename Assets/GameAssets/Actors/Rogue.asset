@@ -16,8 +16,10 @@ MonoBehaviour:
   WeaponPool:
   - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
+  - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   - {fileID: 11400000, guid: 812f2dbf2dc7c5148b618349ee2dcedc, type: 2}
-  - {fileID: 11400000, guid: 0ecde699e801bcb48871abd207ce1668, type: 2}
+  - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
+  - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
   SwordsFromSkill: 2
   VisionRayLength: 6
   EnergyGain: 0.1
@@ -26,5 +28,5 @@ MonoBehaviour:
   Accuracy: 0.6
   XpGiven: 15
   InitialLevel: 0
-  InitialTraits: 03000000
+  InitialTraits: 0300000002000000
   AiTraits: 02000000

@@ -9,6 +9,7 @@
 		Fencer,
 		Fencer2,
 		Accurate,
-		Nimble
+		Nimble,
+		FastFeet
 	}
 }
