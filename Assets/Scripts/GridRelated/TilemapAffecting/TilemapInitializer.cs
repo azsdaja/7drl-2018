@@ -29,6 +29,8 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		public TileBase StairsDown;
 		public TileBase DoorsHorizontalClosed;
 		public TileBase DoorsVerticalClosed;
+		public TileBase HeavyDoorsHorizontalClosed;
+		public TileBase HeavyDoorsVerticalClosed;
 		public TileBase[] FloorEnvironmetals;
 		public TileBase[] WallEnvironmetals;
 		public TileBase[] WallAttachmentEnvironmetals;
@@ -143,6 +145,19 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					{
 						_entitySpawner.SpawnItem(KeyItem, neighbour);
 						break;
+					}
+				}
+				BoundsInt aroundPlayerRoom = new BoundsInt(playerRoom.position - new Vector3Int(1, 1, 0), 
+					playerRoom.size + new Vector3Int(2, 2, 0));
+				foreach (Vector3Int positionInPlayerRoom in aroundPlayerRoom.allPositionsWithin)
+				{
+					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsVerticalClosed)
+					{
+						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsVerticalClosed);
+					}
+					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalClosed)
+					{
+						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsHorizontalClosed);
 					}
 				}
 				var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);

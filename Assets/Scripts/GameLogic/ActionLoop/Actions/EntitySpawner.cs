@@ -66,7 +66,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			actorData.Traits = actorDefinition.InitialTraits.ToArray().ToList();
 			actorData.AiTraits = actorDefinition.AiTraits.ToArray().ToList();
 
-			actorData.LogicalPosition = position;
+			Vector2Int freePosition = GetPositionToPlaceActor(position);
+			actorData.LogicalPosition = freePosition;
 			instantiatedActor.RefreshWorldPosition();
 			_gameContext.Actors.Add(instantiatedActor);
 			instantiatedActor.gameObject.SetActive(true);
@@ -103,6 +104,23 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 						position = neighbour;
 						break;
 					}
+				}
+			}
+			return position;
+		}
+
+		private Vector2Int GetPositionToPlaceActor(Vector2Int position)
+		{
+			List<Vector2Int> candidates = Vector2IntUtilities.Neighbours8(position);
+			var candidatesFurther = Vector2IntUtilities.Neighbours8(Vector2Int.zero)
+				.Select(v => new Vector2Int(v.x*2, v.y*2))
+				.Select(v => position + v);
+			candidates.AddRange(candidatesFurther);
+			foreach (Vector2Int neighbour in candidates)
+			{
+				if (_gridInfoProvider.IsWalkable(neighbour) && !_entityDetector.DetectActors(neighbour).Any())
+				{
+					return neighbour;
 				}
 			}
 			return position;

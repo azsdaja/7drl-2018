@@ -33,7 +33,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				ActorData.WeaponWeld = ItemToPickUp.ItemDefinition;
 				Action effectAction = () => ((ActorBehaviour)ActorData.Entity).WeaponAnimator.Awake();
 				var effect = new LambdaEffect(effectAction);
+				_entityRemover.RemoveItem(ItemToPickUp);
 				yield return effect;
+				yield break;
 			}
 			_uiConfig.ItemHolder.AddItem(ItemToPickUp.ItemDefinition);
 			_entityRemover.RemoveItem(ItemToPickUp);

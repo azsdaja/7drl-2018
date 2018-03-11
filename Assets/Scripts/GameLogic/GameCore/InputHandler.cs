@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using UnityEngine;
 using Zenject;
@@ -75,7 +76,21 @@ namespace Assets.Scripts.GameLogic.GameCore
 					_arrowsVisibilityManager.Hide();
 				else if(cancelledInputModifier == PlayerInputModifier.DaringBlow)
 					_weaponColorizer.Decolorize(_gameContext.PlayerActor.WeaponAnimator);
+				//_uiConfig.RestartButton.gameObject.SetActive(false); to samo poniżej (choć tak bardzo brzydziej)
+				foreach (var sceneRestarter in FindObjectsOfType<SceneRestarter>().ToList())
+				{
+					sceneRestarter.gameObject.SetActive(false);
+				}
+
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
+			}
+			else if (Input.GetKeyDown(KeyCode.Y) && _uiConfig.RestartButton.gameObject.activeInHierarchy)
+			{
+				FindObjectOfType<SceneRestarter>().RestartScene();
+			}
+			else if (Input.GetKeyDown(KeyCode.N) && _uiConfig.RestartButton.gameObject.activeInHierarchy)
+			{
+				Application.Quit();
 			}
 			if (Input.GetKeyDown(KeyCode.W))
 			{

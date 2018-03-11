@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
+using Assets.Scripts.GameLogic.Configuration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
@@ -251,11 +252,25 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				}
 				return _actionFactory.CreateMoveAction(actorData, moveVector);
 			}
-			else
+			else if (actorData.Team == Team.Beasts)
 			{
+				ActorData friendClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength).FirstOrDefault(
+					f => f != actorData);
+				if (friendClose != null)
+				{
+					Vector2Int toFriend = friendClose.LogicalPosition - actorData.LogicalPosition;
+					int moveX = toFriend.x.CompareTo(0);
+					int moveY = toFriend.y.CompareTo(0);
+					Vector2Int moveVector = new Vector2Int(moveX, moveY);
+					if (!_entityDetector.DetectActors(actorData.LogicalPosition + moveVector).Any())
+					{
+						return _actionFactory.CreateMoveAction(actorData, moveVector);
+					}
+				}
 				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Grrr!");
 				return _actionFactory.CreatePassAction(actorData);
 			}
+			return _actionFactory.CreatePassAction(actorData);
 		}
 
 		private NavigationData GetReachableNavigationDataForWander(ActorData actorData, Vector2Int targetAreaCenter, int wanderRange)

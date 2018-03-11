@@ -123,14 +123,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				_entityDetector, _uiConfig);
 		}
 
-		public IGameAction CreateOpenDoorAction(ActorData actorData, Vector2Int targetPosition, bool isHorizontal)
+		public IGameAction CreateOpenDoorAction(ActorData actorData, Vector2Int targetPosition, bool isHorizontal, bool isHeavyDoor = false)
 		{
-			return new OpenDoorAction(actorData, targetPosition, isHorizontal, 1f, _actionEffectFactory, _gameContext);
+			return new OpenDoorAction(actorData, targetPosition, isHorizontal, isHeavyDoor, 1f, _actionEffectFactory, _gameContext);
 		}
 
 		public IGameAction CreateAscendAction(ActorData actorData)
 		{
-			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext);
+			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext, _entityDetector, _entityRemover);
 		}
 
 		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item)

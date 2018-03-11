@@ -17,5 +17,5 @@ MonoBehaviour:
   Description: 'Very stale, but still edible.
 
 
-    Eating it will make you recover 30% health.'
+    Eating it will give you back some health.'
   WeaponDefinition: {fileID: 0}

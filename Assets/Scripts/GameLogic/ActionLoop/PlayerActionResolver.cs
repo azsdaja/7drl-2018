@@ -165,37 +165,36 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			IList<Vector2Int> targetPositionsCone = Vector2IntUtilities.GetCone(actionVector)
 				.Select(zeroBasedPosition => actorData.LogicalPosition + zeroBasedPosition)
 				.ToList();
-			IList<ActorData> enemiesCloseToCone = _entityDetector.DetectActors(targetPosition, 2)
-				.Where(e => e.Team != actorData.Team).ToList();
+			IList<ActorData> actorsCloseToCone = _entityDetector.DetectActors(targetPosition, 2).ToList();
 
-			ActorData targetEnemy;
-			ActorData enemyAtTargetPosition = enemiesCloseToCone.FirstOrDefault(a => a.LogicalPosition == targetPosition);
+			ActorData targetActor;
+			ActorData actorAtTargetPosition = actorsCloseToCone.FirstOrDefault(a => a.LogicalPosition == targetPosition);
+			if (actorAtTargetPosition != null && actorAtTargetPosition.Team == actorData.Team)
+			{
+				_inputHolder.PlayerInput = PlayerInput.None;
+				gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, actorAtTargetPosition);
+				return gameActionToReturn;
+			}
 
 			bool isPushing = _inputHolder.PlayerInputModifier == PlayerInputModifier.Push;
 			_arrowsVisibilityManager.Hide();
 			_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
-			if ((enemyAtTargetPosition != null || isPushing) || actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat == false)
+			if ((actorAtTargetPosition != null || isPushing) || actorData.WeaponWeld.WeaponDefinition.AllowsFarCombat == false)
 			{
-				targetEnemy = enemyAtTargetPosition;
+				targetActor = actorAtTargetPosition;
 			}
 			else
 			{
-				targetEnemy = enemiesCloseToCone
+				targetActor = actorsCloseToCone
 					.FirstOrDefault(potentialTarget => targetPositionsCone.Contains(potentialTarget.LogicalPosition)
 					&& _clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, potentialTarget.LogicalPosition));
 			}
 			
-			if(targetEnemy != null) // hit!
+			if(targetActor != null) // hit!
 			{
-				if (targetEnemy.Team == actorData.Team)
-				{
-					gameActionToReturn = _actionFactory.CreateDisplaceAction(actorData, targetEnemy);
-				}
-				else
-				{
-					gameActionToReturn = isPushing ? _actionFactory.CreatePushAction(actorData, targetEnemy)
-						: _actionFactory.CreateAttackAction(actorData, targetEnemy, isAggressiveAttack);
-				}
+				gameActionToReturn = isPushing
+					? _actionFactory.CreatePushAction(actorData, targetActor)
+					: _actionFactory.CreateAttackAction(actorData, targetActor, isAggressiveAttack);
 			}
 			else
 			{
@@ -211,11 +210,18 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 					{
 						var doorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_H_closed");
 						var doorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_V_closed");
+						var heavyDoorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_0");
+						var heavyDoorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_2");
 
 						if (wallTileAtTarget == doorsHClosedTile || wallTileAtTarget == doorsVClosedTile)
 						{
 							bool isHorizontal = wallTileAtTarget == doorsHClosedTile;
 							gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal);
+						}
+						else if (wallTileAtTarget == heavyDoorsHClosedTile || wallTileAtTarget == heavyDoorsVClosedTile)
+						{
+							bool isHorizontal = wallTileAtTarget == heavyDoorsHClosedTile;
+							gameActionToReturn = _actionFactory.CreateOpenDoorAction(actorData, targetPosition, isHorizontal, true);
 						}
 						else
 						{

@@ -26,9 +26,10 @@ public class ItemHolder : MonoBehaviour
 				Items[itemIndex] = item;
 				HeldItemsImages[itemIndex].sprite = item.Sprite;
 				HeldItemsImages[itemIndex].color = Color.white;
-				break;
+				return;
 			}
 		}
+		Debug.LogError("Item " + item.ItemType + " lost because there was no place for it!");
 	}
 
 	public void RemoveItem(int itemIndex)

@@ -18,5 +18,10 @@ namespace Assets.Scripts
 		{
 			Application.LoadLevel(0);
 		}
+
+		public void Quit()
+		{
+			Application.Quit();
+		}
 	}
 }

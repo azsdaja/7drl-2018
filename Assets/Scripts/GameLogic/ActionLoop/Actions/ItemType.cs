@@ -6,6 +6,7 @@
 		Key,
 		DeadBody,
 		Weapon,
-		Food
+		Food,
+		PotionOfFriend
 	}
 }

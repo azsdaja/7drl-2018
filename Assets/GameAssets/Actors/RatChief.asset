@@ -14,15 +14,15 @@ MonoBehaviour:
   ActorType: 7
   Sprite: {fileID: 21300000, guid: 4ba55a08863b8be4599212ef954a9810, type: 3}
   WeaponPool:
-  - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
   - {fileID: 11400000, guid: a0428aa459f58824d85aaaaab8d6f670, type: 2}
+  - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
   SwordsFromSkill: 3
   VisionRayLength: 6
   EnergyGain: 0.1
   Team: 3
   MaxHealth: 30
   Accuracy: 0.6
-  XpGiven: 50
+  XpGiven: 45
   InitialLevel: 0
   InitialTraits: 03000000
   AiTraits: 02000000

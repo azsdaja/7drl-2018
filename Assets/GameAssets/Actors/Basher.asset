@@ -17,13 +17,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
   - {fileID: 11400000, guid: a0428aa459f58824d85aaaaab8d6f670, type: 2}
   - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
-  SwordsFromSkill: 1
+  SwordsFromSkill: 3
   VisionRayLength: 6
   EnergyGain: 0.1
   Team: 3
   MaxHealth: 35
   Accuracy: 0.6
-  XpGiven: 45
+  XpGiven: 50
   InitialLevel: 0
   InitialTraits: 03000000
   AiTraits: 02000000

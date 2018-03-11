@@ -23,6 +23,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
+			_uiConfig.ItemHolder.RemoveItem(_uiConfig.ItemHolder.SelectedItemIndex);
+
 			if (_item.ItemType == ItemType.Weapon)
 			{
 				ItemDefinition previousWeapon = ActorData.WeaponWeld;
@@ -39,7 +41,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				if (ActorData.Health > ActorData.MaxHealth)
 					ActorData.Health = ActorData.MaxHealth;
 			}
-			_uiConfig.ItemHolder.RemoveItem(_uiConfig.ItemHolder.SelectedItemIndex);
+			else if (_item.ItemType == ItemType.PotionOfFriend)
+			{
+				_entitySpawner.SpawnActor(ActorType.Friend, ActorData.LogicalPosition);
+			}
 		}
 	}
 }

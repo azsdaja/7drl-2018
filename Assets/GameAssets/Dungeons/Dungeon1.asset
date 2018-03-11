@@ -22,16 +22,16 @@ MonoBehaviour:
       outSlope: 0.03146927
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.5720594
-      value: 0.33314463
-      inSlope: 1.0001659
-      outSlope: 1.0001659
+      time: 0.5939946
+      value: 0.75805956
+      inSlope: 3.4428344
+      outSlope: 3.4428344
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.9952698
-      value: 2.4510155
-      inSlope: 1
-      outSlope: 1
+      time: 0.9972207
+      value: 2.9644532
+      inSlope: 0.32789078
+      outSlope: 0.32789078
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

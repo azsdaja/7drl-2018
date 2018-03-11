@@ -10,6 +10,7 @@
 		Rat,
 		RatVeteran,
 		RatChief,
-		BruisedRat
+		BruisedRat,
+		Friend
 	}
 }
