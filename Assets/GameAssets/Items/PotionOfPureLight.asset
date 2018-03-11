@@ -9,10 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 373ea5160dcca344d8b0c7d70b66582f, type: 3}
-  m_Name: PotionOfFriend
+  m_Name: PotionOfPureLight
   m_EditorClassIdentifier: 
-  ItemType: 5
-  Sprite: {fileID: 21300000, guid: dc44cfa15a0f05f43928ba35cd2c11cf, type: 3}
-  Name: Potion of Instant Friend
-  Description: It seems to be sympatetic towards you.
+  ItemType: 7
+  Sprite: {fileID: 21300000, guid: 8345330dda9ee5b419fa5592df75678f, type: 3}
+  Name: Potion of Pure light.
+  Description: 'Looks like a single star on the night sky contained in a bottle.
+
+
+    Blinds your enemies for a moment.'
   WeaponDefinition: {fileID: 0}

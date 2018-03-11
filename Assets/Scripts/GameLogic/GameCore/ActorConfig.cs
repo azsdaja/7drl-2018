@@ -17,7 +17,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
+				Console.WriteLine(e + ", ActorType = " +actorType);
 				throw;
 			}
 			

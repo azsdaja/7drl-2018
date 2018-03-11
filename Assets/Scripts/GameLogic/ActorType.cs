@@ -11,6 +11,7 @@
 		RatVeteran,
 		RatChief,
 		BruisedRat,
+		Buddy,
 		Friend
 	}
 }

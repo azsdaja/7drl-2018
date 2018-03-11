@@ -7,6 +7,9 @@
 		DeadBody,
 		Weapon,
 		Food,
-		PotionOfFriend
+		PotionOfBuddy,
+		PotionOfFriend,
+		PotionOfLight,
+		PotionOfHealing,
 	}
 }

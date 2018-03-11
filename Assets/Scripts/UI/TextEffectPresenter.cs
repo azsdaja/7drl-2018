@@ -27,7 +27,8 @@ namespace Assets.Scripts.UI
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
 			textEffect.Initialize(text);
 
-			Object.Destroy(textEffectObject, 1.0f);
+			float time = Mathf.Min(2f, (float)text.Length / 15);
+			Object.Destroy(textEffectObject, 2.0f);
 		}
 	}
 }
