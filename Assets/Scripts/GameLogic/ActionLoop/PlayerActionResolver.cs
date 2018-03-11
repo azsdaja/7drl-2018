@@ -46,6 +46,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			{
 				_uiConfig.ItemHolder.DeselectItem();
 				_uiConfig.TooltipPresenter.Panel.gameObject.SetActive(false);
+				var quitButton = GameObject.FindGameObjectWithTag("button_quit");
+				if(quitButton!=null)
+					quitButton.SetActive(false);
 			}
 
 			IGameAction gameActionToReturn;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Scenery
   - Actor
+  - button_quit
   layers:
   - Default
   - TransparentFX

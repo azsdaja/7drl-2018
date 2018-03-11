@@ -41,7 +41,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			{
 				_uiConfig.RestartButton.gameObject.SetActive(true);
 				var postMortem = "You died at level " + actorData.Level + " after surviving " + actorData.RoundsCount +
-				                 " rounds. <br>Restart (y\\n)?";
+				                 " rounds. \r\nRestart?";
 				_uiConfig.RestartButton.transform.GetComponentInChildren<Text>().text = postMortem;
 			}
 		}

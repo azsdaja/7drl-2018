@@ -84,13 +84,15 @@ namespace Assets.Scripts.GameLogic.GameCore
 
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.None;
 			}
-			else if (Input.GetKeyDown(KeyCode.Y) && _uiConfig.RestartButton.gameObject.activeInHierarchy)
-			{
-				FindObjectOfType<SceneRestarter>().RestartScene();
-			}
-			else if (Input.GetKeyDown(KeyCode.N) && _uiConfig.RestartButton.gameObject.activeInHierarchy)
+			else if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Y)) 
+				&& GameObject.FindGameObjectWithTag("button_quit") != null && GameObject.FindGameObjectWithTag("button_quit").activeInHierarchy)
 			{
 				Application.Quit();
+			}
+			else if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Y)) 
+				&& _uiConfig.RestartButton.gameObject.activeInHierarchy)
+			{
+				FindObjectOfType<SceneRestarter>().RestartScene();
 			}
 			if (Input.GetKeyDown(KeyCode.W))
 			{
