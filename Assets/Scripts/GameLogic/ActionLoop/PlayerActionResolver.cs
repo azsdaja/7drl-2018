@@ -211,7 +211,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 					_heavyDoorsHClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_0");
 					_heavyDoorsVClosedTile = Resources.Load<Tile>("Tiles/Environment/doors_HEAVY_2");
 					if ((wallTileAtTarget == _heavyDoorsHClosedTile || wallTileAtTarget == _heavyDoorsVClosedTile)
-						&& _uiConfig.ItemHolder.Items.Where(i => i!= null).All(i => i.ItemType != ItemType.Key)
+						&& _uiConfig.ItemHolder.Items.Where(i => i!= null).All(i => i.Name != "Key")
 						&& _gameContext.PlayerActor.ActorData.WeaponWeld.Name != "Key")
 					{
 						// bump	

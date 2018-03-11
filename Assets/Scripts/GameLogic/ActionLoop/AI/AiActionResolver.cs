@@ -123,7 +123,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			{
 				if (_gameContext.PlayerActor.ActorData.Health <= 0)
 				{
-					if (_rng.Check(0.15f))
+					if (_rng.Check(0.07f))
 					{
 						string text = _rng.Choice(new[] { "Ha, ha!", "I got him!", "I know my strength!", "Got what he deserved!",
 							"Guess what we'll cook for dinner..." });

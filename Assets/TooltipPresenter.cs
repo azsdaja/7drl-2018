@@ -12,6 +12,7 @@ public class TooltipPresenter : MonoBehaviour
 
 	public void Present(ItemDefinition itemDefinition, bool isInInventory)
 	{
+		gameObject.SetActive(true);
 		Panel.gameObject.SetActive(true);
 		DescriptionHeader.text = isInInventory ? itemDefinition.Name : itemDefinition.Name + " at your feet";
 		Description.text = itemDefinition.GetDescription();
