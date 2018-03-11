@@ -19,7 +19,7 @@ MonoBehaviour:
   VisionRayLength: 7
   EnergyGain: 0.1
   Team: 2
-  MaxHealth: 45
+  MaxHealth: 50
   Accuracy: 0.75
   XpGiven: 0
   InitialLevel: 1

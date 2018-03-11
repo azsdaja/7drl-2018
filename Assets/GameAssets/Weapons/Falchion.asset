@@ -14,7 +14,7 @@ MonoBehaviour:
   IsBodyPart: 0
   Sprite: {fileID: 21300000, guid: 457a3b592e2cace4b9cfcf44c98bcedc, type: 3}
   RecoveryTime: 1
-  MaxDamage: 12
+  MaxDamage: 14
   Swords: 1
   CloseCombatModifier: -1
   AllowsFarCombat: 1

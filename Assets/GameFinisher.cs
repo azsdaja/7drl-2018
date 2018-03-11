@@ -35,7 +35,7 @@ The difficulty was {5}.";
 			actorData.HasTail
 				? "You have found the secret ending and regrew your tail."
 				: "You have not found the secret ending.",
-			actorData.HardMode ? "hard" : "normal"
+			actorData.Difficulty == 1 ? "hard" : (actorData.Difficulty == 0 ? "normal" : "easy")
 		);
 		Summary.text = summary;
 		FinalLook.sprite = actorData.Entity.SpriteRenderer.sprite;

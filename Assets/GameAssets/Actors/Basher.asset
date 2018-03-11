@@ -14,15 +14,14 @@ MonoBehaviour:
   ActorType: 3
   Sprite: {fileID: 21300000, guid: 10a63dce4e43c60458743b9f483117e8, type: 3}
   WeaponPool:
-  - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
   - {fileID: 11400000, guid: a0428aa459f58824d85aaaaab8d6f670, type: 2}
   - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
   SwordsFromSkill: 3
   VisionRayLength: 6
   EnergyGain: 0.1
-  Team: 3
-  MaxHealth: 35
-  Accuracy: 0.6
+  Team: 1
+  MaxHealth: 40
+  Accuracy: 0.7
   XpGiven: 50
   InitialLevel: 0
   InitialTraits: 0300000002000000

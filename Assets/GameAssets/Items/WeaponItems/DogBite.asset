@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemType: 3
   Sprite: {fileID: 0}
-  Name: dog bite
+  Name: DogBite
   Description: dog bite
   WeaponDefinition: {fileID: 11400000, guid: 3ef8666daeb33044689739d54c788180, type: 2}

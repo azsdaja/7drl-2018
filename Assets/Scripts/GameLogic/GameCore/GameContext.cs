@@ -95,6 +95,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 			get { return _leavesPositions ?? (_leavesPositions = new List<Vector2Int>()); }
 		}
 
+		public int BasherSteps { get; set; }
+
 
 		public void AddHousePosition(int x, int y)
 		{

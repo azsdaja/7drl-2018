@@ -106,7 +106,10 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					{
 						ActorType.Rogue,
 						ActorType.BruisedRat,
+						ActorType.BruisedRat,
 						ActorType.Rat,
+						ActorType.Rat,
+						ActorType.RatChiefBetter,
 						ActorType.RatChief,
 						ActorType.Dog,
 						ActorType.RatVeteran,
@@ -116,6 +119,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			}
 			ItemDefinition recoverTailDefinition = Resources.Load<ItemDefinition>("PotionOfRecoverTail");
 			_entitySpawner.SpawnItem(recoverTailDefinition, new Vector2Int(-3,-83));
+			_entitySpawner.SpawnActor(ActorType.LastMonster, new Vector2Int(-2, -83));
 		}
 
 		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)

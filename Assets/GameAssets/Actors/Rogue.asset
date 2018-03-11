@@ -14,11 +14,11 @@ MonoBehaviour:
   ActorType: 2
   Sprite: {fileID: 21300000, guid: 1d56c1659b644df41b9d51036896feb8, type: 3}
   WeaponPool:
+  - {fileID: 11400000, guid: 52da5ef3dbc76ff4791d0cc14d4ba797, type: 2}
   - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
   - {fileID: 11400000, guid: 812f2dbf2dc7c5148b618349ee2dcedc, type: 2}
-  - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
   - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
   SwordsFromSkill: 2
   VisionRayLength: 6

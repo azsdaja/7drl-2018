@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
+using Assets.Scripts.GameLogic.Configuration;
+using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.RNG;
-using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.GameLogic.ActionLoop.Actions
@@ -12,16 +13,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly ActorData _attackedActor;
 		private readonly IRandomNumberGenerator _rng;
 		private readonly IDeathHandler _deathHandler;
+		private readonly IUiConfig _uiConfig;
+		private readonly IGameContext _gameContext;
 		private readonly bool _isDaringBlow;
 
 		public AttackAction(ActorData actorData, ActorData attackedActor, float energyCost, IActionEffectFactory actionEffectFactory, 
-			IRandomNumberGenerator rng, IDeathHandler deathHandler, bool isDaringBlow) 
+			IRandomNumberGenerator rng, IDeathHandler deathHandler, bool isDaringBlow, IUiConfig uiConfig, IGameContext gameContext) 
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_attackedActor = attackedActor;
 			_rng = rng;
 			_deathHandler = deathHandler;
 			_isDaringBlow = isDaringBlow;
+			_uiConfig = uiConfig;
+			_gameContext = gameContext;
 		}
 
 		internal ActorData AttackedActor
@@ -48,6 +53,25 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					_deathHandler.HandleDeath(_attackedActor);
 					ActorData.Xp += _attackedActor.XpGiven;
+				}
+
+				if (_attackedActor.ActorType == ActorType.Basher && ActorData.ActorType == ActorType.Player && _attackedActor.HealthProgress < 0.5f)
+				{
+					_uiConfig.BasherMessage.gameObject.SetActive(true);
+					_uiConfig.BasherMessage.SetMessage("Ouch! I think I've spilled enough blood and that was a satisfactory duel. My reputation is clean now. Thank you! Now, let's go!");
+					_gameContext.BasherSteps = 2;
+					_attackedActor.Team = Team.Beasts;
+					ActorData.HasFinishedDuel = true;
+					ActorData.HasWonDuel = true;
+				}
+				if (_attackedActor.ActorType == ActorType.Player && ActorData.ActorType == ActorType.Basher && _attackedActor.HealthProgress < 0.5f)
+				{
+					_uiConfig.BasherMessage.gameObject.SetActive(true);
+					_uiConfig.BasherMessage.SetMessage("Ha! That was a good duel! I think we've spilled enough blood. My reputation is clean now. Thank you! Now, let's go!");
+					_gameContext.BasherSteps = 2;
+					_attackedActor.Team = Team.Beasts;
+					ActorData.HasFinishedDuel = true;
+					ActorData.HasWonDuel = false;
 				}
 
 				yield return new LambdaEffect(() =>

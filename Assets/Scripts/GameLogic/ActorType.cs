@@ -10,8 +10,10 @@
 		Rat,
 		RatVeteran,
 		RatChief,
+		RatChiefBetter,
 		BruisedRat,
 		Buddy,
-		Friend
+		Friend,
+		LastMonster
 	}
 }

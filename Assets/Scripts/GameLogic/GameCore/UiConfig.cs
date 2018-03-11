@@ -13,6 +13,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public ItemHolder ItemHolder;
 		public TooltipPresenter TooltipPresenter;
 		public GameFinisher GameFinisher;
+		public BasherMessage BasherMessage;
 
 		public Button WalkAbilityButton;
 		public Button DaringBlowAbilityButton;
@@ -26,6 +27,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		ItemHolder IUiConfig.ItemHolder { get { return ItemHolder; } }
 		GameFinisher IUiConfig.GameFinisher { get { return GameFinisher; } }
 		TooltipPresenter IUiConfig.TooltipPresenter { get { return TooltipPresenter; } }
+		BasherMessage IUiConfig.BasherMessage { get { return BasherMessage; } }
 
 		Button IUiConfig.WalkAbilityButton { get { return WalkAbilityButton; } }
 		Button IUiConfig.DaringBlowAbilityButton { get { return DaringBlowAbilityButton; } }

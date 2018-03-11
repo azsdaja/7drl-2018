@@ -26,7 +26,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			if (ItemToPickUp.ItemDefinition.Name == "Key") // uuch...
+			if (ActorData.WeaponWeld.Name == "DogBite" && ItemToPickUp.ItemDefinition.Name == "Key") // uuch...
 			{
 				ActorData.WeaponWeld = ItemToPickUp.ItemDefinition;
 				Action effectAction = () => ((ActorBehaviour)ActorData.Entity).WeaponAnimator.Awake();

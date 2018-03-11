@@ -22,20 +22,20 @@ MonoBehaviour:
       outSlope: 0.03146927
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.3986211
-      value: 0.62503344
+      time: 0.40333608
+      value: 0.6734038
       inSlope: 3.4428344
       outSlope: 3.4428344
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.992521
-      value: 3.0128253
+      time: 0.9972207
+      value: 2.855614
       inSlope: 0.32789078
       outSlope: 0.32789078
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   EnemiesToSpawn:
   - {fileID: 11400000, guid: 52ca8d9737456a54ab0c5ad30a58a863, type: 2}
   - {fileID: 11400000, guid: 6128b8edbd4e236429ce6ecf1ce4607a, type: 2}
@@ -48,4 +48,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 354f9620750904a4c9ba59805c6f1e04, type: 2}
   - {fileID: 11400000, guid: 10a7ce990fd65ac428b967d0c3d196a0, type: 2}
   - {fileID: 11400000, guid: 6128b8edbd4e236429ce6ecf1ce4607a, type: 2}
-  BossToSpawn: {fileID: 11400000, guid: fe408b5336ea6894b944aff6f0c1b861, type: 2}
+  BossToSpawn: {fileID: 11400000, guid: fdba31b50a5a92a42b1d33ab296bd0b4, type: 2}

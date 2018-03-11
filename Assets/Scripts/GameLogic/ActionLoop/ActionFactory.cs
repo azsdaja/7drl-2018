@@ -52,14 +52,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreateAttackAction(ActorData actorData, ActorData attackedActor, bool isAggressiveAttack = false)
 		{
-			return new AttackAction(actorData, attackedActor, 1f, _actionEffectFactory, _randomNumberGenerator, _deathHandler, isAggressiveAttack);
+			return new AttackAction(actorData, attackedActor, 1f, _actionEffectFactory, _randomNumberGenerator, _deathHandler, isAggressiveAttack, _uiConfig, _gameContext);
 		}
 
 		public IGameAction CreateMoveAction(ActorData actorData, Vector2Int actionVector)
 		{
 			float energyCost = actorData.Traits.Contains(Trait.FastFeet) ? 0.75f : 1f;
 			return new MoveAction(actorData, energyCost, _actionEffectFactory, actionVector, _gridInfoProvider, _entityDetector, 
-				_gameContext, _textEffectPresenter);
+				_gameContext, _textEffectPresenter, _uiConfig);
 		}
 
 		public IGameAction CreateDropAction(ActorData actorData, ItemData firstItem)

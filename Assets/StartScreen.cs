@@ -38,8 +38,13 @@ public class StartScreen : MonoBehaviour
 			{
 				if (Input.GetKeyDown(KeyCode.H))
 				{
-					_gameContext.PlayerActor.ActorData.HardMode = true;
+					_gameContext.PlayerActor.ActorData.Difficulty = 1;
 					_gameContext.PlayerActor.ActorData.Accuracy -= 0.08f;
+				}
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					_gameContext.PlayerActor.ActorData.Difficulty = -1;
+					_gameContext.PlayerActor.ActorData.Accuracy += 0.08f;
 				}
 				gameObject.SetActive(false);
 			}

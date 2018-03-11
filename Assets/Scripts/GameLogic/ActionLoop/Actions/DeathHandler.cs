@@ -27,7 +27,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		{
 			ItemDefinition weaponToSpawn = actorData.WeaponWeld;
 			_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
-			if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend)
+			if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.7f))
 			{
 				_entitySpawner.SpawnItem(_rng.Choice(_gameConfig.ItemConfig.Definitions), actorData.LogicalPosition);
 			}

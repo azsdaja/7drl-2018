@@ -135,7 +135,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					string text = _rng.Choice(new[] {"Woof", "Wrrrr!"});
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
 				}
-				else
+				else if (actorData.ActorType != ActorType.Basher)
 				{
 					string text = _rng.Choice(new[] { "Back to your ward!", "Squeak!", "You're mine!", "Comrades, help me!", "Aah!" });
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
@@ -313,7 +313,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			else if (actorData.Team == Team.Beasts)
 			{
 				ActorData friendClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength).FirstOrDefault(
-					f => f != actorData);
+					f => f != actorData && f.ActorType == ActorType.Player);
 				if (friendClose != null)
 				{
 					Vector2Int toFriend = friendClose.LogicalPosition - actorData.LogicalPosition;

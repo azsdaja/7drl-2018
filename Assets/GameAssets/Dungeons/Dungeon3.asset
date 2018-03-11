@@ -44,4 +44,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6128b8edbd4e236429ce6ecf1ce4607a, type: 2}
   - {fileID: 11400000, guid: 10a7ce990fd65ac428b967d0c3d196a0, type: 2}
   - {fileID: 11400000, guid: dd63c5639f9ebf54280726956fdef480, type: 2}
+  - {fileID: 11400000, guid: dd63c5639f9ebf54280726956fdef480, type: 2}
   BossToSpawn: {fileID: 11400000, guid: 354f9620750904a4c9ba59805c6f1e04, type: 2}

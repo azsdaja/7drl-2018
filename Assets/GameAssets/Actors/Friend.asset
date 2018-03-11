@@ -11,16 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76cbf1dd48134a243936d9c5795dbd39, type: 3}
   m_Name: Friend
   m_EditorClassIdentifier: 
-  ActorType: 10
+  ActorType: 11
   Sprite: {fileID: 21300000, guid: 689f3233ae2a91d49a9fc9f45ef5ad9f, type: 3}
   WeaponPool:
   - {fileID: 11400000, guid: a0428aa459f58824d85aaaaab8d6f670, type: 2}
   - {fileID: 11400000, guid: 00bd0ec76e285c84dba83089ed09bec3, type: 2}
+  - {fileID: 11400000, guid: 00bd0ec76e285c84dba83089ed09bec3, type: 2}
+  - {fileID: 11400000, guid: 2b4347f71baa77b43b34d3f2551dd793, type: 2}
   SwordsFromSkill: 1
   VisionRayLength: 4
   EnergyGain: 0.1
   Team: 2
-  MaxHealth: 15
+  MaxHealth: 18
   Accuracy: 0.6
   XpGiven: 15
   InitialLevel: 0

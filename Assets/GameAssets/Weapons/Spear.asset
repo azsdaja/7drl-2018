@@ -15,7 +15,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: d7e2f217d5035ea41bba3c411364280d, type: 3}
   RecoveryTime: 1
   MaxDamage: 15
-  Swords: 3
+  Swords: 2
   CloseCombatModifier: -2
   AllowsFarCombat: 1
   WeaponAnimationData: {fileID: 11400000, guid: ed173a2cdc9ddc54bbbc06d1129390c3,

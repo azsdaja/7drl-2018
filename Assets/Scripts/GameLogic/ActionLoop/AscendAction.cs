@@ -35,7 +35,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
 					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
 													
-				// _gameContext.PlayerActor.ActorData.VisionRayLength = 13; _gameContext.VisiblePositions = new HashSet<Vector2Int>(); 
+				 _gameContext.PlayerActor.ActorData.VisionRayLength = 12; _gameContext.VisiblePositions = new HashSet<Vector2Int>(); 
 				//this still breaks the field of view!
 			}
 			else

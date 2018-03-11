@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cbf1dd48134a243936d9c5795dbd39, type: 3}
+  m_Name: RatChiefBetter
+  m_EditorClassIdentifier: 
+  ActorType: 8
+  Sprite: {fileID: 21300000, guid: 5ccec79a4857cdc4cb26fbebea3c8be3, type: 3}
+  WeaponPool:
+  - {fileID: 11400000, guid: a0428aa459f58824d85aaaaab8d6f670, type: 2}
+  - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
+  - {fileID: 11400000, guid: 2b4347f71baa77b43b34d3f2551dd793, type: 2}
+  - {fileID: 11400000, guid: 913d749e6634f9e4db9624c3f1a853ce, type: 2}
+  - {fileID: 11400000, guid: 00bd0ec76e285c84dba83089ed09bec3, type: 2}
+  SwordsFromSkill: 3
+  VisionRayLength: 6
+  EnergyGain: 0.1
+  Team: 3
+  MaxHealth: 35
+  Accuracy: 0.65
+  XpGiven: 55
+  InitialLevel: 0
+  InitialTraits: 03000000
+  AiTraits: 02000000
