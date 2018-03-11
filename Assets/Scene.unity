@@ -859,7 +859,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 71133488}
-        m_MethodName: RestartScene
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -102534,7 +102534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20f693a566014a54d82f16005423f366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeAsUndiscovered: 0
+  InitializeAsUndiscovered: 1
   Dirt: {fileID: 11400000, guid: 055f88fb4c3406f42a43a7cbcceadc1b, type: 2}
   Grass: {fileID: 11400000, guid: 903b3d986dc6d804498363ed74b2b816, type: 2}
   Wall: {fileID: 11400000, guid: c5528f95e1ad4cf428d13cf05bbcdb0c, type: 2}
@@ -102960,7 +102960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &931514270
 RectTransform:
   m_ObjectHideFlags: 0
@@ -112236,11 +112236,11 @@ MonoBehaviour:
     lineCount: 5
     pageCount: 1
     materialCount: 2
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

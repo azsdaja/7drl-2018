@@ -20,7 +20,7 @@ MonoBehaviour:
   EnergyGain: 0.1
   Team: 2
   MaxHealth: 45
-  Accuracy: 0.73
+  Accuracy: 0.75
   XpGiven: 0
   InitialLevel: 1
   InitialTraits: 

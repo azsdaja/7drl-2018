@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
@@ -9,7 +8,6 @@ using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.Pathfinding;
 using Assets.Scripts.RNG;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
