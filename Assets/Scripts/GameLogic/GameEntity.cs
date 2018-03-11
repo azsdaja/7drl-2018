@@ -54,7 +54,7 @@ namespace Assets.Scripts.GameLogic
 			if (this is ActorBehaviour)
 			{
 				var actorData = ((ActorBehaviour) this).ActorData;
-				if (actorData.Team != Team.Beasts)
+				if (actorData.Team != Team.Beasts && _rng.Check(0.6f))
 				{
 					string text = "";
 					if (actorData.ActorType == ActorType.Dog)
@@ -69,7 +69,7 @@ namespace Assets.Scripts.GameLogic
 					{
 						text = _rng.Choice(new[]
 						{
-							"You?!", "Back to your ward!", "Squeak!", "He's there!", "", "", "En garde!", "Have at you!",
+							"You?!", "The prisoner is loose!", "Back to your ward!", "Squeak!", "He's there!", "", "", "En garde!", "Have at you!",
 							"Comrades, help me!", "Aah!"
 						});
 					}

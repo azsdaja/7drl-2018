@@ -19,7 +19,6 @@ public class StartScreen : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		Texts[0].gameObject.SetActive(true);
 	}
 	
 	// Update is called once per frame

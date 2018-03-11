@@ -121,7 +121,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 		{
 			if (_rng.Check(0.04f))
 			{
-				if (actorData.ActorType == ActorType.Dog && actorData.Team != Team.Beasts)
+				if (_gameContext.PlayerActor.ActorData.Health <= 0)
+				{
+					if (_rng.Check(0.15f))
+					{
+						string text = _rng.Choice(new[] { "Ha, ha!", "I got him!", "I know my strength!", "Got what he deserved!",
+							"Guess what we'll cook for dinner..." });
+						_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
+					}
+				}
+				else if (actorData.ActorType == ActorType.Dog && actorData.Team != Team.Beasts)
 				{
 					string text = _rng.Choice(new[] {"Woof", "Wrrrr!"});
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
@@ -191,11 +200,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					bool pushingIsDesired = false;
 					if (pushingIsPossible)
 					{
-						float pushingChanceScore = 0.15f;
+						float pushingChanceScore = 0.08f;
 						if (actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier < closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier)
-							pushingChanceScore += .3f;
-						if (!_gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy + toEnemy))
 							pushingChanceScore += .25f;
+						if (!_gridInfoProvider.IsWalkable(closestEnemy.LogicalPosition + toEnemy + toEnemy))
+							pushingChanceScore += .2f;
 
 						if (_rng.Check(pushingChanceScore))
 						{

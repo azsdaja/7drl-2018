@@ -42,6 +42,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				ActorBehaviour currentActor = _actors[_currentActorIndex];
 				bool passControlToNextActor = true;
+				
 				if (currentActor.ActorData.Health > 0)
 				{
 					passControlToNextActor = currentActor.GiveControl();
