@@ -16,6 +16,6 @@ public class TooltipPresenter : MonoBehaviour
 		Panel.gameObject.SetActive(true);
 		DescriptionHeader.text = isInInventory ? itemDefinition.Name : itemDefinition.Name + " at your feet";
 		Description.text = itemDefinition.GetDescription();
-		Footer.text = isInInventory ? "Press 'e' to use, \r\n'd' to drop." : "Press 'g' to pick up.";
+		Footer.text = isInInventory ? "Press 'e' to use, \r\n'd' to drop." : "Press 'e' to use, 'g' to pick up.";
 	}
 }

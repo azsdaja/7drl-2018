@@ -135,6 +135,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					string text = _rng.Choice(new[] {"Woof", "Wrrrr!"});
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
 				}
+				else if (actorData.ActorType == ActorType.Friend || actorData.ActorType == ActorType.Buddy)
+				{
+					string text = _rng.Choice(new[] {"Ma-uluh, ruv!", "Suku bgeve lir...", "Alir tak rettenekopast!"});
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text, new Color(0.5f, 0.7f, 1f));
+				}
 				else if (actorData.ActorType != ActorType.Basher)
 				{
 					string text = _rng.Choice(new[] { "Back to your ward!", "Squeak!", "You're mine!", "Comrades, help me!", "Aah!" });
@@ -143,7 +148,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			}
 
 			List<ActorData> enemiesClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength)
-				.Where(a => a.Team != actorData.Team)
+				.Where(a => a.Team != actorData.Team && a.Entity.IsVisible)
 				.ToList();
 			enemiesClose.Sort((first, second) => 
 				Vector2IntUtilities.WalkDistance(first.LogicalPosition, actorData.LogicalPosition) 
@@ -181,7 +186,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 						int closeCombatAdvantage = actorData.WeaponWeld.WeaponDefinition.CloseCombatModifier -
 						                               closestEnemy.WeaponWeld.WeaponDefinition.CloseCombatModifier;
 						if (closeCombatAdvantage < 0) closeCombatAdvantage = 0;
-						float chanceToMove = .07f + 0.2f * closeCombatAdvantage;
+						float chanceToMove = .1f + 0.2f * closeCombatAdvantage;
 						if (_rng.Check(chanceToMove))
 						{
 							return _actionFactory.CreateMoveAction(actorData, legalMove.Value);
@@ -317,15 +322,30 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				if (friendClose != null)
 				{
 					Vector2Int toFriend = friendClose.LogicalPosition - actorData.LogicalPosition;
-					int moveX = toFriend.x.CompareTo(0);
-					int moveY = toFriend.y.CompareTo(0);
-					Vector2Int moveVector = new Vector2Int(moveX, moveY);
+					Vector2Int directionToFriend = Vector2IntUtilities.Normalized(toFriend);
+					Vector2Int legalMove = new Vector2Int();
+
+					IEnumerable<Vector2Int> candidateMovesToFriend = Vector2IntUtilities.GetCone(directionToFriend)
+						.Select(coneVector => coneVector - directionToFriend)
+						.Where(fixedConeVector => fixedConeVector != actorData.LogicalPosition);
+
+					IList<Vector2Int> candidateMovesShuffled = _rng.Shuffle(candidateMovesToFriend);
+					foreach (var cand in candidateMovesShuffled)
+					{
+						if (!_entityDetector.DetectActors(actorData.LogicalPosition + cand).Any()
+						    && _gridInfoProvider.IsWalkable(actorData.LogicalPosition + cand))
+						{
+							legalMove = cand;
+							break;
+						}
+					}
+					
+					Vector2Int moveVector = legalMove;
 					if (!_entityDetector.DetectActors(actorData.LogicalPosition + moveVector).Any())
 					{
 						return _actionFactory.CreateMoveAction(actorData, moveVector);
 					}
 				}
-				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Grrr!");
 				return _actionFactory.CreatePassAction(actorData);
 			}
 			return _actionFactory.CreatePassAction(actorData);

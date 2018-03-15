@@ -59,7 +59,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			float energyCost = actorData.Traits.Contains(Trait.FastFeet) ? 0.75f : 1f;
 			return new MoveAction(actorData, energyCost, _actionEffectFactory, actionVector, _gridInfoProvider, _entityDetector, 
-				_gameContext, _textEffectPresenter, _uiConfig);
+				_gameContext, _textEffectPresenter, _uiConfig, _deathHandler);
 		}
 
 		public IGameAction CreateDropAction(ActorData actorData, ItemData firstItem)
@@ -135,10 +135,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext, _entityDetector, _entityRemover);
 		}
 
-		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item)
+		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item, bool fromInventory)
 		{
-			return new UseItemAction(actorData, item, 1f, _entitySpawner, _uiConfig, _actionEffectFactory, _entityDetector, 
-				_randomNumberGenerator, _textEffectPresenter);
+			return new UseItemAction(actorData, item, fromInventory, 1f, _entitySpawner, _uiConfig, _actionEffectFactory, _entityDetector, 
+				_randomNumberGenerator, _textEffectPresenter, _gameContext, _entityRemover);
 		}
 
 		public IGameAction CreateDropItemAction(ActorData actorData, ItemDefinition item)

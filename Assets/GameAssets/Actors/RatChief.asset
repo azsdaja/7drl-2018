@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 52da5ef3dbc76ff4791d0cc14d4ba797, type: 2}
   - {fileID: 11400000, guid: 52da5ef3dbc76ff4791d0cc14d4ba797, type: 2}
   - {fileID: 11400000, guid: 60347155946644c4c898b145a6984dfc, type: 2}
+  - {fileID: 11400000, guid: 68ddf19c3d15335429f80c6d5235df53, type: 2}
   SwordsFromSkill: 3
   VisionRayLength: 6
   EnergyGain: 0.1

@@ -120,6 +120,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			ItemDefinition recoverTailDefinition = Resources.Load<ItemDefinition>("PotionOfRecoverTail");
 			_entitySpawner.SpawnItem(recoverTailDefinition, new Vector2Int(-3,-83));
 			_entitySpawner.SpawnActor(ActorType.LastMonster, new Vector2Int(-2, -83));
+			_entitySpawner.SpawnActor(ActorType.Basher, new Vector2Int(-1, -65));
 		}
 
 		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)

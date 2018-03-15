@@ -27,7 +27,7 @@ namespace Assets.Scripts.UI
 			var textEffectObject = new GameObject("TextEffect");
 			textEffectObject.transform.position = _gridInfoProvider.GetCellCenterWorld(position);
 			var textEffect = textEffectObject.AddComponent<TextEffect>();
-			float duration = Mathf.Max(2.5f, (float)text.Length / 10);
+			float duration = Mathf.Max(2.5f, 1f + (float)text.Length / 5);
 
 			textEffect.Initialize(text, color.Value, duration);
 

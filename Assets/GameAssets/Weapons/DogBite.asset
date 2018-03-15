@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsBodyPart: 1
   Sprite: {fileID: 0}
-  RecoveryTime: 1
+  RecoveryTime: 2
   MaxDamage: 8
   Swords: 1
   CloseCombatModifier: 0

@@ -5,6 +5,7 @@ using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.AI;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,12 +21,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IArrowsVisibilityManager _arrowsVisibilityManager;
 		private readonly IWeaponColorizer _weaponColorizer;
 		private readonly IClearWayBetweenTwoPointsDetector _clearWayBetweenTwoPointsDetector;
+		private readonly ITextEffectPresenter _textEffectPresenter;
 		private Tile _heavyDoorsHClosedTile;
 		private Tile _heavyDoorsVClosedTile;
 
 		public PlayerActionResolver(IEntityDetector entityDetector, IInputHolder inputHolder, 
 			IActionFactory actionFactory, IArrowsVisibilityManager arrowsVisibilityManager, IWeaponColorizer weaponColorizer, 
-			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector, IGameContext gameContext, IUiConfig uiConfig)
+			IClearWayBetweenTwoPointsDetector clearWayBetweenTwoPointsDetector, IGameContext gameContext, IUiConfig uiConfig, ITextEffectPresenter textEffectPresenter)
 		{
 			_entityDetector = entityDetector;
 			_inputHolder = inputHolder;
@@ -35,6 +37,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_clearWayBetweenTwoPointsDetector = clearWayBetweenTwoPointsDetector;
 			_gameContext = gameContext;
 			_uiConfig = uiConfig;
+			_textEffectPresenter = textEffectPresenter;
 		}
 
 		public IGameAction GetAction(ActorData actorData)
@@ -115,11 +118,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (_inputHolder.PlayerInput == PlayerInput.UseCurrentItem)
 			{
 				_inputHolder.PlayerInput = PlayerInput.None;
-				ItemDefinition item = _uiConfig.ItemHolder.CurrentItem();
+				ItemDefinition item;
+				item = _uiConfig.ItemHolder.CurrentItem();
 				if (item == null)
+				{
+					ItemData itemAtFeet = _entityDetector.DetectItems(actorData.LogicalPosition).FirstOrDefault();
+					if (itemAtFeet != null)
+					{
+						item = itemAtFeet.ItemDefinition;
+						return _actionFactory.CreateUseItemAction(actorData, item, false);
+					}
 					return null;
-
-				return _actionFactory.CreateUseItemAction(actorData, item);
+				}
+				return _actionFactory.CreateUseItemAction(actorData, item, true);
 			}
 			if (_inputHolder.PlayerInput == PlayerInput.DropCurrentItem)
 			{
@@ -216,6 +227,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 					{
 						// bump	
 						gameActionToReturn = _actionFactory.CreateMoveAction(actorData, actionVector);
+						_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Umph! Locked!", Color.yellow);
 					}
 					else
 					{

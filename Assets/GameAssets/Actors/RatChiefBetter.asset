@@ -23,9 +23,9 @@ MonoBehaviour:
   VisionRayLength: 6
   EnergyGain: 0.1
   Team: 3
-  MaxHealth: 35
+  MaxHealth: 40
   Accuracy: 0.65
   XpGiven: 55
   InitialLevel: 0
-  InitialTraits: 03000000
+  InitialTraits: 0300000002000000
   AiTraits: 02000000

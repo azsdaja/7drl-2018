@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.GameCore;
@@ -18,11 +19,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 		private readonly IUiConfig _uiConfig;
 		private readonly IGameContext _gameContext;
 		private readonly ITextEffectPresenter _textEffectPresenter;
-
+		private readonly IDeathHandler _deathHandler;
 
 		public MoveAction(ActorData actorData, float energyCost, IActionEffectFactory actionEffectFactory, 
 			Vector2Int direction, IGridInfoProvider gridInfoProvider, IEntityDetector entityDetector, 
-			IGameContext gameContext, ITextEffectPresenter textEffectPresenter, IUiConfig uiConfig) 
+			IGameContext gameContext, ITextEffectPresenter textEffectPresenter, IUiConfig uiConfig, IDeathHandler deathHandler) 
 			: base(actorData, energyCost, actionEffectFactory, direction)
 		{
 			GuardDirection(direction);
@@ -31,6 +32,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			_gameContext = gameContext;
 			_textEffectPresenter = textEffectPresenter;
 			_uiConfig = uiConfig;
+			_deathHandler = deathHandler;
 		}
 
 		public override IEnumerable<IActionEffect> Execute()
@@ -49,16 +51,22 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 					}
 				}
 				if (_gameContext.BasherSteps == 0 && ActorData.ActorType == ActorType.Basher && Vector2IntUtilities.WalkDistance(ActorData.LogicalPosition,
-					    _gameContext.PlayerActor.ActorData.LogicalPosition) <= 3)
+					    _gameContext.PlayerActor.ActorData.LogicalPosition) <= 5)
 				{
 					_gameContext.BasherSteps = 1;
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.SetMessage("Ha! So you didn't disappoint me! Finally I see you again, my rattish friend! As you might " +
-					"have guessed, that was me that sent you the key. I'll be happy to take you away from this scary place. But first things first. " +
-					"You know that you saved my life by attributing to yourself my deeds against the revolutionists. But you also know " +
-					"that I'm a man of honor and this honor has been terribly undermined by you covering me. I challenge you to a duel!");
+					"have guessed, that was me that sent you the key. I'll be happy to take you away from this scary place. But first "+
+					"we have to deal with one thing. You saved my life by attributing to yourself my deeds against the revolutionists. " +
+					"But this also made me feel like a lousy coward. My honour has been terribly undermined and I need to clean it. " +
+					"I challenge you to a duel! No magic, no eating, just me, you and steel. Prepare!");
 
-
+					IEnumerable<ActorData> friendsAndBuddies = _entityDetector.DetectActors(ActorData.LogicalPosition, 15)
+						.Where(a => a.ActorType == ActorType.Friend || a.ActorType == ActorType.Buddy);
+					foreach (var friendOrBuddy in friendsAndBuddies)
+					{
+						_deathHandler.HandleDeath(friendOrBuddy);
+					}
 				}
 
 				IActionEffect effect = ActionEffectFactory.CreateMoveEffect(ActorData, previousPosition);

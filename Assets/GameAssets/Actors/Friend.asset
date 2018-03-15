@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00bd0ec76e285c84dba83089ed09bec3, type: 2}
   - {fileID: 11400000, guid: 00bd0ec76e285c84dba83089ed09bec3, type: 2}
   - {fileID: 11400000, guid: 2b4347f71baa77b43b34d3f2551dd793, type: 2}
-  SwordsFromSkill: 1
+  SwordsFromSkill: 0
   VisionRayLength: 4
   EnergyGain: 0.1
   Team: 2

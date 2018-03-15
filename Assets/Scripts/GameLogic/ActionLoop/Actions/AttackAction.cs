@@ -69,7 +69,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.SetMessage("Ha! That was a good duel! I think we've spilled enough blood. My reputation is clean now. Thank you! Now, let's go!");
 					_gameContext.BasherSteps = 2;
-					_attackedActor.Team = Team.Beasts;
+					ActorData.Team = Team.Beasts;
 					ActorData.HasFinishedDuel = true;
 					ActorData.HasWonDuel = false;
 				}

@@ -74,15 +74,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			return instantiatedActor;
 		}
 
-		public void SpawnWeapon(WeaponDefinition weaponToSpawn, Vector2Int spawnPosition)
+		public void SpawnWeapon(WeaponDefinition weaponToSpawn, Vector2Int spawnPosition, ItemDefinition previousWeapon = null)
 		{
 			ItemBehaviour instantiatedItem = _itemBehaviourFactory.Create();
 
 			instantiatedItem.GetComponent<SpriteRenderer>().sprite = weaponToSpawn.Sprite;
 			instantiatedItem.ItemData.ItemType = ItemType.Weapon;
 			instantiatedItem.ItemData.WeaponDefinition = weaponToSpawn;
+			instantiatedItem.ItemData.ItemDefinition = previousWeapon;
 			
-
 			Vector2Int positionToPlaceItem = GetPositionToPlaceItem(spawnPosition);
 			instantiatedItem.ItemData.LogicalPosition = positionToPlaceItem;
 			instantiatedItem.RefreshWorldPosition();

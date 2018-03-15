@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.ActionLoop.DungeonGeneration;
+using Assets.Scripts.GameLogic.Configuration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.GridRelated.TilemapAffecting;
@@ -34,8 +36,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			{
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
 					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
+					//new Vector2Int(5, -65); // dawno tego nie robiłem... niesamowite uczucie
 													
-				 _gameContext.PlayerActor.ActorData.VisionRayLength = 12; _gameContext.VisiblePositions = new HashSet<Vector2Int>(); 
+				 _gameContext.PlayerActor.ActorData.VisionRayLength = 8; _gameContext.VisiblePositions = new HashSet<Vector2Int>();
+				IEnumerable<ActorData> enemiesAround =
+					_entityDetector.DetectActors(_gameContext.PlayerActor.ActorData.LogicalPosition, 20)
+					.Where(a => a.Team == Team.Beasts);
+				foreach (var actorData in enemiesAround)
+				{
+					actorData.VisionRayLength = 8;
+				}
 				//this still breaks the field of view!
 			}
 			else
