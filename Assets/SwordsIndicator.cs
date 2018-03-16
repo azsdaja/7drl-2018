@@ -83,7 +83,7 @@ public class SwordsIndicator : MonoBehaviour
 	public void UpdateActiveSwords(int actorSwords)
 	{
 		Color colorForAppearing = new Color(0f, 1f, 0f);
-		Color colorForShrinking = new Color(1f, 0f, 0f);
+		Color colorForShrinking = new Color(1f, .5f, .5f);
 		_swordsShown = actorSwords;
 		for (int i = 0; i < SwordsSprites.Count; i++)
 		{

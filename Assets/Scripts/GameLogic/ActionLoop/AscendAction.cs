@@ -38,7 +38,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (_gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count)
 			{
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
-					//new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
+					//new Vector2Int(6, -41); // this leads close to Farwis. dawno tego nie robiłem... niesamowite uczucie
 					new Vector2Int(5, -65); // dawno tego nie robiłem... niesamowite uczucie
 													
 				 _gameContext.PlayerActor.ActorData.VisionRayLength = 8; _gameContext.VisiblePositions = new HashSet<Vector2Int>();

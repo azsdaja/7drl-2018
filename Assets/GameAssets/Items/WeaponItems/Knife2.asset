@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemType: 3
   Sprite: {fileID: 21300000, guid: cdd56ee75d60dfb429c12bf1d3673465, type: 3}
-  Name: Good knife
+  Name: Masterwork knife
   Description: 'Knife description
 
 '
