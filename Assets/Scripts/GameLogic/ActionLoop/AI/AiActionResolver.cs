@@ -220,6 +220,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 						if (actorData.Traits.Contains(Trait.DaringBlow) && actorData.Swords >= 2)
 						{
 							float daringBlowChance = actorData.AiTraits.Contains(AiTrait.Aggressive) ? .7f : .3f;
+							if (actorData.ActorType == ActorType.Basher) daringBlowChance -= .12f;
 							if (_rng.Check(daringBlowChance))
 							{
 								isDaringBlow = true;

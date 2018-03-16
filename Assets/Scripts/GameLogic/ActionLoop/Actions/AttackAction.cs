@@ -72,8 +72,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, let's go!");
 					_gameContext.BasherSteps = 2;
 					ActorData.Team = Team.Beasts;
-					ActorData.HasFinishedDuel = true;
-					ActorData.HasWonDuel = false;
+					_attackedActor.HasFinishedDuel = true;
+					_attackedActor.HasWonDuel = false;
 				}
 
 				yield return new LambdaEffect(() =>

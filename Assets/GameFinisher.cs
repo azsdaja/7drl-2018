@@ -29,7 +29,7 @@ The difficulty was {5}.";
 			actorData.Xp,
 			actorData.Level,
 			actorData.HasFinishedDuel
-				? "You have honorably finished the duel with your neighbour, and you " +
+				? "You have honorably finished the duel with your neighbour and you " +
 				  (actorData.HasWonDuel ? "won it." : "lost it.")
 				: "You ran away during the duel with your neighbour.",
 			actorData.HasTail
