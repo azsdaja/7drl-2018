@@ -58,7 +58,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				if (_attackedActor.ActorType == ActorType.Basher && ActorData.ActorType == ActorType.Player && _attackedActor.HealthProgress < 0.5f)
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
-					_uiConfig.BasherMessage.SetMessage("Ouch! I think I've spilled enough blood and that was a satisfactory duel. My reputation is clean now. Thank you! Now, let's go!");
+					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
+					_uiConfig.BasherMessage.SetMessage("Ouch! Enough for me! That was a satisfactory duel. My reputation is clean now. Thank you! Now, let's go!");
 					_gameContext.BasherSteps = 2;
 					_attackedActor.Team = Team.Beasts;
 					ActorData.HasFinishedDuel = true;
@@ -67,7 +68,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				if (_attackedActor.ActorType == ActorType.Player && ActorData.ActorType == ActorType.Basher && _attackedActor.HealthProgress < 0.5f)
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
-					_uiConfig.BasherMessage.SetMessage("Ha! That was a good duel! I think we've spilled enough blood. My reputation is clean now. Thank you! Now, let's go!");
+					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
+					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, let's go!");
 					_gameContext.BasherSteps = 2;
 					ActorData.Team = Team.Beasts;
 					ActorData.HasFinishedDuel = true;

@@ -11,6 +11,7 @@ using Assets.Scripts.GridRelated;
 using Assets.Scripts.GridRelated.TilemapAffecting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -32,11 +33,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		public override IEnumerable<IActionEffect> Execute()
 		{
 			++_gameContext.CurrentDungeonIndex;
+			if(_gameContext.CurrentDungeonIndex < 6)
+				GameObject.Find("PrisonLevelIndicator").GetComponent<Text>().text = "Prison level: " + -(5 - _gameContext.CurrentDungeonIndex);
 			if (_gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count)
 			{
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
-					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
-					//new Vector2Int(5, -65); // dawno tego nie robiłem... niesamowite uczucie
+					//new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
+					new Vector2Int(5, -65); // dawno tego nie robiłem... niesamowite uczucie
 													
 				 _gameContext.PlayerActor.ActorData.VisionRayLength = 8; _gameContext.VisiblePositions = new HashSet<Vector2Int>();
 				IEnumerable<ActorData> enemiesAround =

@@ -394,3 +394,4 @@ C:\UnityProjekty\7DRL 2018\Kafelki.Tests\bin\Debug\UnityEngine.UnityWebRequestWW
 C:\UnityProjekty\7DRL 2018\Kafelki.Tests\bin\Debug\UnityEngine.VideoModule.xml
 C:\UnityProjekty\7DRL 2018\Kafelki.Tests\bin\Debug\UnityEngine.WindModule.xml
 C:\UnityProjekty\7DRL 2018\Kafelki.Tests\bin\Debug\TextMeshPro-2017.3-1.0.56-Runtime.dll
+C:\UnityProjekty\7DRL 2018\Kafelki.Tests\obj\Debug\Kafelki.Tests.csproj.CopyComplete

@@ -48,7 +48,6 @@ public class SwordsIndicator : MonoBehaviour
 			SetFrameSpriteToMaxSwords(playerMaxSwords);
 			_maxSwordsShown = playerMaxSwords;
 		}
-
 		
 		int actorSwords = _actorBehaviour.ActorData.Swords;
 		if (actorSwords != _swordsShown)
@@ -81,8 +80,10 @@ public class SwordsIndicator : MonoBehaviour
 		_swordsShown = actorSwords;
 	}
 
-	private void UpdateActiveSwords(int actorSwords)
+	public void UpdateActiveSwords(int actorSwords)
 	{
+		Color colorForAppearing = new Color(0f, 1f, 0f);
+		Color colorForShrinking = new Color(1f, 0f, 0f);
 		_swordsShown = actorSwords;
 		for (int i = 0; i < SwordsSprites.Count; i++)
 		{
@@ -90,9 +91,9 @@ public class SwordsIndicator : MonoBehaviour
 			{
 				if (SwordsSprites[i].color == Color.clear)
 				{
-					SwordsSprites[i].color = Color.white;
 					_appearCoroutine = AppearSword(i);
 					StartCoroutine(_appearCoroutine);
+					SwordsSprites[i].color = colorForAppearing;
 				}
 			}
 			else
@@ -101,6 +102,7 @@ public class SwordsIndicator : MonoBehaviour
 				{
 					_shrinkCoroutine = ShrinkSword(i);
 					StartCoroutine(_shrinkCoroutine);
+					SwordsSprites[i].color = colorForShrinking;
 				}
 			}
 		}
@@ -123,6 +125,7 @@ public class SwordsIndicator : MonoBehaviour
 			SwordsSprites[index].transform.localScale = Vector3.one * _swordAppearCurve.Evaluate(progress);
 			yield return new WaitForSeconds(.03f);
 		}
+		SwordsSprites[index].color = Color.white;
 		SwordsSprites[index].enabled = true;
 		SwordsSprites[index].transform.localScale = Vector3.one;
 	}

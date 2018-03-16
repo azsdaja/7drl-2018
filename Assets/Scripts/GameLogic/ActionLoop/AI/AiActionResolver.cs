@@ -84,39 +84,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			return moveGameAction;
 		}
 
-		private IGameAction ResolveActionForSafety(ActorData actorData)
-		{
-			List<ActorData> enemyActorsNearby = _entityDetector.DetectActors(actorData.LogicalPosition, 5)
-				.Where(a => a.Team != actorData.Team).ToList();
-			enemyActorsNearby.Sort((first, second) =>
-				Vector2IntUtilities.WalkDistance(first.LogicalPosition, actorData.LogicalPosition)
-					.CompareTo(Vector2IntUtilities.WalkDistance(second.LogicalPosition, actorData.LogicalPosition)));
-			var closestEnemy = enemyActorsNearby.FirstOrDefault();
-			if (closestEnemy == null)
-			{
-				Vector2Int target;
-				{
-					IEnumerable<ActorData> friendlyActorsNearby = _entityDetector.DetectActors(actorData.LogicalPosition, 10)
-						.Where(a => a.Team == actorData.Team);
-					Vector2Int safetyCenter = Vector2IntUtilities.Average(friendlyActorsNearby.Select(a => a.LogicalPosition).ToList());
-					target = safetyCenter;
-				}
-			
-				NavigationData newNavigationData = GetReachableNavigationDataForWander(actorData, target, 7);
-				actorData.NavigationData = newNavigationData;
-
-				Vector2Int? potentialNextStep = _navigator.ResolveNextStep(actorData);
-				var nextStep = potentialNextStep.Value;
-				return CreateMoveAction(actorData, nextStep);
-			}
-			else
-			{
-				Vector2Int direction = Vector2IntUtilities.Normalized(actorData.LogicalPosition - closestEnemy.LogicalPosition);
-				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "AAAAA!");
-				return _actionFactory.CreateMoveAction(actorData, direction);
-			}
-		}
-
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
 			if (_rng.Check(0.04f))

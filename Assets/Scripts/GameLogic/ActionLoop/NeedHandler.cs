@@ -5,7 +5,9 @@ using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
+using Assets.Scripts.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -18,9 +20,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IMaxSwordCalculator _maxSwordCalculator;
 		private readonly IPlayerSpaceResolver _playerSpaceResolver;
 		private readonly IGameContext _gameContext;
+		private readonly ITextEffectPresenter _textEffectPresenter;
 
 		public NeedHandler(IEntityDetector entityDetector, IGameConfig gameConfig, IUiConfig uiConfig, 
-			IDeathHandler deathHandler, IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver, IGameContext gameContext)
+			IDeathHandler deathHandler, IMaxSwordCalculator maxSwordCalculator, IPlayerSpaceResolver playerSpaceResolver, IGameContext gameContext, ITextEffectPresenter textEffectPresenter)
 		{
 			_entityDetector = entityDetector;
 			_gameConfig = gameConfig;
@@ -29,13 +32,22 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			_maxSwordCalculator = maxSwordCalculator;
 			_playerSpaceResolver = playerSpaceResolver;
 			_gameContext = gameContext;
+			_textEffectPresenter = textEffectPresenter;
 		}
 
 		public void Heartbeat(ActorData actorData)
 		{
 			++actorData.RoundsCount;
 
-			BoundsInt lastLevelBounds = new BoundsInt(-26, -105, 0, 59, 70, 1);
+			BoundsInt lastLevelBounds = new BoundsInt(-20, -101, 0, 51, 70, 1);
+			BoundsInt almostLastLevelBounds = new BoundsInt(-17, -103, 0, 45, 64, 1);
+
+			if (actorData.ActorType == ActorType.Player && _gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count &&
+			    !almostLastLevelBounds.Contains(actorData.LogicalPosition.ToVector3Int()))
+			{
+				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "Almost free!", Color.yellow);
+			}
+
 			if (actorData.ActorType == ActorType.Player && _gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count && 
 				!lastLevelBounds.Contains(actorData.LogicalPosition.ToVector3Int()))
 			{
@@ -91,12 +103,22 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 			}
 
+			if (actorData.Entity.transform.GetComponentInChildren<SwordsIndicator>() == null /*inactive*/)
+			{
+			}
+			else
+			{
+				actorData.Entity.transform.GetComponentInChildren<SwordsIndicator>().UpdateActiveSwords(actorData.Swords);
+				// kind of ugly workaround, but seems to help
+			}
+
 			if (actorData.ControlledByPlayer)
 			{
 				if (actorData.Xp >= _gameConfig.XpForLevels[actorData.Level + 1])
 				{
 					++actorData.Level;
 					_uiConfig.AdvanceManager.gameObject.SetActive(true);
+					GameObject.Find("PlayerLevelIndicator").GetComponent<Text>().text = "Player level: " + actorData.Level;
 				}
 			}
 		}
