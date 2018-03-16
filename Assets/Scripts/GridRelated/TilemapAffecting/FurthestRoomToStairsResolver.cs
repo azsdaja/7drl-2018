@@ -18,5 +18,17 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			BoundsInt furthestRoomToStairs = roomsSortedByDistanceToStairs.Last();
 			return furthestRoomToStairs;
 		}
+
+		public static BoundsInt GetFurthestRoomToPosition(Dungeon currentDungeon, Vector2Int position)
+		{
+			var roomsSortedByDistanceToStairs = currentDungeon.Rooms.ToList();
+			roomsSortedByDistanceToStairs.Sort(
+				(first, second) => Vector2IntUtilities.WalkDistance(position, first.min.ToVector2Int())
+					.CompareTo(
+						Vector2IntUtilities.WalkDistance(position, second.min.ToVector2Int()))
+			);
+			BoundsInt furthestRoomToStairs = roomsSortedByDistanceToStairs.Last();
+			return furthestRoomToStairs;
+		}
 	}
 }

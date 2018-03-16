@@ -78918,8 +78918,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Today in your daily portion of bread you found a key. An opportunity to
-    come back to freedom appears.
+  m_Text: 'Today in your daily portion of bread you found a key. It seems to fit the
+    door of your ward. An opportunity to regain freedom appears.
 
 
 
@@ -78927,8 +78927,7 @@ MonoBehaviour:
 
 
 
-    (Press ''h'' for hard difficulty and ''e'' for easy. Press any other key for normal
-    difficulty.)'
+    (Press ''n'' for normal difficulty, ''h'' for hard and ''e'' for easy.)'
 --- !u!222 &702816584
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -79350,8 +79349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 4.6053925}
-  m_SizeDelta: {x: 547.2, y: 135.4}
+  m_AnchoredPosition: {x: 3.52, y: -48}
+  m_SizeDelta: {x: 558.24, y: 275.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &740966865
 MonoBehaviour:
@@ -130362,8 +130361,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: After saving your neighbour, a human named Farwis, by hiding him in your
-    home and admiting to perform anti-revolutionary deeds he has been suspected to,
-    you have been sentenced to long imprisonment.
+    house from the agents of the new power and claiming to have performed anti-revolutionary
+    deeds he has been suspected to, you have been sentenced to long imprisonment.
 --- !u!222 &882632865
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -132950,7 +132949,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "The grey bar indicates your maximum amount of <sprite=0>. The <sprite=0>
-    icons indicate your temporary value.\n<color=#5588ff>Your <sprite=0>s regrow with
+    icons indicate your temporary value.\n<color=#aaddff>Your <sprite=0>s regrow with
     time \nwith rate depending \non weapon.</color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1207e49f54f85d342adf3f0e8b6c9f3f, type: 2}
@@ -139142,7 +139141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6764706, g: 0.6548592, b: 0.36310554, a: 1}
+  m_Color: {r: 0.3897059, g: 0.3839749, b: 0.30660686, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -143896,7 +143895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1857526983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -148884,8 +148883,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12, y: -53}
-  m_SizeDelta: {x: 595.9, y: 245.6}
+  m_AnchoredPosition: {x: 12, y: -60.98}
+  m_SizeDelta: {x: 595.9, y: 261.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2118409627
 MonoBehaviour:
@@ -148932,10 +148931,29 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Actions:\nw \u2014 force walk instead of attack\na \u2014 daring attack
-    (needs trait)\nf \u2014 push enemy (needs trait)\n\nItems:\ng \u2014 pick up item\n1\u20144
-    \u2014 select item from inventory\ne \u2014 use selected item\nd \u2014 drop selected
-    item\n\nOther:\n< \u2014 ascend staircase"
+  m_Text: 'Actions:
+
+    w - force walk instead of attack
+
+    a - daring attack (needs trait)
+
+    f - push enemy (needs trait)
+
+
+    Items:
+
+    g - pick up item
+
+    1-4 - select item from inventory
+
+    e - use selected item
+
+    d - drop selected item
+
+
+    Other:
+
+    < (SHIFT+comma) -ascend staircase'
 --- !u!222 &2118409629
 CanvasRenderer:
   m_ObjectHideFlags: 0

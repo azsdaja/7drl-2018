@@ -143,10 +143,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			}
 			if (_inputHolder.PlayerInput == PlayerInput.Ascend)
 			{
+				TileBase stairsDown = Resources.Load<TileBase>("Tiles/Environment/Stairs_down");
+				
 				_inputHolder.PlayerInput = PlayerInput.None;
 				Vector2Int playerPosition = _gameContext.PlayerActor.ActorData.LogicalPosition;
 				TileBase envTileBelowPlayer = _gameContext.EnvironmentTilemap.GetTile(playerPosition.ToVector3Int());
-				if (envTileBelowPlayer != null)
+				if (envTileBelowPlayer != null && envTileBelowPlayer != stairsDown)
 				{
 					return _actionFactory.CreateAscendAction(actorData);
 				}

@@ -99,7 +99,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		private void GenerateActorsAndItemsOutside()
 		{
 			var bound = new BoundsInt(new Vector3Int(-2, -53, 0), new Vector3Int(19,18,1));
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				Vector2Int randomPosition = _rng.NextPosition(bound);
 				if (_gridInfoProvider.IsWalkable(randomPosition))
@@ -162,16 +162,18 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				BoundsInt roomToSpawnPlayerIn = playerRoom;
 				Vector2Int playerPosition = BoundsIntUtilities.Center(roomToSpawnPlayerIn);
 				Vector2Int breadPosition = Vector2Int.zero;
-				foreach (var neighbour in Vector2IntUtilities.Neighbours8(playerPosition))
+				var neighboursRebourse = Vector2IntUtilities.Neighbours8(playerPosition).ToList();
+				neighboursRebourse.Reverse();
+				foreach (var neighbour in neighboursRebourse)
 				{
-					if (_gridInfoProvider.IsWalkable(neighbour))
+					if (_gridInfoProvider.IsWalkable(neighbour) && neighbour != playerPosition)
 					{
 						_entitySpawner.SpawnItem(BreadItem, neighbour);
 						breadPosition = neighbour;
 						break;
 					}
 				}
-				foreach (var neighbour in Vector2IntUtilities.Neighbours8(playerPosition))
+				foreach (var neighbour in neighboursRebourse)
 				{
 					if (neighbour != breadPosition && _gridInfoProvider.IsWalkable(neighbour))
 					{
@@ -187,11 +189,13 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						|| _gameContext.EnvironmentTilemap.GetTile(positionInPlayerRoom) == DoorsVerticalOpen)
 					{
 						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsVerticalClosed);
+						_gameContext.EnvironmentTilemap.SetTile(positionInPlayerRoom, null);
 					}
 					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalClosed
 						|| _gameContext.EnvironmentTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalOpen)
 					{
 						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsHorizontalClosed);
+						_gameContext.EnvironmentTilemap.SetTile(positionInPlayerRoom, null);
 					}
 				}
 				var playerActorBehaviour = _entitySpawner.SpawnActor(ActorType.Player, playerPosition);
@@ -222,6 +226,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 		private void PlaceTilesBasingOnDungeon(BoundsInt gridBounds, Dungeon generator)
 		{
+			bool stairsGenerated = false;
 			foreach (Vector3Int position in gridBounds.allPositionsWithin)
 			{
 				Vector2Int position2D = position.ToVector2Int();
@@ -262,6 +267,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						_gameContext.EnvironmentTilemap.SetTile(position, StairsUp);
 						_gameContext.WallsTilemap.SetTile(position, null);
+						stairsGenerated = true;
 						break;
 					}
 					case GenTile.Downstairs:
@@ -290,6 +296,15 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						break;
 					}
 				}
+			}
+			if (!stairsGenerated)
+			{
+				BoundsInt randomRoom = _rng.Choice(generator.Rooms);
+				Vector3Int center = BoundsIntUtilities.Center(randomRoom).ToVector3Int();
+				_gameContext.DirtTilemap.SetTile(center, Dirt);
+				_gameContext.EnvironmentTilemap.SetTile(center, StairsUp);
+				_gameContext.WallsTilemap.SetTile(center, null);
+				Debug.Log("Missing stairs in dungeon! Generating in random room on position: " + center);
 			}
 		}
 

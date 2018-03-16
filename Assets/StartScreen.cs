@@ -25,12 +25,12 @@ public class StartScreen : MonoBehaviour
 	void Update () {
 		if (Input.anyKeyDown)
 		{
-			Texts[CurrentIndex].gameObject.SetActive(false);
-			Illustrations[CurrentIndex].gameObject.SetActive(false);
-
 			CurrentIndex++;
 			if (CurrentIndex < Texts.Length)
 			{
+				Texts[CurrentIndex-1].gameObject.SetActive(false);
+				Illustrations[CurrentIndex-1].gameObject.SetActive(false);
+
 				Texts[CurrentIndex].gameObject.SetActive(true);
 				Illustrations[CurrentIndex].gameObject.SetActive(true);
 			}
@@ -40,14 +40,19 @@ public class StartScreen : MonoBehaviour
 				{
 					_gameContext.PlayerActor.ActorData.Difficulty = 1;
 					_gameContext.PlayerActor.ActorData.Accuracy -= 0.07f;
+					gameObject.SetActive(false);
 				}
 				if (Input.GetKeyDown(KeyCode.E))
 				{
 					_gameContext.PlayerActor.ActorData.Difficulty = -1;
 					_gameContext.PlayerActor.ActorData.Accuracy += 0.07f;
 					_gameContext.PlayerActor.ActorData.MaxHealth += 10;
+					gameObject.SetActive(false);
 				}
-				gameObject.SetActive(false);
+				if (Input.GetKeyDown(KeyCode.N))
+				{
+					gameObject.SetActive(false);
+				}
 			}
 		}
 	}

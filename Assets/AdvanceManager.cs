@@ -59,21 +59,21 @@ public class AdvanceManager : MonoBehaviour
 				--_currentHolderIndex;
 			}
 		}
-		//if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6))
-		//{
-		//	if (_currentHolderIndex + 5 < Holders.Count)
-		//	{
-		//		_currentHolderIndex += 5;
-		//	}
-		//}
-		//
-		//if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4))
-		//{
-		//	if (_currentHolderIndex - 5 > 0)
-		//	{
-		//		_currentHolderIndex -= 5;
-		//	}
-		//}
+		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6))
+		{
+			if (_currentHolderIndex + 5 < AllHolders.Count)
+			{
+				_currentHolderIndex += 5;
+			}
+		}
+		
+		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4))
+		{
+			if (_currentHolderIndex - 5 >= 0)
+			{
+				_currentHolderIndex -= 5;
+			}
+		}
 
 		TraitHolder currentHolder = AllHolders[_currentHolderIndex];
 		Picker.transform.localPosition = AllHolders[_currentHolderIndex].transform.localPosition + new Vector3(-.3f, 0, 0);
