@@ -35,12 +35,19 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				ItemDefinition item = _rng.Choice(_gameConfig.ItemConfig.Definitions);
 				if (item.ItemType == ItemType.PotionOfBuddy)
 				{
-					if(_gameContext.CurrentDungeonIndex >= 1)
+					if(
+						(_gameContext.CurrentDungeonIndex == 1 && _rng.Check(0.6f))
+						|| (_gameContext.CurrentDungeonIndex >= 2 && _rng.Check(0.9f))
+						)
 						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
 				}
 				else if (item.ItemType == ItemType.PotionOfHealing)
 				{
-					if(_gameContext.CurrentDungeonIndex >= 2 && _rng.Check(0.8f))
+					if(
+						(_gameContext.CurrentDungeonIndex == 2 && _rng.Check(0.7f))
+						|| (_gameContext.CurrentDungeonIndex == 3 && _rng.Check(0.7f))
+						|| (_gameContext.CurrentDungeonIndex >= 4 && _rng.Check(0.8f))
+						)
 						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
 				}
 				else if (item.ItemType == ItemType.PotionOfFriend)
