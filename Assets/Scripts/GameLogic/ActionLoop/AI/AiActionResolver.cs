@@ -56,34 +56,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			return ResolveActionForAggresion(actorData);
 		}
 
-		private IGameAction ResolveActionForRest(ActorData actorData)
-		{
-			if (actorData.AiData.TurnsLeftToStayWhileResting > 0)
-			{
-				--actorData.AiData.TurnsLeftToStayWhileResting;
-				_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, "---");
-				return _actionFactory.CreatePassAction(actorData);
-			}
-			bool isAtDestination
-				= !actorData.NavigationData.Destination.HasValue ||
-				  actorData.LogicalPosition == actorData.NavigationData.Destination;
-			Vector2Int nextStep;
-		
-			if (isAtDestination)
-			{
-				actorData.AiData.TurnsLeftToStayWhileResting = _rng.Next(1, 10);
-				NavigationData navigationData = GetReachableNavigationDataForWander(actorData, actorData.LogicalPosition, 3);
-				actorData.NavigationData = navigationData;
-				nextStep = _navigator.ResolveNextStep(actorData).Value;
-			}
-			else
-			{
-				nextStep = _navigator.ResolveNextStep(actorData).Value;
-			}
-			IGameAction moveGameAction = CreateMoveAction(actorData, nextStep);
-			return moveGameAction;
-		}
-
 		private IGameAction ResolveActionForAggresion(ActorData actorData)
 		{
 			if (_rng.Check(0.04f))
@@ -102,12 +74,20 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 					string text = _rng.Choice(new[] {"Woof", "Wrrrr!"});
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
 				}
+				else if (actorData.ActorType == ActorType.LastMonster)
+				{
+					var potential = new[] {"Whshsh!", "Rrrruv!"}.ToList();
+					if(!actorData.Entity.IsVisible) potential.AddRange(new[]{"[THUD!]", "[THUD!]", "[THUD!]"});
+					string text = _rng.Choice(potential);
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text, text == "[THUD!]" ? Color.white 
+						: Color.magenta, true);
+				}
 				else if (actorData.ActorType == ActorType.Friend || actorData.ActorType == ActorType.Buddy)
 				{
 					string text = _rng.Choice(new[] {"Ma-uluh, ruv!", "Suku bgeve lir...", "Alir tak rettenekopast!"});
-					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text, new Color(0.5f, 0.7f, 1f));
+					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text, new Color(0.7f, 0.8f, 1f));
 				}
-				else if (actorData.ActorType != ActorType.Basher)
+				else if (actorData.ActorType != ActorType.Basher && actorData.ActorType != ActorType.LastMonster)
 				{
 					string text = _rng.Choice(new[] { "Back to your ward!", "Squeak!", "You're mine!", "Comrades, help me!", "Aah!" });
 					_textEffectPresenter.ShowTextEffect(actorData.LogicalPosition, text);
@@ -219,8 +199,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 						bool isDaringBlow = false;
 						if (actorData.Traits.Contains(Trait.DaringBlow) && actorData.Swords >= 2)
 						{
-							float daringBlowChance = actorData.AiTraits.Contains(AiTrait.Aggressive) ? .7f : .3f;
-							if (actorData.ActorType == ActorType.Basher) daringBlowChance -= .12f;
+							float daringBlowChance = actorData.AiTraits.Contains(AiTrait.Aggressive) ? .7f : .2f;
+							if (actorData.ActorType == ActorType.Basher) daringBlowChance -= .5f;
 							if (_rng.Check(daringBlowChance))
 							{
 								isDaringBlow = true;
@@ -285,11 +265,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			}
 			else if (actorData.Team == Team.Beasts)
 			{
-				ActorData friendClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength).FirstOrDefault(
+				ActorData playerClose = _entityDetector.DetectActors(actorData.LogicalPosition, actorData.VisionRayLength).FirstOrDefault(
 					f => f != actorData && f.ActorType == ActorType.Player);
-				if (friendClose != null)
+				if (playerClose != null)
 				{
-					Vector2Int toFriend = friendClose.LogicalPosition - actorData.LogicalPosition;
+					Vector2Int toFriend = playerClose.LogicalPosition - actorData.LogicalPosition;
 					Vector2Int directionToFriend = Vector2IntUtilities.Normalized(toFriend);
 					Vector2Int legalMove = new Vector2Int();
 
@@ -316,7 +296,40 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				}
 				return _actionFactory.CreatePassAction(actorData);
 			}
+			if (Vector2IntUtilities.WalkDistance(actorData.LogicalPosition, _gameContext.PlayerActor.ActorData.LogicalPosition) < 25)
+			{
+				Vector2Int? farReachablePoint = GetFarReachablePoint(actorData);
+				if (farReachablePoint.HasValue)
+				{
+					Vector2Int moveVector = Vector2IntUtilities.Normalized(farReachablePoint.Value - actorData.LogicalPosition);
+					return _actionFactory.CreateMoveAction(actorData, moveVector);
+				}
+			}
 			return _actionFactory.CreatePassAction(actorData);
+		}
+
+		private Vector2Int? GetFarReachablePoint(ActorData actorData)
+		{
+			var reachableRandomPoints = new List<Vector2Int>();
+			for (int i = 0; i < 5; i++)
+			{
+				Vector2Int wanderVector = new Vector2Int(_rng.Next(-7, 7), _rng.Next(-7, 7));
+				Vector2Int candidate = actorData.LogicalPosition + wanderVector;
+				if (_clearWayBetweenTwoPointsDetector.ClearWayExists(actorData.LogicalPosition, candidate))
+				{
+					reachableRandomPoints.Add(candidate);
+				}
+			}
+			if (reachableRandomPoints.Any())
+			{
+				reachableRandomPoints.Sort((first, second) =>
+				Vector2IntUtilities.WalkDistance(actorData.LogicalPosition, first).CompareTo(Vector2IntUtilities.WalkDistance(actorData.LogicalPosition, second))
+				);
+
+				return reachableRandomPoints.First();
+			}
+
+			return null;
 		}
 
 		private NavigationData GetReachableNavigationDataForWander(ActorData actorData, Vector2Int targetAreaCenter, int wanderRange)
@@ -341,68 +354,6 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				break;
 			}
 			return newNavigationData;
-		}
-
-		private IGameAction ResolveActionForHunger(ActorData actorData)
-		{
-			bool shouldChooseNewDestination = !actorData.NavigationData.Destination.HasValue
-			                                  || !_gameContext.LeavesPositions.Contains(actorData.NavigationData.Destination
-				                                  .Value);
-
-			if (shouldChooseNewDestination)
-			{
-				Vector2Int newTargetPosition = ChooseRandomLeavesPosition(actorData);
-				var newNavigationData = new NavigationData {Destination = newTargetPosition};
-				actorData.NavigationData = newNavigationData;
-			}
-			if (actorData.LogicalPosition == actorData.NavigationData.Destination)
-			{
-				return _actionFactory.CreateEatEnvironmentAction(actorData);
-			}
-			else
-			{
-				Vector2Int nextStep = _navigator.ResolveNextStep(actorData).Value;
-
-				IGameAction moveGameAction = CreateMoveAction(actorData, nextStep);
-				return moveGameAction;
-			}
-		}
-
-		private IGameAction ResolveActionForCare(ActorData actorData)
-		{
-			return _actionFactory.CreateCallAction(actorData);
-		}
-
-		private IGameAction CreateMoveAction(ActorData actorData, Vector2Int nextStep)
-		{
-			Vector2Int direction = nextStep - actorData.LogicalPosition;
-			IGameAction moveGameAction = _actionFactory.CreateMoveAction(actorData, direction);
-			return moveGameAction;
-		}
-
-		private Vector2Int ChooseRandomLeavesPosition(ActorData actorData)
-		{
-			Vector2Int newTargetPosition;
-			while (true)
-			{
-				int candidatesCount = 5;
-				var candidates = new Vector2Int[candidatesCount];
-				for (int i = 0; i < candidatesCount; i++)
-				{
-					candidates[i] = _rng.Choice(_gameContext.LeavesPositions);
-				}
-				List<Vector2Int> candidatesList = candidates.ToList();
-				candidatesList.Sort((first, second) =>
-				{
-					int distanceToFirst = (actorData.LogicalPosition - first).sqrMagnitude;
-					int distanceToSecond = (actorData.LogicalPosition - second).sqrMagnitude;
-					return distanceToFirst.CompareTo(distanceToSecond);
-				});
-				newTargetPosition = candidatesList.First();
-				if (newTargetPosition != actorData.LogicalPosition)
-					break;
-			}
-			return newTargetPosition;
 		}
 	}
 }

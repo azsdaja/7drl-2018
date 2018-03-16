@@ -17,5 +17,5 @@ MonoBehaviour:
   Description: 'Smells much worse than the dungeon itself.
 
 
-    Restores all your health.'
+    Drinking it will restores most of your health.'
   WeaponDefinition: {fileID: 0}

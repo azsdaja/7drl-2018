@@ -91,7 +91,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 
 			//GenerateWilderness();
 			InitializeVisibilityOfTiles();
-			_pathfinder.InitializeNavigationGrid();
+			//_pathfinder.InitializeNavigationGrid();
 
 			//GenerateAnimals(6);
 		}
@@ -183,11 +183,13 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 					playerRoom.size + new Vector3Int(2, 2, 0));
 				foreach (Vector3Int positionInPlayerRoom in aroundPlayerRoom.allPositionsWithin)
 				{
-					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsVerticalClosed)
+					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsVerticalClosed
+						|| _gameContext.EnvironmentTilemap.GetTile(positionInPlayerRoom) == DoorsVerticalOpen)
 					{
 						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsVerticalClosed);
 					}
-					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalClosed)
+					if (_gameContext.WallsTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalClosed
+						|| _gameContext.EnvironmentTilemap.GetTile(positionInPlayerRoom) == DoorsHorizontalOpen)
 					{
 						_gameContext.WallsTilemap.SetTile(positionInPlayerRoom, HeavyDoorsHorizontalClosed);
 					}

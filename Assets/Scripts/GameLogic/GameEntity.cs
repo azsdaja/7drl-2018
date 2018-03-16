@@ -61,6 +61,10 @@ namespace Assets.Scripts.GameLogic
 					{
 						text = _rng.Choice(new[] {"Woof!", "Whrrrr!", "Woof! Woof!"});
 					}
+					if (actorData.ActorType == ActorType.LastMonster)
+					{
+						text = _rng.Choice(new[] {"BACK TO YOUR WARD!!!"});
+					}
 					else if (actorData.ActorType == ActorType.BruisedRat)
 					{
 						text = _rng.Choice(new[] {"Give me your guts!", "Squeak! Squeak!", "Ghhhrrr!"});
@@ -73,7 +77,7 @@ namespace Assets.Scripts.GameLogic
 							"Comrades, help me!", "Aah!"
 						});
 					}
-					_textEffectPresenter.ShowTextEffect(EntityData.LogicalPosition, text);
+					_textEffectPresenter.ShowTextEffect(EntityData.LogicalPosition, text, text == "BACK TO YOUR WARD!!!" ? Color.magenta : Color.white, text == "BACK TO YOUR WARD!!!");
 				}
 			}
 		}

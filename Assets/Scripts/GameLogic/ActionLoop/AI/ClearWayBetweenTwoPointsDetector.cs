@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.FieldOfView;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
 using UnityEngine;
@@ -10,11 +12,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 	{
 		private readonly IEntityDetector _entityDetector;
 		private readonly IGridInfoProvider _gridInfoProvider;
+		private readonly IBresenhamLineCreator _bresenhamLineCreator;
 
-		public ClearWayBetweenTwoPointsDetector(IEntityDetector entityDetector, IGridInfoProvider gridInfoProvider)
+		public ClearWayBetweenTwoPointsDetector(IEntityDetector entityDetector, IGridInfoProvider gridInfoProvider, IBresenhamLineCreator bresenhamLineCreator)
 		{
 			_entityDetector = entityDetector;
 			_gridInfoProvider = gridInfoProvider;
+			_bresenhamLineCreator = bresenhamLineCreator;
 		}
 
 		/// <summary>
@@ -46,5 +50,11 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 			return false;
 		}
 
+		public bool ClearWayExistsLongDistanceNoBLockingActors(Vector2Int from, Vector2Int to)
+		{
+			IList<Vector2Int> line = _bresenhamLineCreator.GetBresenhamLine(from.x, from.y, to.x, to.y, -1, _gridInfoProvider.IsWalkable);
+
+			return line.Last() == to;
+		}
 	}
 }

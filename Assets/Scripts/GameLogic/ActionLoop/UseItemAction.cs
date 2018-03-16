@@ -108,7 +108,9 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 				else if (_item.ItemType == ItemType.PotionOfHealing)
 				{
-					ActorData.Health = ActorData.MaxHealth;
+					ActorData.Health += (int)(ActorData.MaxHealth * 0.7f);
+					if (ActorData.Health > ActorData.MaxHealth)
+						ActorData.Health = ActorData.MaxHealth;
 				}
 				else if (_item.ItemType == ItemType.PotionOfBuddy)
 				{

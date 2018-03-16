@@ -19,7 +19,7 @@ namespace Assets.Scripts.Pathfinding
 			_gridInfoProvider = gridInfoProvider;
 			_naturalLineCalculator = naturalLineCalculator;
 			_positionOffset = _gridInfoProvider.MinPosition;
-			InitializeNavigationGrid();
+			//InitializeNavigationGrid();
 		}
 
 		public void InitializeNavigationGrid()

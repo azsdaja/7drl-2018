@@ -8,5 +8,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 		/// It's assuming that from @from to to there are exactly two steps!
 		/// </summary>
 		bool ClearWayExists(Vector2Int @from, Vector2Int to);
+
+		bool ClearWayExistsLongDistanceNoBLockingActors(Vector2Int from, Vector2Int to);
 	}
 }

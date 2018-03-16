@@ -40,12 +40,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				}
 				else if (item.ItemType == ItemType.PotionOfHealing)
 				{
-					if(_gameContext.CurrentDungeonIndex >= 3 && _rng.Check(0.7f))
+					if(_gameContext.CurrentDungeonIndex >= 2 && _rng.Check(0.8f))
 						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
 				}
 				else if (item.ItemType == ItemType.PotionOfFriend)
 				{
-					if (_gameContext.CurrentDungeonIndex >= 4 && _rng.Check(0.7f))
+					if (_gameContext.CurrentDungeonIndex >= 4 && _rng.Check(0.9f))
 						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
 				}
 				else

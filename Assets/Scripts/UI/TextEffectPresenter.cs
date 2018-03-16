@@ -17,10 +17,10 @@ namespace Assets.Scripts.UI
 			_gameContext = gameContext;
 		}
 
-		public void ShowTextEffect(Vector2Int position, string text, Color? color = null)
+		public void ShowTextEffect(Vector2Int position, string text, Color? color = null, bool forceShowing = false)
 		{
 			if (!color.HasValue) color = Color.white;
-			if (!_gameContext.VisiblePositions.Contains(position))
+			if (!forceShowing && !_gameContext.VisiblePositions.Contains(position))
 			{
 				return;
 			}

@@ -36,6 +36,8 @@ An Interface for the StaticGrid Class.
 
 */
 
+using System.Diagnostics;
+
 namespace Assets.Libraries.EpPathFinding.Grid
 {
     public class StaticGrid : BaseGrid
@@ -118,7 +120,11 @@ namespace Assets.Libraries.EpPathFinding.Grid
 
         public override Node GetNodeAt(int iX, int iY)
         {
-            return this.m_nodes[iX][iY];
+	        if (iX >= m_nodes.Length || iY >= m_nodes[iX].Length)
+	        {
+				
+	        }
+	        return this.m_nodes[iX][iY];
         }
 
         public override bool IsWalkableAt(int iX, int iY)

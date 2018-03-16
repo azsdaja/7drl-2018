@@ -8,6 +8,9 @@ namespace Assets.Scripts.GameLogic
 	public class AiData
 	{
 		[SerializeField, HideInInspector]
+		private bool _navigatingToPlayer;
+
+		[SerializeField, HideInInspector]
 		private int _turnsLeftToStayWhileResting;
 
 		[SerializeField, HideInInspector]
@@ -24,6 +27,13 @@ namespace Assets.Scripts.GameLogic
 		{
 			get { return _herdMemberData; }
 			set { _herdMemberData = value; }
+		}
+
+		[ShowInInspector]
+		public bool NavigatingToPlayer
+		{
+			get { return _navigatingToPlayer; }
+			set { _navigatingToPlayer = value; }
 		}
 	}
 }
