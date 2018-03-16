@@ -30,7 +30,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			ItemDefinition weaponToSpawn = actorData.WeaponWeld;
 			_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
 			//_entitySpawner.SpawnItem(_gameConfig.ItemConfig.Definitions.FirstOrDefault(i => i.ItemType == ItemType.PotionOfFriend), actorData.LogicalPosition);
-			if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.5f))
+			if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.65f))
 			{
 				ItemDefinition item = _rng.Choice(_gameConfig.ItemConfig.Definitions);
 				if (item.ItemType == ItemType.PotionOfBuddy)
