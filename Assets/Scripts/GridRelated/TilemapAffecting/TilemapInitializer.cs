@@ -24,7 +24,9 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		public TileBase Wall;
 		public TileBase StairsUp;
 		public TileBase StairsDown;
+		public TileBase DoorsHorizontalOpen;
 		public TileBase DoorsHorizontalClosed;
+		public TileBase DoorsVerticalOpen;
 		public TileBase DoorsVerticalClosed;
 		public TileBase HeavyDoorsHorizontalClosed;
 		public TileBase HeavyDoorsVerticalClosed;
@@ -270,7 +272,15 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 						_gameContext.DirtTilemap.SetTile(position, Dirt);
 						GenTile tileToRight = generator.GetCellType(position.x + 1, position.y);
 						bool isHorizontalDoor = tileToRight == GenTile.Corridor || tileToRight == GenTile.DirtFloor;
-						_gameContext.WallsTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalClosed : DoorsVerticalClosed);
+						bool doorsAreOpen = _rng.Check(0.3f);
+						if (doorsAreOpen)
+						{
+							_gameContext.EnvironmentTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalOpen : DoorsVerticalOpen);
+						}
+						else
+						{
+							_gameContext.WallsTilemap.SetTile(position, isHorizontalDoor ? DoorsHorizontalClosed : DoorsVerticalClosed);
+						}
 						break;
 					}
 					default:

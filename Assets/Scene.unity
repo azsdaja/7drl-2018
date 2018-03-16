@@ -128194,8 +128194,11 @@ MonoBehaviour:
   Wall: {fileID: 11400000, guid: c5528f95e1ad4cf428d13cf05bbcdb0c, type: 2}
   StairsUp: {fileID: 11400000, guid: b151b952c5fb4de438642534dea2a364, type: 2}
   StairsDown: {fileID: 11400000, guid: b54413ffdd95d3b4f8b46d2ede52b10f, type: 2}
+  DoorsHorizontalOpen: {fileID: 11400000, guid: e4b6e893a52d8fa418c363a064129ea7,
+    type: 2}
   DoorsHorizontalClosed: {fileID: 11400000, guid: e99e428ae5eb97840884fbc7ddf9e19d,
     type: 2}
+  DoorsVerticalOpen: {fileID: 11400000, guid: bf09f989df3f9e54482672b7f140c796, type: 2}
   DoorsVerticalClosed: {fileID: 11400000, guid: f30d7d2fee821034680118c9793e1262,
     type: 2}
   HeavyDoorsHorizontalClosed: {fileID: 11400000, guid: 821c6abc4bc2e5849a99ba3d55bd9d86,

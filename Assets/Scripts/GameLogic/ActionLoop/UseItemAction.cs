@@ -123,7 +123,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 					IEnumerable<ActorData> actorsAround = _entityDetector.DetectActors(ActorData.LogicalPosition, 4).Where(a => a != ActorData);
 					foreach (var actorData in actorsAround)
 					{
-						actorData.Energy -= (2 + _rng.NextFloat() * 3f);
+						actorData.Energy -= (2 + _rng.NextFloat() * 2f);
 						actorData.Swords -= 1;
 						if (actorData.Swords < 0) actorData.Swords = 0;
 						string text = "";
