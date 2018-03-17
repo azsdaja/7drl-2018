@@ -43,7 +43,7 @@ public class ItemHolder : MonoBehaviour
 
 		if (Items[index] != null)
 		{
-			HeldItemsImages[index].transform.localScale = HeldItemsImages[index].transform.localScale * 2;
+			HeldItemsImages[index].transform.localScale = HeldItemsImages[index].transform.localScale * 1.5f;
 		}
 
 		SelectedItemIndex = index;
@@ -55,7 +55,7 @@ public class ItemHolder : MonoBehaviour
 	{
 		if (SelectedItemIndex == -1) return;
 
-		HeldItemsImages[SelectedItemIndex].transform.localScale = HeldItemsImages[SelectedItemIndex].transform.localScale * 0.5f;
+		HeldItemsImages[SelectedItemIndex].transform.localScale = HeldItemsImages[SelectedItemIndex].transform.localScale * 0.67f;
 		SelectedItemIndex = -1;
 	}
 

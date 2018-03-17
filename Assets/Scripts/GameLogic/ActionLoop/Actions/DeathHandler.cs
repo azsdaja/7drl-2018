@@ -30,38 +30,22 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			ItemDefinition weaponToSpawn = actorData.WeaponWeld;
 			_entityRemover.CleanSceneAndGameContextAfterDeath(actorData);
 			//_entitySpawner.SpawnItem(_gameConfig.ItemConfig.Definitions.FirstOrDefault(i => i.ItemType == ItemType.PotionOfFriend), actorData.LogicalPosition);
-			if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.65f))
+			if (actorData.ActorType == ActorType.Basher)
 			{
-				ItemDefinition item = _rng.Choice(_gameConfig.ItemConfig.Definitions);
-				if (item.ItemType == ItemType.PotionOfBuddy)
-				{
-					if(
-						(_gameContext.CurrentDungeonIndex == 1 && _rng.Check(0.6f))
-						|| (_gameContext.CurrentDungeonIndex >= 2 && _rng.Check(0.9f))
-						)
-						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
-				}
-				else if (item.ItemType == ItemType.PotionOfHealing)
-				{
-					if(
-						(_gameContext.CurrentDungeonIndex == 2 && _rng.Check(0.7f))
-						|| (_gameContext.CurrentDungeonIndex == 3 && _rng.Check(0.7f))
-						|| (_gameContext.CurrentDungeonIndex >= 4 && _rng.Check(0.8f))
-						)
-						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
-				}
-				else if (item.ItemType == ItemType.PotionOfFriend)
-				{
-					if (
-						(_gameContext.CurrentDungeonIndex == 2 && _rng.Check(0.5f))
-						|| (_gameContext.CurrentDungeonIndex == 3 && _rng.Check(0.6f))
-						|| (_gameContext.CurrentDungeonIndex == 4 && _rng.Check(0.8f))
-						|| (_gameContext.CurrentDungeonIndex >= 5)
-						)
-						_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
-				}
-				else
-					_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
+				_gameContext.BasherDead = true;
+			}
+			if (actorData.IsBoss && _gameContext.CurrentDungeonIndex == 0)
+			{
+				_entitySpawner.SpawnItem(_gameConfig.ItemConfig.Definitions.First(i => i.ItemType == ItemType.PotionOfBuddy), actorData.LogicalPosition);
+			}
+			else if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.33f))
+			{
+				ItemDefinition[] itemPool = actorData.XpGiven < 15
+					? _gameConfig.ItemConfig.ItemPoolWeak
+					: actorData.XpGiven < 26 ? _gameConfig.ItemConfig.ItemPoolMedium : _gameConfig.ItemConfig.ItemPoolStrong;
+				ItemDefinition item = _rng.Choice(itemPool);
+
+				_entitySpawner.SpawnItem(item, actorData.LogicalPosition);
 			}
 			
 			if (!weaponToSpawn.WeaponDefinition.IsBodyPart && actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend)
@@ -73,7 +57,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			{
 				_uiConfig.RestartButton.gameObject.SetActive(true);
 				var postMortem = "You died at level " + actorData.Level + " after surviving " + actorData.RoundsCount +
-				                 " rounds. \r\nRestart?";
+				                 " rounds. \r\nIf you have trouble playing, check out \"Combat help\" to the right. Restart?";
 				_uiConfig.RestartButton.transform.GetComponentInChildren<Text>().text = postMortem;
 			}
 		}

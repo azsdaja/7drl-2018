@@ -123,8 +123,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			_entitySpawner.SpawnItem(recoverTailDefinition, new Vector2Int(-3,-83));
 			_entitySpawner.SpawnActor(ActorType.LastMonster, new Vector2Int(-2, -83));
 			_entitySpawner.SpawnActor(ActorType.Basher, new Vector2Int(-1, -65));
-			_entitySpawner.SpawnActor(ActorType.RatChief, new Vector2Int(3, -85));
-			_entitySpawner.SpawnActor(ActorType.Rogue, new Vector2Int(6, -86));
+			_entitySpawner.SpawnActor(ActorType.RatChief, new Vector2Int(3, -87));
 		}
 
 		private Dungeon GenerateDungeon(int positionX, int positionY, int sizeX, int sizeY)
@@ -221,7 +220,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 				}
 			}
 
-			_entitySpawner.SpawnActor(dungeonConfig.BossToSpawn.ActorType, currentDungeon.StairsLocation);
+			_entitySpawner.SpawnActor(dungeonConfig.BossToSpawn.ActorType, currentDungeon.StairsLocation, true);
 		}
 
 		private void PlaceTilesBasingOnDungeon(BoundsInt gridBounds, Dungeon generator)

@@ -96,6 +96,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		}
 
 		public int BasherSteps { get; set; }
+		public bool BasherDead { get; set; }
 
 
 		public void AddHousePosition(int x, int y)

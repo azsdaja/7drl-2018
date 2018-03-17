@@ -38,8 +38,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 			if (_gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count)
 			{
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
-					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
-					//new Vector2Int(5, -65); // this leads close to Farwis. dawno tego nie robiłem... niesamowite uczucie
+					//new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
+					new Vector2Int(5, -65); // this leads close to Farwis. dawno tego nie robiłem... niesamowite uczucie
 
 				_gameContext.PlayerActor.ActorData.VisionRayLength = 8; _gameContext.VisiblePositions = new HashSet<Vector2Int>();
 				IEnumerable<ActorData> enemiesAround =
@@ -59,6 +59,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				_gameContext.PlayerActor.ActorData.LogicalPosition = startingPosition;
 				TileBase stairsDownTile = Resources.Load<TileBase>("Tiles/Environment/Stairs_down");
 				_gameContext.EnvironmentTilemap.SetTile(startingPosition.ToVector3Int(), stairsDownTile);
+				_gameContext.WallsTilemap.SetTile(startingPosition.ToVector3Int(), null);
 				IEnumerable<ActorData> actorAround = _entityDetector.DetectActors(startingPosition, 3);
 				foreach (var actorData in actorAround)
 				{

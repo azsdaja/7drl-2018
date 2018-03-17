@@ -235,5 +235,6 @@ namespace Assets.Scripts.GameLogic
 		public bool HasFinishedDuel { get; set; }
 		public bool HasWonDuel { get; set; }
 		public int Difficulty { get; set; }
+		public bool IsBoss { get; set; }
 	}
 }

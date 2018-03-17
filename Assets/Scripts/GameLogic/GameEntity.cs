@@ -61,7 +61,7 @@ namespace Assets.Scripts.GameLogic
 					{
 						text = _rng.Choice(new[] {"Woof!", "Whrrrr!", "Woof! Woof!"});
 					}
-					if (actorData.ActorType == ActorType.LastMonster)
+					else if (actorData.ActorType == ActorType.LastMonster)
 					{
 						text = _rng.Choice(new[] {"BACK TO YOUR WARD!!!"});
 					}

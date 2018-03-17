@@ -24,6 +24,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		IList<Vector2Int> HousePositions { get; }
 		IList<Vector2Int> LeavesPositions { get; }
 		int BasherSteps { get; set; }
+		bool BasherDead { get; set; }
 		void AddHousePosition(int x, int y);
 	}
 }

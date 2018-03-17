@@ -9,6 +9,9 @@ namespace Assets.Scripts.GameLogic.GameCore
 	public class ItemConfig : ScriptableObject
 	{
 		public ItemDefinition[] Definitions;
+		public ItemDefinition[] ItemPoolWeak;
+		public ItemDefinition[] ItemPoolMedium;
+		public ItemDefinition[] ItemPoolStrong;
 
 		public ItemDefinition GetDefinition(ItemType itemType)
 		{

@@ -44,12 +44,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			instantiatedItem.RefreshWorldPosition();
 		}
 
-		public ActorBehaviour SpawnActor(ActorType actorType, Vector2Int position)
+		public ActorBehaviour SpawnActor(ActorType actorType, Vector2Int position, bool isBoss = false)
 		{
 			ActorBehaviour instantiatedActor = _actorBehaviourFactory.Create();
 			instantiatedActor.name = actorType.ToString();
 			ActorData actorData = instantiatedActor.ActorData;
 			actorData.ActorType = actorType;
+			actorData.IsBoss = isBoss;
 
 			ActorDefinition actorDefinition = _gameConfig.ActorConfig.GetDefinition(actorType);
 			instantiatedActor.GetComponent<SpriteRenderer>().sprite = actorDefinition.Sprite;

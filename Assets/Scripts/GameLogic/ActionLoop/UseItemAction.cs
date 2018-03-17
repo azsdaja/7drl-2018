@@ -89,6 +89,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				}
 				Image currentWeaponSprite = _uiConfig.CurrentWeaponHolder.gameObject.transform.Find("Image")
 																	.gameObject.GetComponent<Image>();
+				_uiConfig.TooltipCurrentWeaponPresenter.GetComponent<CurrentWeaponTooltip>().LabelWearingUpper.gameObject.SetActive(true);
 				_uiConfig.TooltipCurrentWeaponPresenter.Present(_item, true);
 				_uiConfig.TooltipPresenter.gameObject.SetActive(false);
 				currentWeaponSprite.sprite = _item.Sprite;

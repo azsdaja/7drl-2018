@@ -107,14 +107,16 @@ public class AdvanceManager : MonoBehaviour
 					break;
 				case Trait.Tough:
 					playerActor.MaxHealth = (int)(playerActor.MaxHealth * 1.3f);
-					playerActor.Health = (int)(playerActor.Health * 1.3f);
+					playerActor.Health += (int)(playerActor.MaxHealth * 0.3f);
+					if (playerActor.Health > playerActor.MaxHealth) playerActor.Health = playerActor.MaxHealth;
 					TraitHolder tough2Holder = AllHolders.First(h => h.Trait == Trait.Tough2);
 					tough2Holder.GetComponent<Image>().color = Color.white;
 					HoldersAvailable.Add(tough2Holder);
 					break;
 				case Trait.Tough2:
 					playerActor.MaxHealth = (int) (playerActor.MaxHealth * 1.3f);
-					playerActor.Health = (int) (playerActor.Health * 1.3f);
+					playerActor.Health += (int)(playerActor.MaxHealth * 0.3f);
+					if (playerActor.Health > playerActor.MaxHealth) playerActor.Health = playerActor.MaxHealth;
 					break;
 				case Trait.DaringBlow:
 					_uiConfig.DaringBlowAbilityButton.gameObject.SetActive(true);

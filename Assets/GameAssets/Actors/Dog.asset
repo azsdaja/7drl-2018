@@ -17,10 +17,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee5ada2134e36b9459c583423aca5383, type: 2}
   SwordsFromSkill: 0
   VisionRayLength: 6
-  EnergyGain: 0.13
+  EnergyGain: 0.12
   Team: 3
   MaxHealth: 5
-  Accuracy: 0.6
+  Accuracy: 0.5
   XpGiven: 8
   InitialLevel: 0
   InitialTraits: 09000000
