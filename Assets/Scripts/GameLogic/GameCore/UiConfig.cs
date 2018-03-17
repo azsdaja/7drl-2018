@@ -11,7 +11,9 @@ namespace Assets.Scripts.GameLogic.GameCore
 		public GameObject Arrows;
 		public AdvanceManager AdvanceManager;
 		public ItemHolder ItemHolder;
+		public GameObject CurrentWeaponHolder;
 		public TooltipPresenter TooltipPresenter;
+		public TooltipPresenter TooltipCurrentWeaponPresenter;
 		public GameFinisher GameFinisher;
 		public BasherMessage BasherMessage;
 
@@ -25,8 +27,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 		GameObject IUiConfig.Arrows { get { return Arrows; } }
 		AdvanceManager IUiConfig.AdvanceManager { get { return AdvanceManager; } }
 		ItemHolder IUiConfig.ItemHolder { get { return ItemHolder; } }
+		GameObject IUiConfig.CurrentWeaponHolder { get { return CurrentWeaponHolder; } }
 		GameFinisher IUiConfig.GameFinisher { get { return GameFinisher; } }
 		TooltipPresenter IUiConfig.TooltipPresenter { get { return TooltipPresenter; } }
+		TooltipPresenter IUiConfig.TooltipCurrentWeaponPresenter { get { return TooltipCurrentWeaponPresenter; } }
 		BasherMessage IUiConfig.BasherMessage { get { return BasherMessage; } }
 
 		Button IUiConfig.WalkAbilityButton { get { return WalkAbilityButton; } }

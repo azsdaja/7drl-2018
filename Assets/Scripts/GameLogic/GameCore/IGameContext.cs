@@ -20,8 +20,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		HashSet<Vector2Int> VisiblePositions { get; set; }
 		List<Dungeon> Dungeons { get; set; }
 		int CurrentDungeonIndex { get; set; }
-
-
+		
 		IList<Vector2Int> HousePositions { get; }
 		IList<Vector2Int> LeavesPositions { get; }
 		int BasherSteps { get; set; }

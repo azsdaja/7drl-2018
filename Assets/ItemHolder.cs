@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Assets.Scripts.GameLogic.ActionLoop.Actions;
+﻿using Assets.Scripts.GameLogic.ActionLoop.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 

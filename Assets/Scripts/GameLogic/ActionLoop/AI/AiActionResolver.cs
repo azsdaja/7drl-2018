@@ -296,7 +296,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.AI
 				}
 				return _actionFactory.CreatePassAction(actorData);
 			}
-			if (Vector2IntUtilities.WalkDistance(actorData.LogicalPosition, _gameContext.PlayerActor.ActorData.LogicalPosition) < 25
+			if (Vector2IntUtilities.WalkDistance(actorData.LogicalPosition, _gameContext.PlayerActor.ActorData.LogicalPosition) < 15
 				&& _gameContext.PlayerActor.ActorData.Health > 0 && actorData.ActorType != ActorType.Basher)
 			{
 				Vector2Int? farReachablePoint = GetFarReachablePoint(actorData);

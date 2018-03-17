@@ -8,6 +8,7 @@ using Assets.Scripts.GridRelated;
 using Assets.Scripts.RNG;
 using Assets.Scripts.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -86,6 +87,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 						_entitySpawner.SpawnWeapon(previousWeapon.WeaponDefinition, ActorData.LogicalPosition, previousWeapon);
 					}
 				}
+				Image currentWeaponSprite = _uiConfig.CurrentWeaponHolder.gameObject.transform.Find("Image")
+																	.gameObject.GetComponent<Image>();
+				_uiConfig.TooltipCurrentWeaponPresenter.Present(_item, true);
+				_uiConfig.TooltipPresenter.gameObject.SetActive(false);
+				currentWeaponSprite.sprite = _item.Sprite;
+				currentWeaponSprite.color = Color.white;
 
 				ActorData.WeaponWeld = _item;
 				Action effectAction = () => ((ActorBehaviour) ActorData.Entity).WeaponAnimator.Awake();

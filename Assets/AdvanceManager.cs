@@ -44,7 +44,7 @@ public class AdvanceManager : MonoBehaviour
 		if (!AllHolders.Any())
 			return;
 
-		if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Keypad2))
+		if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.K))
 		{
 			if (_currentHolderIndex + 1 < AllHolders.Count)
 			{
@@ -52,14 +52,14 @@ public class AdvanceManager : MonoBehaviour
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Keypad8))
+		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.I))
 		{
 			if (_currentHolderIndex - 1 >= 0)
 			{
 				--_currentHolderIndex;
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6))
+		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.L))
 		{
 			if (_currentHolderIndex + 5 < AllHolders.Count)
 			{
@@ -67,7 +67,7 @@ public class AdvanceManager : MonoBehaviour
 			}
 		}
 		
-		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4))
+		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.J))
 		{
 			if (_currentHolderIndex - 5 >= 0)
 			{

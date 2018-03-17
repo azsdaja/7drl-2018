@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.GameLogic.ActionLoop.ActionEffects;
 using Assets.Scripts.GameLogic.GameCore;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 {
@@ -32,10 +34,14 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				Action effectAction = () => ((ActorBehaviour)ActorData.Entity).WeaponAnimator.Awake();
 				var effect = new LambdaEffect(effectAction);
 				_entityRemover.RemoveItem(ItemToPickUp);
+				var currentWeaponImage = _uiConfig.CurrentWeaponHolder.gameObject.transform.Find("Image").GetComponent<Image>();
+				currentWeaponImage.sprite = ItemToPickUp.ItemDefinition.Sprite;
+				currentWeaponImage.color = Color.white;
 				yield return effect;
 				yield break;
 			}
 			_uiConfig.ItemHolder.AddItem(ItemToPickUp.ItemDefinition);
+
 			_entityRemover.RemoveItem(ItemToPickUp);
 			yield break;
 		}

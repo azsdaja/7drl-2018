@@ -143,6 +143,12 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				_inputHolder.PlayerInput = PlayerInput.DropCurrentItem;
 			}
+			else if (KeyDownOrRepeating(KeyCode.Alpha0))
+			{
+				_uiConfig.TooltipCurrentWeaponPresenter.Present(_gameContext.PlayerActor.ActorData.WeaponWeld, true);
+				_uiConfig.TooltipCurrentWeaponPresenter.GetComponent<CurrentWeaponTooltip>().LabelWearingUpper.gameObject.SetActive(true);
+
+			}
 			else if (KeyDownOrRepeating(KeyCode.Alpha1))
 			{
 				SelectItem(0);
@@ -159,36 +165,36 @@ namespace Assets.Scripts.GameLogic.GameCore
 			{
 				SelectItem(3);
 			}
-			else if (KeyDownOrRepeating(KeyCode.UpArrow) || KeyDownOrRepeating(KeyCode.Keypad8) || KeyDownOrRepeating(KeyCode.U))
+			else if (KeyDownOrRepeating(KeyCode.UpArrow) || KeyDownOrRepeating(KeyCode.Keypad8) || KeyDownOrRepeating(KeyCode.I))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveUp;
 			}
-			else if (KeyDownOrRepeating(KeyCode.LeftArrow) || KeyDownOrRepeating(KeyCode.Keypad4) || KeyDownOrRepeating(KeyCode.H))
+			else if (KeyDownOrRepeating(KeyCode.LeftArrow) || KeyDownOrRepeating(KeyCode.Keypad4) || KeyDownOrRepeating(KeyCode.J))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveLeft;
 			}
-			else if (KeyDownOrRepeating(KeyCode.DownArrow) || KeyDownOrRepeating(KeyCode.Keypad2) || KeyDownOrRepeating(KeyCode.M))
+			else if (KeyDownOrRepeating(KeyCode.DownArrow) || KeyDownOrRepeating(KeyCode.Keypad2) || KeyDownOrRepeating(KeyCode.K))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDown;
 			}
-			else if (KeyDownOrRepeating(KeyCode.RightArrow) || KeyDownOrRepeating(KeyCode.Keypad6) || KeyDownOrRepeating(KeyCode.K))
+			else if (KeyDownOrRepeating(KeyCode.RightArrow) || KeyDownOrRepeating(KeyCode.Keypad6) || KeyDownOrRepeating(KeyCode.L))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveRight;
 			}
-			else if (KeyDownOrRepeating(KeyCode.Keypad7) || KeyDownOrRepeating(KeyCode.Y) || KeyDownOrRepeating(KeyCode.Z))
+			else if (KeyDownOrRepeating(KeyCode.Keypad7) || KeyDownOrRepeating(KeyCode.U))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveUpLeft;
 			}
-			else if (KeyDownOrRepeating(KeyCode.Keypad9) || KeyDownOrRepeating(KeyCode.I))
+			else if (KeyDownOrRepeating(KeyCode.Keypad9) || KeyDownOrRepeating(KeyCode.O))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveUpRight;
 			}
-			else if (KeyDownOrRepeating(KeyCode.Keypad1) || KeyDownOrRepeating(KeyCode.N))
+			else if (KeyDownOrRepeating(KeyCode.Keypad1) || KeyDownOrRepeating(KeyCode.M))
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDownLeft;
 			}
 			else if (KeyDownOrRepeating(KeyCode.Keypad3) || 
-				(KeyDownOrRepeating(KeyCode.Comma) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
+				(KeyDownOrRepeating(KeyCode.Period) && !Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
 				)
 			{
 				_inputHolder.PlayerInput = PlayerInput.MoveDownRight;

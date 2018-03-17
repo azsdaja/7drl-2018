@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 		GameObject Arrows { get;}
 		AdvanceManager AdvanceManager { get; }
 		ItemHolder ItemHolder { get; }
+		GameObject CurrentWeaponHolder { get; }
 		GameFinisher GameFinisher { get; }
 		BasherMessage BasherMessage { get; }
 
@@ -18,5 +19,6 @@ namespace Assets.Scripts.GameLogic.GameCore
 		Button DaringBlowAbilityButton { get; }
 		Button PushAbilityButton { get; }
 		TooltipPresenter TooltipPresenter { get; }
+		TooltipPresenter TooltipCurrentWeaponPresenter { get; }
 	}
 }
