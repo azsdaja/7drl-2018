@@ -49,6 +49,10 @@ namespace Assets.Scripts.GameLogic.GameCore
 				var color = _modifiersToColors[_inputHolder.PlayerInputModifier];
 				_arrowsVisibilityManager.Show(color);
 			}
+			else if (_inputHolder.PlayerInputModifier == PlayerInputModifier.DaringBlow)
+			{
+				_weaponColorizer.Colorize(_gameContext.PlayerActor.WeaponAnimator, Color.red);
+			}
 		}
 
 		public void Update()
@@ -97,8 +101,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 			if (Input.GetKeyDown(KeyCode.W))
 			{
 				_inputHolder.PlayerInputModifier = PlayerInputModifier.Move;
-				var naturalGreen = new Color(33, 160, 73);
-				_arrowsVisibilityManager.Show(naturalGreen);
+				_uiConfig.WalkAbilityButton.onClick.Invoke();
+				//_arrowsVisibilityManager.Show(Color.green);
 			}
 			if (Input.GetKeyDown(KeyCode.F))
 			{
@@ -107,7 +111,8 @@ namespace Assets.Scripts.GameLogic.GameCore
 				if (playerData.Traits.Contains(Trait.Push) && playerData.Swords >= 1)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.Push;
-					_arrowsVisibilityManager.Show(Color.yellow);
+					_uiConfig.PushAbilityButton.onClick.Invoke();
+					//_arrowsVisibilityManager.Show(Color.yellow);
 				}
 			}
 			if (Input.GetKeyDown(KeyCode.A))
@@ -116,6 +121,7 @@ namespace Assets.Scripts.GameLogic.GameCore
 				if (playerData.Traits.Contains(Trait.DaringBlow) && playerData.Swords >= 2)
 				{
 					_inputHolder.PlayerInputModifier = PlayerInputModifier.DaringBlow;
+					_uiConfig.DaringBlowAbilityButton.onClick.Invoke();
 					_weaponColorizer.Colorize(_gameContext.PlayerActor.WeaponAnimator, Color.red);
 				}
 			}

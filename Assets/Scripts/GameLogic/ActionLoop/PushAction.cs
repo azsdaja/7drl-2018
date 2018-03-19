@@ -40,7 +40,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 			if (success)
 			{
-				_targetEnemy.Energy -= 1.0f;
+				_targetEnemy.Energy -= 1.2f;
 				--ActorData.Swords;
 
 				Vector2Int direction = _targetEnemy.LogicalPosition - ActorData.LogicalPosition;

@@ -8,6 +8,7 @@ using Assets.Scripts.GridRelated;
 using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.GameLogic.ActionLoop
 {
@@ -57,6 +58,12 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				if(quitButton!=null)
 					quitButton.SetActive(false);
 			}
+			if(_uiConfig.WalkAbilityButton.GetComponentInChildren<Text>() != null)
+				_uiConfig.WalkAbilityButton.GetComponentInChildren<Text>().gameObject.SetActive(false);
+			if(_uiConfig.DaringBlowAbilityButton.GetComponentInChildren<Text>() != null)
+				_uiConfig.DaringBlowAbilityButton.GetComponentInChildren<Text>().gameObject.SetActive(false);
+			if(_uiConfig.PushAbilityButton.GetComponentInChildren<Text>() != null)
+				_uiConfig.PushAbilityButton.GetComponentInChildren<Text>().gameObject.SetActive(false);
 
 			IGameAction gameActionToReturn;
 

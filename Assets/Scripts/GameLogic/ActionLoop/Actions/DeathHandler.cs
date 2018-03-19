@@ -38,7 +38,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			{
 				_entitySpawner.SpawnItem(_gameConfig.ItemConfig.Definitions.First(i => i.ItemType == ItemType.PotionOfBuddy), actorData.LogicalPosition);
 			}
-			else if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.33f))
+			else if (actorData.ActorType != ActorType.Buddy && actorData.ActorType != ActorType.Friend && _rng.Check(0.42f))
 			{
 				ItemDefinition[] itemPool = actorData.XpGiven < 15
 					? _gameConfig.ItemConfig.ItemPoolWeak
