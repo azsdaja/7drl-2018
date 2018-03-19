@@ -36,13 +36,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			float baseToHitChance = ActorData.Accuracy;
-			float baseToSecondSwordHitChance = 0.3f;
-			float toHitChanceFromSwords = -0.2f + ActorData.Swords*0.08f;
-			float finalToHitChance = baseToHitChance + toHitChanceFromSwords;
-			float finalToSecondHitChance = baseToSecondSwordHitChance + toHitChanceFromSwords;
-			bool accurate = _rng.Check(finalToHitChance);
-			bool accurate2 = _rng.Check(finalToSecondHitChance);
+			float toHitChance = ActorData.Accuracy;
+			float toHitChanceSecond = toHitChance - 0.55f;
+			bool accurate = _rng.Check(toHitChance);
+			bool secondAccurate = accurate && _rng.Check(toHitChanceSecond);
 
 			if (_isDaringBlow)
 			{
@@ -94,7 +91,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			{
 				--_attackedActor.Swords;
 			}
-			if (_attackedActor.Swords > 0 && accurate2)
+			if (_attackedActor.Swords > 0 && secondAccurate)
 			{
 				--_attackedActor.Swords;
 			}
