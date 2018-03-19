@@ -9,6 +9,7 @@ using Assets.Scripts.GameLogic.Configuration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.GridRelated.TilemapAffecting;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -20,14 +21,16 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		private readonly IGameContext _gameContext;
 		private readonly IEntityDetector _entityDetector;
 		private readonly IEntityRemover _entityRemover;
+		private readonly ITextEffectPresenter _textEffectPresenter;
 
 		public AscendAction(ActorData actorData, float energyCost, IActionEffectFactory actionEffectFactory, IGameContext gameContext, 
-			IEntityDetector entityDetector, IEntityRemover entityRemover) 
+			IEntityDetector entityDetector, IEntityRemover entityRemover, ITextEffectPresenter textEffectPresenter) 
 			: base(actorData, energyCost, actionEffectFactory)
 		{
 			_gameContext = gameContext;
 			_entityDetector = entityDetector;
 			_entityRemover = entityRemover;
+			_textEffectPresenter = textEffectPresenter;
 		}
 
 		public override IEnumerable<IActionEffect> Execute()
@@ -37,6 +40,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 				GameObject.Find("PrisonLevelIndicator").GetComponent<Text>().text = "Prison level: " + -(5 - _gameContext.CurrentDungeonIndex);
 			if (_gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count)
 			{
+				_textEffectPresenter.ShowTextEffect(ActorData.LogicalPosition, "Sniff! It's... It's fresh air!", Color.yellow);
 				_gameContext.PlayerActor.ActorData.LogicalPosition =
 					new Vector2Int(6, -41); // dawno tego nie robiłem... niesamowite uczucie
 					//new Vector2Int(5, -65); // this leads close to Farwis. dawno tego nie robiłem... niesamowite uczucie

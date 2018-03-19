@@ -62,7 +62,7 @@ public class SwordsIndicator : MonoBehaviour
 		}
 	}
 
-	private void InitializeActiveSwords(int actorSwords)
+	public void InitializeActiveSwords(int actorSwords)
 	{
 		for (int i = 0; i < SwordsSprites.Count; i++)
 		{

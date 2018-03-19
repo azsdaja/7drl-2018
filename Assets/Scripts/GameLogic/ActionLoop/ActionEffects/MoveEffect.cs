@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CSharpUtilities;
 using Assets.Scripts.GameLogic.Animation;
+using Assets.Scripts.GameLogic.Configuration;
 using Assets.Scripts.GameLogic.GameCore;
 using Assets.Scripts.GridRelated;
 using Assets.Scripts.Pathfinding;
@@ -32,9 +33,15 @@ namespace Assets.Scripts.GameLogic.ActionLoop.ActionEffects
 
 		public virtual void Process()
 		{
-			DateTime potentialBlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(200);
-			ActorData.BlockedUntil = ActorData.BlockedUntil < potentialBlockedUntil
-				? ActorData.BlockedUntil : potentialBlockedUntil;
+			bool visibleEnemiesClose = ActorData.ControlledByPlayer &&
+			                          _entityDetector.DetectActors(ActorData.LogicalPosition, 3)
+				                          .Count(a => a.Team != Team.Beasts && a.Entity.IsVisible) > 0;
+			if (visibleEnemiesClose)
+			{
+				DateTime potentialBlockedUntil = DateTime.UtcNow + TimeSpan.FromMilliseconds(150);
+				ActorData.BlockedUntil = potentialBlockedUntil > ActorData.BlockedUntil
+					? potentialBlockedUntil : ActorData.BlockedUntil;
+			}
 
 			IGameEntity entity = ActorData.Entity;
 			IEntityAnimator entityAnimator = entity.EntityAnimator;

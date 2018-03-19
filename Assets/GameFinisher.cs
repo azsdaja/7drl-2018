@@ -41,7 +41,7 @@ The difficulty was {6}.";
 			actorData.Level,
 			actorData.HasFinishedDuel
 				? "You have honorably finished the duel with Farwis and you " +
-				  (actorData.HasWonDuel ? "won it." : "lost it. ")
+				  (actorData.HasWonDuel ? "won it. " : "lost it. ")
 				: "You haven't finished the duel with Farwis. ",
 			_gameContext.BasherDead ? "He died as a hero while trying to save you." : "",
 			actorData.HasTail

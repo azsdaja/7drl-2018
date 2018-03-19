@@ -132,7 +132,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 
 		public IGameAction CreateAscendAction(ActorData actorData)
 		{
-			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext, _entityDetector, _entityRemover);
+			return new AscendAction(actorData, 1f, _actionEffectFactory, _gameContext, _entityDetector, _entityRemover, _textEffectPresenter);
 		}
 
 		public IGameAction CreateUseItemAction(ActorData actorData, ItemDefinition item, bool fromInventory)

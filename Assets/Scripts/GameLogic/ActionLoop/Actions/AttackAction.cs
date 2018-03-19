@@ -59,7 +59,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
-					_uiConfig.BasherMessage.SetMessage("Ouch! Enough for me! That was a satisfactory duel. My reputation is clean now. Thank you! Now, let's go!");
+					_uiConfig.BasherMessage.SetMessage("Ouch! Enough for me! That was a satisfactory duel. My reputation is clean now. Thank you! Now, we have to go. To south, along the road!");
 					_gameContext.BasherSteps = 2;
 					_attackedActor.Team = Team.Beasts;
 					ActorData.HasFinishedDuel = true;
@@ -69,7 +69,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
-					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, let's go!");
+					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, we have to go. To south, along the road!");
 					_gameContext.BasherSteps = 2;
 					ActorData.Team = Team.Beasts;
 					_attackedActor.HasFinishedDuel = true;

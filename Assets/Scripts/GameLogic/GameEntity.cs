@@ -11,6 +11,7 @@ namespace Assets.Scripts.GameLogic
 {
 	public abstract class GameEntity : MonoBehaviour, IGameEntity
 	{
+		private SwordsIndicator _swordsIndicator;
 		private SpriteRenderer _spriteRenderer;
 		private IGridInfoProvider _gridInfoProvider;
 		private ITextEffectPresenter _textEffectPresenter;
@@ -37,6 +38,7 @@ namespace Assets.Scripts.GameLogic
 		{
 			EntityAnimator = GetComponent<EntityAnimator>();
 			_spriteRenderer = GetComponent<SpriteRenderer>();
+			_swordsIndicator = GetComponentInChildren<SwordsIndicator>();
 			_spriteRenderer.enabled = false;
 			Hide();
 		}
@@ -53,8 +55,11 @@ namespace Assets.Scripts.GameLogic
 			}
 			if (this is ActorBehaviour)
 			{
+				_swordsIndicator.InitializeActiveSwords((this as ActorBehaviour).ActorData.Swords);
+
 				var actorData = ((ActorBehaviour) this).ActorData;
-				if (actorData.Team != Team.Beasts && _rng.Check(0.6f))
+				float chance = actorData.ActorType == ActorType.LastMonster ? 1.0f : 0.6f;
+				if (actorData.Team == Team.Neutral && _rng.Check(chance))
 				{
 					string text = "";
 					if (actorData.ActorType == ActorType.Dog)

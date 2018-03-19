@@ -39,8 +39,8 @@ namespace Assets.Scripts.GameLogic.ActionLoop
 		{
 			++actorData.RoundsCount;
 
-			BoundsInt lastLevelBounds = new BoundsInt(-20, -99, 0, 51, 72, 1);
-			BoundsInt almostLastLevelBounds = new BoundsInt(-17, -101, 0, 45, 66, 1);
+			BoundsInt lastLevelBounds = new BoundsInt(-18, -103, 0, 49, 72, 1);
+			BoundsInt almostLastLevelBounds = new BoundsInt(-16, -101, 0, 45, 68, 1);
 
 			if (actorData.ActorType == ActorType.Player && _gameContext.CurrentDungeonIndex >= _gameContext.Dungeons.Count &&
 			    !almostLastLevelBounds.Contains(actorData.LogicalPosition.ToVector3Int()))

@@ -99,7 +99,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 		private void GenerateActorsAndItemsOutside()
 		{
 			var bound = new BoundsInt(new Vector3Int(-2, -53, 0), new Vector3Int(19,18,1));
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				Vector2Int randomPosition = _rng.NextPosition(bound);
 				if (_gridInfoProvider.IsWalkable(randomPosition))
@@ -122,7 +122,7 @@ namespace Assets.Scripts.GridRelated.TilemapAffecting
 			ItemDefinition recoverTailDefinition = Resources.Load<ItemDefinition>("PotionOfRecoverTail");
 			_entitySpawner.SpawnItem(recoverTailDefinition, new Vector2Int(-3,-83));
 			_entitySpawner.SpawnActor(ActorType.LastMonster, new Vector2Int(-2, -83));
-			_entitySpawner.SpawnActor(ActorType.Basher, new Vector2Int(-1, -65));
+			_entitySpawner.SpawnActor(ActorType.Basher, new Vector2Int(11, -64));
 			_entitySpawner.SpawnActor(ActorType.RatChief, new Vector2Int(3, -87));
 		}
 
