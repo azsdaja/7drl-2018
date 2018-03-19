@@ -36,8 +36,13 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 
 		public override IEnumerable<IActionEffect> Execute()
 		{
-			float chanceToDealAccurateBlow = ActorData.Accuracy;
-			bool accurate = _rng.Check(chanceToDealAccurateBlow);
+			float baseToHitChance = ActorData.Accuracy;
+			float baseToSecondSwordHitChance = 0.3f;
+			float toHitChanceFromSwords = -0.2f + ActorData.Swords*0.08f;
+			float finalToHitChance = baseToHitChance + toHitChanceFromSwords;
+			float finalToSecondHitChance = baseToSecondSwordHitChance + toHitChanceFromSwords;
+			bool accurate = _rng.Check(finalToHitChance);
+			bool accurate2 = _rng.Check(finalToSecondHitChance);
 
 			if (_isDaringBlow)
 			{
@@ -59,7 +64,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
-					_uiConfig.BasherMessage.SetMessage("Ouch! Enough for me! That was a satisfactory duel. My reputation is clean now. Thank you! Now, we have to go. To south, along the road!");
+					_uiConfig.BasherMessage.SetMessage("Ouch! Enough for me! That was a satisfactory duel. My reputation is clean now. Thank you! Now, we should better go!");
 					_gameContext.BasherSteps = 2;
 					_attackedActor.Team = Team.Beasts;
 					ActorData.HasFinishedDuel = true;
@@ -69,7 +74,7 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 				{
 					_uiConfig.BasherMessage.gameObject.SetActive(true);
 					_uiConfig.BasherMessage.GetComponent<RectTransform>().sizeDelta = new Vector3(560, 180);
-					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, we have to go. To south, along the road!");
+					_uiConfig.BasherMessage.SetMessage("Ha! I think you've had enough. That was a good duel! My reputation is clean now. Thank you! Now, we should better go!");
 					_gameContext.BasherSteps = 2;
 					ActorData.Team = Team.Beasts;
 					_attackedActor.HasFinishedDuel = true;
@@ -86,6 +91,10 @@ namespace Assets.Scripts.GameLogic.ActionLoop.Actions
 			}
 
 			if (_attackedActor.Swords > 0 && accurate)
+			{
+				--_attackedActor.Swords;
+			}
+			if (_attackedActor.Swords > 0 && accurate2)
 			{
 				--_attackedActor.Swords;
 			}
